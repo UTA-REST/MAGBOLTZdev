@@ -1,0 +1,2 @@
+# MAGBOLTZdev
+MAGBOLTZ code development
