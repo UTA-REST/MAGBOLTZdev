@@ -1,0 +1,63 @@
+ GAS NUMBER:                                           STAR RATING:  
+-----------------------------------------------------------------
+ GAS1  :  CF4             (2015)                                  5*
+ GAS2  :  ARGON           (2014)                                  5* 
+ GAS3  :  HELIUM 4        (2014)                                  5* 
+ GAS4  :  HELIUM 3        (2014)                                  5*
+ GAS5  :  NEON            (2013)                                  5*
+ GAS6  :  KRYPTON         (2013)                                  4*
+ GAS7  :  XENON           (2013)                                  4*
+ GAS8  :  METHANE         (2015)                                  5*
+ GAS9  :  ETHANE          (2016)                                  5*
+ GAS10 :  PROPANE         (2017)                                  4*
+ GAS11 :  ISOBUTANE       (2014)                                  4*
+ GAS12 :  CO2             (2015)                                  5*
+ GAS13 :  NEO-PENTANE     (2003)  C(CH3)4                         4* 
+ GAS14 :  H20             (2017) 210  ROTATIONAL STATES INCLUDED  5*
+ GAS15 :  OXYGEN          (2016)  3-BODY ATTACHMENT INCLUDED      5*
+ GAS16 :  NITROGEN        (2015)                                  5*
+ GAS17 :  NITRIC OXIDE    (1995)  ATTACHING GAS                   2*
+ GAS18 :  NITROUS OXIDE   (2004)  ATTACHING GAS (SEE DATA FILE)   4*
+ GAS19 :  ETHENE          (1999)   C2H4                           4*
+ GAS20 :  ACETYLENE       (2002)   C2H2                           4*
+ GAS21 :  HYDROGEN        (2015)                                  5*
+ GAS22 :  DEUTERIUM       (1998)                                  5*
+ GAS23 :  CARBON MONOXIDE (2003) ANISOTROPIC ROTATIONAL STATES    5*
+ GAS24 :  METHYLAL        (1988)                                  2*
+ GAS25 :  DME             (1998)                                  4*
+ GAS26 :  REID STEP MODEL         (ANISOTROPIC VERSION)           
+ GAS27 :  MAXWELL MODEL                                             
+ GAS28 :  REID RAMP MODEL                                           
+ GAS29 :  C2F6             (1999)   (ANISOTROPIC )                4*
+ GAS30 :  SF6              (2014)                                 4*
+ GAS31 :  NH3 AMMONIA        (2004) 120 ROTATIONAL LEVELS         4*
+ GAS32 :  C3H6   PROPENE     (1999)                               4*
+ GAS33 :  C3H6  CYCLOPROPANE (1999)                               4*
+ GAS34 :  CH3OH METHANOL     (1999)                               3*
+ GAS35 :  C2H5OH ETHANOL     (1999)                               3*
+ GAS36 :  C3H7OH ISO PROPANOL(1999)                               3*
+ GAS37 :  CESIUM (2001) (NO DIMERS)                               2* 
+ GAS38 :  FLOURINE  (MORGAN)                                      2* 
+ GAS39 :  CS2  (2001)  ( ION DRIFT,DARK MATTER )                  2*
+ GAS40 :  COS  (2001)                                             2*  
+ GAS41 :  CD4 (2004)  TPCS IN NEUTRON BACKGROUND ENVIRONMENT      4*
+ GAS42 :  BF3 BORON TRIFLOURIDE (2001)  (ANISOTROPIC)             4*
+ GAS43 :  C2H2F4 (2010) UPDATE WITH DE URQUIJO MIXTURE DATA       3*    
+ GAS44 :  TMA N-(CH3)3  (2015)                                    3*
+ GAS45 :  PARA-HYDROGEN      (2010)                               4* 
+ GAS46 : 
+ GAS47 : 
+ GAS48 :
+ GAS49 :  
+ GAS50 :  CHF3     (2001)                                         3*
+ GAS51 :  CF3BR    (2002) MAGIC GAS CONSTITUENT                   3* 
+ GAS52 :  C3F8     (2002)  (ANISOTROPIC)                          3*
+ GAS53 :  OZONE    (2002)  RAD HARD (REMOVES CARBON DEPOSITS)     3*
+ GAS54 :  MERCURY  (2003)  INCLUDES DIMER X-SECTION               2*
+ GAS55 :  H2S      (2003)  POOR QUALITY DATA                      2* 
+ GAS56 :  N-BUTANE (2003)  LINEAR CHAIN 	C-C-C-C           4*
+ GAS57 :  N-PENTANE(2003) LINEAR CHAIN C-C-C-C-C                  4*
+ GAS58 :  NITROGEN (2004) P+PHELPS  MOD ANISOTROPIC ELASTIC SCATT 4*
+ GAS59 :  GEH4  (2005)    GERMANE BETTER TRANSPORT DATA NEEDED    3*  
+ GAS60 :  SIH4  (2005)    SILANE ANISOTROPIC                      4*
+ GAS61-80 :DUMMY ROUTINES

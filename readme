@@ -1,0 +1,7 @@
+To run this program you will need to do the following,
+
+1) You will need to have a linux machine to run it on, and you will need to have python installed.
+2) open a terminal, go to the directory where the code is at and type "python run.py"
+
+Please note that this python code was written using python 2.7.12.
+Please also note that you might need to install gfortran to run the magboltz code.
