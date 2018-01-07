@@ -1,5 +1,9 @@
 import subprocess 
+import shlex
 from Tkinter import *
+import ttk
+import time
+from read import NonBlockingStreamReader as NBSR
 
 # makes an executable of the fortran code
 p = subprocess.Popen('gfortran magboltz-11.3.f',shell=True,stdin=subprocess.PIPE,stdout=subprocess.PIPE)
@@ -138,6 +142,16 @@ label_theta.grid(row=23)
 theta = Entry(root)	
 theta.grid(row=23,column=1)
 
+
+progress_var = DoubleVar()
+progressbar = ttk.Progressbar(root, variable=progress_var, maximum=100)
+progressbar.grid(row=24,columnspan=2)
+
+v = StringVar()
+label_progress = Label(root, textvariable=v)
+label_progress.grid(row=25)
+
+
 # call back function to the event of clicking the button
 def runn():
 	# stores the input into one string
@@ -181,18 +195,68 @@ def runn():
 	s=s+bf+'\n'
 	ang=theta.get()
 	s=s+ang+'\n'
-	s=s+'0'+'\n'	
+		
 	# runs magboltz in the background
-	ps = subprocess.Popen('./a.out',shell=True,stdin=subprocess.PIPE,stdout=subprocess.PIPE)
+	ps = subprocess.Popen('./a.out',shell=False, stdin = subprocess.PIPE,stdout=subprocess.PIPE)
+	nbsr = NBSR(ps.stdout)
+	ps.stdin.write(s)
+	result=""
+	processnum = 0
+	v.set("Initializing RM48...")
+	root.update()
 	# sends the input, and reads the output to and from magboltz.	
-	result = ps.communicate(s)
+	x=0
+	while True:	
+		output = nbsr.readline(0.1)
+ 		result+=output
+		time.sleep(0.1)
+		if output!="": 		
+			print(output[0:16])
+		if processnum==45:
+        		progress_var.set(100)
+			v.set("Done!")
+			processnum=0
+			s='0\n'+'0\n'+'0\n'+'0\n'+'0\n'
+			ps.stdin.write(s)
+        		break
+  		elif output[0:16]==" RM48 INITIALIZE" and processnum==0:
+			progress_var.set(12)
+			v.set("Finding the decorrelation length...")
+			print("hiiii")
+			processnum+=1
+			root.update_idletasks()
+  		elif output[0:25]==" LONG DECORRELATION LENGT" and processnum==1:
+			progress_var.set(24)
+			v.set("Finding the Velocity/Energy/Diffusion table...")
+			processnum+=1
+			root.update_idletasks()
+		elif output[0:14]=="   VELZ    VEL" and processnum==2:
+			progress_var.set(36)
+			v.set("Finding the diffusion tensor values...")
+			processnum+=1
+			root.update_idletasks()
+		elif output[0:17]=="  DIFFUSION TENSO" and processnum==3:
+			progress_var.set(48)
+			v.set("Finding the number of collisions in the final energy bin...")
+			processnum+=1
+			root.update_idletasks()
+		elif output[0:29]==" NUMBER OF COLLISIONS IN FINA" and processnum==4:
+			progress_var.set(60)
+			v.set("Finding the normalized energy distribution...")
+			processnum+=1
+			root.update_idletasks()
+		elif output[0:8]=="      E=":
+			processnum+=1
+			print(processnum)
+
+	
 	# opens a file to store the output	
 	fo = open("Output.txt", "w")
-	fo.write(str(result[0]))
+	fo.write(str(result))
 	fo.close()
 
 
 # submit button
 button_submit = Button(root,text ="Run",command=runn)
-button_submit.grid(row=24,columnspan=2)
+button_submit.grid(row=26,columnspan=2)
 root.mainloop()

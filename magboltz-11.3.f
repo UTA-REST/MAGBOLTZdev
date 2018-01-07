@@ -2677,7 +2677,7 @@ C   METRES PER PICOSECOND
       EOVB=EFIELD*1.D-9/BMAG
       RETURN
   999 WRITE(6,87) NGAS,(J,NGASN(J),FRAC(J),J=1,6) 
-   87 FORMAT(3(/),4X,' ERROR IN GAS INPUT : NGAS=',I5,6(/,2X,' N=',I3,' 
+   87 FORMAT(3(/),4X,' ERROR IN GASs INPUT : NGAS=',I5,6(/,2X,' N=',I3,' 
      /NGAS=',I5,' FRAC=',F8.3))                                         
       RETURN                                                            
       END                                                               
