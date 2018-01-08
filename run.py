@@ -208,12 +208,13 @@ def runn():
 		v.set("Initializing RM48...")
 		root.update()
 		# sends the input, and reads the output to and from magboltz.	
+		numofe = 0
 		x=0
 		while True:	
 			output = nbsr.readline(0.1)
 	 		result+=output
 			time.sleep(0.1)
-			if processnum==45:
+			if numofe==40:
 				progress_var.set(100)
 				v.set("Done!")
 				processnum=0
@@ -225,29 +226,24 @@ def runn():
 				v.set("Finding the decorrelation length...")
 				processnum+=1
 				root.update_idletasks()
-	  		elif output[0:25]==" LONG DECORRELATION LENGT" and processnum==1:
+	  		elif output[0:25]==" LONG DECORRELATION LENGT" :
 				progress_var.set(24)
 				v.set("Finding the Velocity/Energy/Diffusion table...")
-				processnum+=1
 				root.update_idletasks()
-			elif output[0:14]=="   VELZ    VEL" and processnum==2:
+			elif output[0:6]=="   VEL":
 				progress_var.set(36)
-				v.set("Finding the diffusion tensor values...")
-				processnum+=1
+				v.set("Finding the diffusion values...")
 				root.update_idletasks()
-			elif output[0:17]=="  DIFFUSION TENSO" and processnum==3:
+			elif output[0:17]=="  DIFFUSION TENSO":
 				progress_var.set(48)
 				v.set("Finding the number of collisions in the final energy bin...")
-				processnum+=1
 				root.update_idletasks()
-			elif output[0:29]==" NUMBER OF COLLISIONS IN FINA" and processnum==4:
+			elif output[0:29]==" NUMBER OF COLLISIONS IN FINA" :
 				progress_var.set(60)
 				v.set("Finding the normalized energy distribution...")
-				processnum+=1
 				root.update_idletasks()
 			elif output[0:8]=="      E=":
-				processnum+=1
-				print(processnum)
+				numofe+=1
 
 	
 		# opens a file to store the output	
