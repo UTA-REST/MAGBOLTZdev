@@ -4,6 +4,8 @@ from Tkinter import *
 import ttk
 import time
 from read import NonBlockingStreamReader as NBSR
+import tkMessageBox
+from check_input import check 
 
 # makes an executable of the fortran code
 p = subprocess.Popen('gfortran magboltz-11.3.f',shell=True,stdin=subprocess.PIPE,stdout=subprocess.PIPE)
@@ -151,13 +153,12 @@ v = StringVar()
 label_progress = Label(root, textvariable=v)
 label_progress.grid(row=25)
 
-
-# call back function to the event of clicking the button
 def runn():
+
 	# stores the input into one string
 	s=""
-	ngas = numGases.get()
-	s=s+ngas+'\n'
+	ngass = numGases.get()
+	s=s+ngass+'\n'
 	nmax = numRealcollisions.get()
 	s=s+nmax+'\n'	
 	iipen = ipen.get()
@@ -171,20 +172,22 @@ def runn():
 	else:
 		efinal= EFINAL.get()
 	s=s+efinal+'\n'	
-	ngas1= numGas1.get()	
-	ngas2= numGas2.get()
-	ngas3= numGas3.get()
-	ngas4= numGas4.get()
-	ngas5= numGas5.get()
-	ngas6= numGas6.get()
-	s=s+ngas1+'\n'+ngas2+'\n'+ngas3+'\n'+ngas4+'\n'+ngas5+'\n'+ngas6+'\n'
-	fgas1= numfGas1.get()
-	fgas2= numfGas2.get()
-	fgas3= numfGas3.get()
-	fgas4= numfGas4.get()
-	fgas5= numfGas5.get()
-	fgas6= numfGas6.get()
-	s=s+fgas1+'\n'+fgas2+'\n'+fgas3+'\n'+fgas4+'\n'+fgas5+'\n'+fgas6+'\n'
+	ngas = ["","","","","","",""]
+	ngas[0]= numGas1.get()	
+	ngas[1]= numGas2.get()
+	ngas[2]= numGas3.get()
+	ngas[3]= numGas4.get()
+	ngas[4]= numGas5.get()
+	ngas[5]= numGas6.get()
+	s=s+ngas[0]+'\n'+ngas[1]+'\n'+ngas[2]+'\n'+ngas[3]+'\n'+ngas[4]+'\n'+ngas[5]+'\n'
+	fgas=["","","","","","",""]
+	fgas[0]= numfGas1.get()
+	fgas[1]= numfGas2.get()
+	fgas[2]= numfGas3.get()
+	fgas[3]= numfGas4.get()
+	fgas[4]= numfGas5.get()
+	fgas[5]= numfGas6.get()
+	s=s+fgas[0]+'\n'+fgas[1]+'\n'+fgas[2]+'\n'+fgas[3]+'\n'+fgas[4]+'\n'+fgas[5]+'\n'
 	tempv = temp.get()
 	s=s+tempv+'\n'	
 	pressv=press.get()
@@ -195,66 +198,63 @@ def runn():
 	s=s+bf+'\n'
 	ang=theta.get()
 	s=s+ang+'\n'
-		
-	# runs magboltz in the background
-	ps = subprocess.Popen('./a.out',shell=False, stdin = subprocess.PIPE,stdout=subprocess.PIPE)
-	nbsr = NBSR(ps.stdout)
-	ps.stdin.write(s)
-	result=""
-	processnum = 0
-	v.set("Initializing RM48...")
-	root.update()
-	# sends the input, and reads the output to and from magboltz.	
-	x=0
-	while True:	
-		output = nbsr.readline(0.1)
- 		result+=output
-		time.sleep(0.1)
-		if output!="": 		
-			print(output[0:16])
-		if processnum==45:
-        		progress_var.set(100)
-			v.set("Done!")
-			processnum=0
-			s='0\n'+'0\n'+'0\n'+'0\n'+'0\n'
-			ps.stdin.write(s)
-        		break
-  		elif output[0:16]==" RM48 INITIALIZE" and processnum==0:
-			progress_var.set(12)
-			v.set("Finding the decorrelation length...")
-			print("hiiii")
-			processnum+=1
-			root.update_idletasks()
-  		elif output[0:25]==" LONG DECORRELATION LENGT" and processnum==1:
-			progress_var.set(24)
-			v.set("Finding the Velocity/Energy/Diffusion table...")
-			processnum+=1
-			root.update_idletasks()
-		elif output[0:14]=="   VELZ    VEL" and processnum==2:
-			progress_var.set(36)
-			v.set("Finding the diffusion tensor values...")
-			processnum+=1
-			root.update_idletasks()
-		elif output[0:17]=="  DIFFUSION TENSO" and processnum==3:
-			progress_var.set(48)
-			v.set("Finding the number of collisions in the final energy bin...")
-			processnum+=1
-			root.update_idletasks()
-		elif output[0:29]==" NUMBER OF COLLISIONS IN FINA" and processnum==4:
-			progress_var.set(60)
-			v.set("Finding the normalized energy distribution...")
-			processnum+=1
-			root.update_idletasks()
-		elif output[0:8]=="      E=":
-			processnum+=1
-			print(processnum)
+	if check(s):
+		# runs magboltz in the background
+		ps = subprocess.Popen('./a.out',shell=False, stdin = subprocess.PIPE,stdout=subprocess.PIPE)
+		nbsr = NBSR(ps.stdout)
+		ps.stdin.write(s)
+		result=""
+		processnum = 0
+		v.set("Initializing RM48...")
+		root.update()
+		# sends the input, and reads the output to and from magboltz.	
+		x=0
+		while True:	
+			output = nbsr.readline(0.1)
+	 		result+=output
+			time.sleep(0.1)
+			if processnum==45:
+				progress_var.set(100)
+				v.set("Done!")
+				processnum=0
+				s='0\n'+'0\n'+'0\n'+'0\n'+'0\n'
+				ps.stdin.write(s)
+				break
+	  		elif output[0:16]==" RM48 INITIALIZE" and processnum==0:
+				progress_var.set(12)
+				v.set("Finding the decorrelation length...")
+				processnum+=1
+				root.update_idletasks()
+	  		elif output[0:25]==" LONG DECORRELATION LENGT" and processnum==1:
+				progress_var.set(24)
+				v.set("Finding the Velocity/Energy/Diffusion table...")
+				processnum+=1
+				root.update_idletasks()
+			elif output[0:14]=="   VELZ    VEL" and processnum==2:
+				progress_var.set(36)
+				v.set("Finding the diffusion tensor values...")
+				processnum+=1
+				root.update_idletasks()
+			elif output[0:17]=="  DIFFUSION TENSO" and processnum==3:
+				progress_var.set(48)
+				v.set("Finding the number of collisions in the final energy bin...")
+				processnum+=1
+				root.update_idletasks()
+			elif output[0:29]==" NUMBER OF COLLISIONS IN FINA" and processnum==4:
+				progress_var.set(60)
+				v.set("Finding the normalized energy distribution...")
+				processnum+=1
+				root.update_idletasks()
+			elif output[0:8]=="      E=":
+				processnum+=1
+				print(processnum)
 
 	
-	# opens a file to store the output	
-	fo = open("Output.txt", "w")
-	fo.write(str(result))
-	fo.close()
-
+		# opens a file to store the output	
+		fo = open("Output.txt", "w")
+		fo.write(str(result))
+		fo.close()
+		
 
 # submit button
 button_submit = Button(root,text ="Run",command=runn)
