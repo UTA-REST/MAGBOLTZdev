@@ -1,0 +1,372 @@
+
+
+          PROGRAM MAGBOLTZ 2 VERSION 11.3 
+
+          MONTE CARLO SOLUTION FOR MIXTURE OF  2 GASES.
+     ------------------------------------------------------
+
+       GASES  USED                 PERCENTAGE USED 
+
+      ARGON ANISOTROPIC    2014       80.0000
+      CO2  2015 ANISOTROPIC           20.0000
+
+
+  GAS TEMPERATURE =  20.0 DEGREES CENTIGRADE.
+  GAS PRESSURE =   760.0 TORR.
+
+  INTEGRATION FROM 0.0 TO    50.00 EV.  IN 4000 STEPS. 
+
+ PENNING EFFECTS NOT INCLUDED
+
+ ANISOTROPIC SCATTERING TYPE 2 (OKHRIMOVSKYY) USED IF AVAILABLE
+
+ SHORT DECORRELATION LENGTH = 400000 COLLISIONS.
+
+
+ THERMAL MOTION OF GAS NOT INCLUDED
+
+  ELECTRIC FIELD =      0.0000 VOLTS/CM.
+  MAGNETIC FIELD =     0.0000 KILOGAUSS.
+  ANGLE BETWEEN ELECTRIC AND MAGNETIC FIELD =     0.000 DEGREES.
+  CYCLOTRON FREQ. =   0.000D+00 RADIANS/PICOSECOND
+
+  INITIAL ELECTRON ENERGY =   1.000 EV.
+
+  TOTAL NUMBER OF REAL COLLISIONS =  440000000
+
+  NULL COLLISION FREQUENCY AT  8 EQUALLY SPACED ENERGY INTERVALS (*10**12/SEC)
+      0.397D+01      0.113D+02      0.127D+02      0.123D+02
+      0.119D+02      0.121D+02      0.121D+02      0.122D+02
+
+  REAL COLLISION FREQUENCY AT  8 EQUALLY SPACED ENERGY INTERVALS (*10**12/SEC)
+      0.158D+01      0.769D+01      0.127D+02      0.121D+02
+      0.119D+02      0.121D+02      0.120D+02      0.122D+02
+
+ RM48 INITIALIZED:  54217137           0         0
+
+    VEL      POS        TIME      ENERGY   COUNT   DIFXX     DIFYY     DIFZZ
+
+    -0.01 -0.538D-03  0.857D+08   0.0390   110       88.1      98.0       0.0
+    -0.02 -0.300D-02  0.171D+09   0.0390   220       88.3      98.6       0.0
+    -0.01 -0.346D-02  0.257D+09   0.0390   330       86.2      99.7      93.1
+    -0.02 -0.595D-02  0.343D+09   0.0390   440       84.3      98.9      92.5
+    -0.02 -0.690D-02  0.428D+09   0.0390   550       82.9      96.6      94.8
+    -0.01 -0.754D-02  0.514D+09   0.0390   660       84.5      95.6      90.6
+    -0.01 -0.654D-02  0.600D+09   0.0390   770       86.8      95.3      90.4
+    -0.01 -0.774D-02  0.685D+09   0.0390   880       86.1      92.6      89.5
+    -0.01 -0.823D-02  0.771D+09   0.0390   990       86.3      92.6      89.0
+    -0.01 -0.106D-01  0.856D+09   0.0390  1100       85.6      93.2      88.1
+-----------------------------------------------------------------------------
+-----------------------------------------------------------------------------
+
+  CALCULATED MAX. COLLISION TIME =  53.49 PICOSECONDS.
+
+  NUMBER OF NULL COLLISIONS = 2956965478
+  NUMBER OF REAL COLLISIONS =  440000000
+
+  Z DRIFT VELOCITY =-0.1238E-01 MICRONS/NANOSECOND  +-  -33.21% 
+  Y DRIFT VELOCITY = 0.0000E+00 MICRONS/NANOSECOND  +-    0.00%
+  X DRIFT VELOCITY = 0.0000E+00 MICRONS/NANOSECOND  +-    0.00%
+
+
+           DIFFUSION IN CM**2/SEC.
+
+
+  TRANSVERSE DIFFUSION   = 0.8939D+02 +-    2.72%
+          =  -0.0000 EV. +-   33.32%
+          =      NaN MICRONS/CENTIMETER**0.5  +-   16.66%
+
+
+  LONGITUDINAL DIFFUSION = 0.8814D+02 +-     2.7%
+          =  -0.0000 EV. +-   33.32%
+          =      NaN MICRONS/CENTIMETER**0.5  +-   16.66%
+
+
+
+  IONISATION RATE /CM.=-0.0000E+00 +/-  0.00 PERCENT.
+  ATTACHMENT RATE /CM.=-0.0000E+00 +/-  0.00 PERCENT.
+
+
+
+  MEAN ELECTRON ENERGY =   0.0390 EV. ERROR =  +-    0.10%
+
+-----------------------------------------------------------------------------
+-----------------------------------------------------------------------------
+
+
+ NUMBER OF COLLISIONS IN FINAL ENERGY BIN =     0.0
+
+      TOTAL COLL. FREQ. = 0.5137D+00 (*10**12)/SEC.
+    ELASTIC COLL. FREQ. = 0.4983D+00 (*10**12)/SEC.
+  INELASTIC COLL. FREQ. = 0.1548D-01 (*10**12)/SEC.
+ IONISATION COLL. FREQ. = 0.0000D+00 (*10**12)/SEC.
+ ATTACHMENT COLL. FREQ. = 0.0000D+00 (*10**12/SEC.
+
+-----------------------------------------------------------------------------
+
+  DETAILED COLLISION FREQUENCIES FOR EACH GAS IN UNITS OF 10**12/SEC. :
+
+
+   ARGON ANISOTROPIC    2014
+-----------------------------
+
+
+    ELASTIC ANISOTROPIC       ARGON                      0.5562D-01 +-  0.0145 %
+    IONISATION CHARGE STATE =1      ELOSS=   15.75961    0.0000D+00 +-  0.0000 %
+    IONISATION CHARGE STATE =2      ELOSS=   43.38928    0.0000D+00 +-  0.0000 %
+    IONISATION CHARGE STATE =3      ELOSS=   84.124      0.0000D+00 +-  0.0000 %
+    IONISATION L3 SHELL             ELOSS=  248.4        0.0000D+00 +-  0.0000 %
+    IONISATION L2 SHELL             ELOSS=  250.6        0.0000D+00 +-  0.0000 %
+    IONISATION L1 SHELL             ELOSS=  326.3        0.0000D+00 +-  0.0000 %
+    IONISATION K  SHELL             ELOSS= 3205.9        0.0000D+00 +-  0.0000 %
+    ATTACHMENT                                           0.0000D+00 +-  0.0000 %
+    EXC 1S5    J=2 METASTABLE         ELEVEL= 11.548     0.0000D+00 +-  0.0000 %
+    EXC 1S4    J=1 RESONANT           ELEVEL= 11.624     0.0000D+00 +-  0.0000 %
+    EXC 1S3    J=0 METASTABLE         ELEVEL= 11.723     0.0000D+00 +-  0.0000 %
+    EXC 1S2    J=1 RESONANT           ELEVEL= 11.828     0.0000D+00 +-  0.0000 %
+    EXC 2P10   J=1                    ELEVEL= 12.907     0.0000D+00 +-  0.0000 %
+    EXC 2P9    J=3                    ELEVEL= 13.076     0.0000D+00 +-  0.0000 %
+    EXC 2P8    J=2                    ELEVEL= 13.095     0.0000D+00 +-  0.0000 %
+    EXC 2P7    J=1                    ELEVEL= 13.153     0.0000D+00 +-  0.0000 %
+    EXC 2P6    J=2                    ELEVEL= 13.172     0.0000D+00 +-  0.0000 %
+    EXC 2P5    J=0                    ELEVEL= 13.273     0.0000D+00 +-  0.0000 %
+    EXC 2P4    J=1                    ELEVEL= 13.283     0.0000D+00 +-  0.0000 %
+    EXC 2P3    J=2                    ELEVEL= 13.302     0.0000D+00 +-  0.0000 %
+    EXC 2P2    J=1                    ELEVEL= 13.328     0.0000D+00 +-  0.0000 %
+    EXC 2P1    J=0                    ELEVEL= 13.480     0.0000D+00 +-  0.0000 %
+    EXC 3D6    J=0                    ELEVEL= 13.845     0.0000D+00 +-  0.0000 %
+    EXC 3D5    J=1 RESONANT           ELEVEL= 13.864     0.0000D+00 +-  0.0000 %
+    EXC 3D3    J=2                    ELEVEL= 13.903     0.0000D+00 +-  0.0000 %
+    EXC 3D4!   J=4                    ELEVEL= 13.979     0.0000D+00 +-  0.0000 %
+    EXC 3D4    J=3                    ELEVEL= 14.013     0.0000D+00 +-  0.0000 %
+    EXC 3D1!!  J=2                    ELEVEL= 14.063     0.0000D+00 +-  0.0000 %
+    EXC 2S5    J=2                    ELEVEL= 14.068     0.0000D+00 +-  0.0000 %
+    EXC 2S4    J=1 RESONANT           ELEVEL= 14.090     0.0000D+00 +-  0.0000 %
+    EXC 3D1!   J=3                    ELEVEL= 14.099     0.0000D+00 +-  0.0000 %
+    EXC 3D2    J=1 RESONANT           ELEVEL= 14.153     0.0000D+00 +-  0.0000 %
+    EXC 3S1!!!!J=2                    ELEVEL= 14.214     0.0000D+00 +-  0.0000 %
+    EXC 3S1!!  J=2                    ELEVEL= 14.234     0.0000D+00 +-  0.0000 %
+    EXC 3S1!!! J=3                    ELEVEL= 14.236     0.0000D+00 +-  0.0000 %
+    EXC 2S3    J=0                    ELEVEL= 14.241     0.0000D+00 +-  0.0000 %
+    EXC 2S2    J=1 RESONANT           ELEVEL= 14.255     0.0000D+00 +-  0.0000 %
+    EXC 3S1!   J=1 RESONANT           ELEVEL= 14.304     0.0000D+00 +-  0.0000 %
+    EXC 4D5    J=1 RESONANT           ELEVEL= 14.711     0.0000D+00 +-  0.0000 %
+    EXC 3S4    J=1 RESONANT           ELEVEL= 14.848     0.0000D+00 +-  0.0000 %
+    EXC 4D2    J=1 RESONANT           ELEVEL= 14.859     0.0000D+00 +-  0.0000 %
+    EXC 4S1!   J=1 RESONANT           ELEVEL= 15.004     0.0000D+00 +-  0.0000 %
+    EXC 3S2    J=1 RESONANT           ELEVEL= 15.022     0.0000D+00 +-  0.0000 %
+    EXC 5D5    J=1 RESONANT           ELEVEL= 15.118     0.0000D+00 +-  0.0000 %
+    EXC 4S4    J=1 RESONANT           ELEVEL= 15.186     0.0000D+00 +-  0.0000 %
+    EXC 5D2    J=1 RESONANT           ELEVEL= 15.190     0.0000D+00 +-  0.0000 %
+    EXC 6D5    J=1 RESONANT           ELEVEL= 15.308     0.0000D+00 +-  0.0000 %
+    EXC 5S1!   J=1 RESONANT           ELEVEL= 15.351     0.0000D+00 +-  0.0000 %
+    EXC 4S2    J=1 RESONANT           ELEVEL= 15.360     0.0000D+00 +-  0.0000 %
+    EXC 5S4    J=1 RESONANT           ELEVEL= 15.366     0.0000D+00 +-  0.0000 %
+    EXC 6D2    J=1 RESONANT           ELEVEL= 15.374     0.0000D+00 +-  0.0000 %
+    EXC HIGH   J=1 RESONANT           ELEVEL= 15.660     0.0000D+00 +-  0.0000 %
+   CO2  2015 ANISOTROPIC    
+-----------------------------
+
+
+    ELASTIC  ANISOTROPIC          CO2                    0.4427D+00 +-  0.0051 %
+    IONISATION        CO2+           ELOSS=  13.776      0.0000D+00 +-  0.0000 %
+    IONISATION-EXC    CO2+(A2PIu)    ELOSS=  17.314      0.0000D+00 +-  0.0000 %
+    IONISATION-EXC    CO2+(B2SIG+u)  ELOSS=  18.077      0.0000D+00 +-  0.0000 %
+    DISSOCIATIVE ION  O+             ELOSS=  19.07       0.0000D+00 +-  0.0000 %
+    DISSOCIATIVE ION  CO+            ELOSS=  19.47       0.0000D+00 +-  0.0000 %
+    DISSOCIATIVE ION  C+             ELOSS=  27.82       0.0000D+00 +-  0.0000 %
+    DISSOCIATIVE ION  CO2++          ELOSS=  37.4        0.0000D+00 +-  0.0000 %
+    DISSOCIATIVE ION  C++            ELOSS=  72.0        0.0000D+00 +-  0.0000 %
+    DISSOCIATIVE ION  O++            ELOSS=  74.0        0.0000D+00 +-  0.0000 %
+    IONISATION CARBON K-SHELL        ELOSS= 285.0        0.0000D+00 +-  0.0000 %
+    IONISATION OXYGEN K-SHELL        ELOSS= 532.0        0.0000D+00 +-  0.0000 %
+    ATTACHMENT                                           0.0000D+00 +-  0.0000 %
+    ROTATION  0-2                    ELOSS=  0.00029     0.6758D-04 +-  0.4157 %
+    ROTATION  2-0                    ELOSS= -0.00029     0.6794D-04 +-  0.4146 %
+    ROTATION  2-4                    ELOSS=  0.00068     0.1710D-03 +-  0.2613 %
+    ROTATION  4-2                    ELOSS= -0.00068     0.1710D-03 +-  0.2613 %
+    ROTATION  4-6                    ELOSS=  0.00106     0.2636D-03 +-  0.2105 %
+    ROTATION  6-4                    ELOSS= -0.00106     0.2626D-03 +-  0.2109 %
+    ROTATION  6-8                    ELOSS=  0.00145     0.3432D-03 +-  0.1845 %
+    ROTATION  8-6                    ELOSS= -0.00145     0.3417D-03 +-  0.1849 %
+    ROTATION  8-10                   ELOSS=  0.00184     0.4078D-03 +-  0.1692 %
+    ROTATION 10-8                    ELOSS= -0.00184     0.4037D-03 +-  0.1701 %
+    ROTATION 10-12                   ELOSS=  0.00223     0.4546D-03 +-  0.1603 %
+    ROTATION 12-10                   ELOSS= -0.00223     0.4525D-03 +-  0.1606 %
+    ROTATION 12-14                   ELOSS=  0.00261     0.4851D-03 +-  0.1551 %
+    ROTATION 14-12                   ELOSS= -0.00261     0.4827D-03 +-  0.1555 %
+    ROTATION 14-16                   ELOSS=  0.00300     0.4986D-03 +-  0.1530 %
+    ROTATION 16-14                   ELOSS= -0.00300     0.4948D-03 +-  0.1536 %
+    ROTATION 16-18                   ELOSS=  0.00339     0.4958D-03 +-  0.1535 %
+    ROTATION 18-16                   ELOSS= -0.00339     0.4912D-03 +-  0.1542 %
+    ROTATION 18-20                   ELOSS=  0.00377     0.4791D-03 +-  0.1561 %
+    ROTATION 20-18                   ELOSS= -0.00377     0.4755D-03 +-  0.1567 %
+    ROTATION 20-22                   ELOSS=  0.00416     0.4512D-03 +-  0.1609 %
+    ROTATION 22-20                   ELOSS= -0.00416     0.4451D-03 +-  0.1620 %
+    ROTATION 22-24                   ELOSS=  0.00455     0.4134D-03 +-  0.1681 %
+    ROTATION 24-22                   ELOSS= -0.00455     0.4108D-03 +-  0.1686 %
+    ROTATION 24-26                   ELOSS=  0.00493     0.3687D-03 +-  0.1780 %
+    ROTATION 26-24                   ELOSS= -0.00493     0.3688D-03 +-  0.1779 %
+    ROTATION 26-28                   ELOSS=  0.00532     0.3240D-03 +-  0.1898 %
+    ROTATION 28-26                   ELOSS= -0.00532     0.3225D-03 +-  0.1903 %
+    ROTATION 28-30                   ELOSS=  0.00571     0.2778D-03 +-  0.2050 %
+    ROTATION 30-28                   ELOSS= -0.00571     0.2780D-03 +-  0.2049 %
+    ROTATION 30-32                   ELOSS=  0.00610     0.2329D-03 +-  0.2239 %
+    ROTATION 32-30                   ELOSS= -0.00610     0.2358D-03 +-  0.2225 %
+    ROTATION 32-34                   ELOSS=  0.00648     0.1905D-03 +-  0.2476 %
+    ROTATION 34-32                   ELOSS= -0.00648     0.1951D-03 +-  0.2447 %
+    ROTATION 34-36                   ELOSS=  0.00687     0.1553D-03 +-  0.2742 %
+    ROTATION 36-34                   ELOSS= -0.00687     0.1573D-03 +-  0.2725 %
+    ROTATION 36-38                   ELOSS=  0.00726     0.1238D-03 +-  0.3070 %
+    ROTATION 38-36                   ELOSS= -0.00726     0.1255D-03 +-  0.3050 %
+    ROTATION 38-40                   ELOSS=  0.00764     0.9797D-04 +-  0.3452 %
+    ROTATION 40-38                   ELOSS= -0.00764     0.9791D-04 +-  0.3453 %
+    ROTATION 40-42                   ELOSS=  0.00803     0.7510D-04 +-  0.3943 %
+    ROTATION 42-40                   ELOSS= -0.00803     0.7515D-04 +-  0.3942 %
+    ROTATION 42-44                   ELOSS=  0.00842     0.5722D-04 +-  0.4517 %
+    ROTATION 44-42                   ELOSS= -0.00842     0.5660D-04 +-  0.4542 %
+    ROTATION 44-46                   ELOSS=  0.00881     0.4217D-04 +-  0.5262 %
+    ROTATION 46-44                   ELOSS= -0.00881     0.4199D-04 +-  0.5273 %
+    ROTATION 46-48                   ELOSS=  0.00919     0.3102D-04 +-  0.6135 %
+    ROTATION 48-46                   ELOSS= -0.00919     0.3052D-04 +-  0.6185 %
+    ROTATION 48-50                   ELOSS=  0.00958     0.2213D-04 +-  0.7264 %
+    ROTATION 50-48                   ELOSS= -0.00958     0.2198D-04 +-  0.7289 %
+    ROTATION 50-52                   ELOSS=  0.00997     0.1578D-04 +-  0.8602 %
+    ROTATION 52-50                   ELOSS= -0.00997     0.1567D-04 +-  0.8632 %
+    ROTATION 52-54                   ELOSS=  0.01035     0.1082D-04 +-  1.0390 %
+    ROTATION 54-52                   ELOSS= -0.01035     0.1071D-04 +-  1.0441 %
+    ROTATION 54-56                   ELOSS=  0.01074     0.7355D-05 +-  1.2600 %
+    ROTATION 56-54                   ELOSS= -0.01074     0.7355D-05 +-  1.2600 %
+    ROTATION 56-58                   ELOSS=  0.01113     0.4966D-05 +-  1.5334 %
+    ROTATION 58-56                   ELOSS= -0.01113     0.4773D-05 +-  1.5640 %
+    ROTATION 58-60                   ELOSS=  0.01151     0.3343D-05 +-  1.8689 %
+    ROTATION 60-58                   ELOSS= -0.01151     0.3329D-05 +-  1.8728 %
+    VIBRATION  (010)                 ELOSS= -0.08275     0.1154D-02 +-  0.1006 %
+    VIBRATION (010)                  ELOSS=  0.08275     0.1148D-02 +-  0.1009 %
+    VIBRATION (020)                  ELOSS= -0.15937     0.9084D-06 +-  3.5852 %
+    VIBRATION (020)                  ELOSS=  0.15937     0.9481D-06 +-  3.5093 %
+    VIBRATION (100)                  ELOSS= -0.17211     0.2607D-04 +-  0.6693 %
+    VIBRATION (100)                  ELOSS=  0.17211     0.2599D-04 +-  0.6703 %
+    VIBRATION (030)+(110)            ELOSS= -0.251       0.0000D+00 +-  0.0000 %
+    VIBRATION (030)+(110)            ELOSS=  0.251       0.0000D+00 +-  0.0000 %
+    VIBRATION (001)                  ELOSS= -0.29126     0.4227D-06 +-  5.2559 %
+    VIBRATION (001)                  ELOSS=  0.29126     0.3701D-06 +-  5.6166 %
+    VIBRATION  POLYAD 3              ELOSS=  0.335       0.8173D-08 +- 37.7964 %
+    VIBRATION (130)+(210)            ELOSS=  0.422       0.0000D+00 +-  0.0000 %
+    VIBRATION  POLYAD 4              ELOSS=  0.505       0.0000D+00 +-  0.0000 %
+    VIBRATION  POLYAD 5              ELOSS=  0.685       0.0000D+00 +-  0.0000 %
+    VIBRATION  POLYAD 6              ELOSS=  0.825       0.0000D+00 +-  0.0000 %
+    VIBRATION  POLYAD 7              ELOSS=  0.995       0.0000D+00 +-  0.0000 %
+    VIBRATION  POLYAD 8              ELOSS=  1.160       0.0000D+00 +-  0.0000 %
+    VIBRATION  POLYAD 9              ELOSS=  1.320       0.0000D+00 +-  0.0000 %
+    VIBRATION  POLYAD HIGH SUM       ELOSS=  2.50        0.0000D+00 +-  0.0000 %
+    1DEL DISSOC CO + O   F=.0000698  ELOSS=  6.50        0.0000D+00 +-  0.0000 %
+    1DEL DISSOC CO + 0   F=.0000630  ELOSS=  6.75        0.0000D+00 +-  0.0000 %
+    1DEL DISSOC CO + O   F=.0000758  ELOSS=  7.00        0.0000D+00 +-  0.0000 %
+    1DEL DISSOC CO + O   F=.0001638  ELOSS=  7.25        0.0000D+00 +-  0.0000 %
+    1DEL DISSOC CO + O   F=.0003356  ELOSS=  7.50        0.0000D+00 +-  0.0000 %
+    1DEL DISSOC CO + 0   F=.0007378  ELOSS=  7.75        0.0000D+00 +-  0.0000 %
+    1DEL DISSOC CO + 0   F=.001145   ELOSS=  8.00        0.0000D+00 +-  0.0000 %
+    1DEL DISSOC CO + O   F=.001409   ELOSS=  8.25        0.0000D+00 +-  0.0000 %
+    1DEL DISSOC CO + O   F=.001481   ELOSS=  8.50        0.0000D+00 +-  0.0000 %
+    1DEL DISSOC CO + O   F=.000859   ELOSS=  8.75        0.0000D+00 +-  0.0000 %
+    TRIPLET                          ELOSS=  8.89        0.0000D+00 +-  0.0000 %
+    1PI  DISSOC CO + O   F=.001687   ELOSS=  8.90        0.0000D+00 +-  0.0000 %
+    1PI  DISSOC CO + O   F=.002115   ELOSS=  9.15        0.0000D+00 +-  0.0000 %
+    1PI  DISSOC CO + O   F=.001920   ELOSS=  9.40        0.0000D+00 +-  0.0000 %
+    1PI  DISSOC CO + O   F=.001180   ELOSS=  9.65        0.0000D+00 +-  0.0000 %
+    1PI  DISSOC CO + 0   F=.000683   ELOSS=  9.90        0.0000D+00 +-  0.0000 %
+    1PI  DISSOC CO + O   F=.000456   ELOSS= 10.15        0.0000D+00 +-  0.0000 %
+    SOME RATHENAU BANDS  F=.004361   ELOSS= 10.7         0.0000D+00 +-  0.0000 %
+    1SIG! + 1SIG + C!    F=.1718     ELOSS= 11.048       0.0000D+00 +-  0.0000 %
+    TRIPLETS                         ELOSS= 11.3         0.0000D+00 +-  0.0000 %
+    1PIu                 F=.06242    ELOSS= 11.385       0.0000D+00 +-  0.0000 %
+    RYDBERG      DIPOLE  F=.01852    ELOSS= 11.543       0.0000D+00 +-  0.0000 %
+    RYDBERG      DIPOLE  F=.01125    ELOSS= 11.608       0.0000D+00 +-  0.0000 %
+    RYDBERG      DIPOLE  F=.01535    ELOSS= 11.683       0.0000D+00 +-  0.0000 %
+    RYDBERG      DIPOLE  F=.01009    ELOSS= 11.758       0.0000D+00 +-  0.0000 %
+    RYDBERG      DIPOLE  F=.01940    ELOSS= 11.826       0.0000D+00 +-  0.0000 %
+    RYDBERG      DIPOLE  F=.03817    ELOSS= 11.971       0.0000D+00 +-  0.0000 %
+    RYDBERG      DIPOLE  F=.05814    ELOSS= 12.142       0.0000D+00 +-  0.0000 %
+    RYDBERG      DIPOLE  F=.04769    ELOSS= 12.301       0.0000D+00 +-  0.0000 %
+    RYDBERG      DIPOLE  F=.09315    ELOSS= 12.469       0.0000D+00 +-  0.0000 %
+    RYDBERG      DIPOLE  F=.06305    ELOSS= 12.627       0.0000D+00 +-  0.0000 %
+    CONTINUUM    DIPOLE  F=.02477    ELOSS= 12.75        0.0000D+00 +-  0.0000 %
+    RYDBERG      DIPOLE  F=.06231    ELOSS= 12.901       0.0000D+00 +-  0.0000 %
+    SUM RYDBERGS DIPOLE  F=.06696    ELOSS= 13.01        0.0000D+00 +-  0.0000 %
+    SUM RYDBERGS DIPOLE  F=.09451    ELOSS= 13.15        0.0000D+00 +-  0.0000 %
+    SUM RYDBERGS DIPOLE  F=.04986    ELOSS= 13.28        0.0000D+00 +-  0.0000 %
+    SUM RYDBERGS DIPOLE  F=.09029    ELOSS= 13.39        0.0000D+00 +-  0.0000 %
+    SUM RYDBERGS DIPOLE  F=.07431    ELOSS= 13.51        0.0000D+00 +-  0.0000 %
+    SUM RYDBERGS DIPOLE  F=.15625    ELOSS= 13.68        0.0000D+00 +-  0.0000 %
+    NEUTRAL DISS DIPOLE  F=.08084    ELOSS= 13.78        0.0000D+00 +-  0.0000 %
+    NEUTRAL DISS DIPOLE  F=.02662    ELOSS= 14.00        0.0000D+00 +-  0.0000 %
+    NEUTRAL DISS DIPOLE  F=.01062    ELOSS= 14.25        0.0000D+00 +-  0.0000 %
+    NEUTRAL DISS DIPOLE  F=.00644    ELOSS= 14.50        0.0000D+00 +-  0.0000 %
+    NEUTRAL DISS DIPOLE  F=.00484    ELOSS= 14.75        0.0000D+00 +-  0.0000 %
+    NEUTRAL DISS DIPOLE  F=.00880    ELOSS= 15.00        0.0000D+00 +-  0.0000 %
+    NEUTRAL DISS DIPOLE  F=.01522    ELOSS= 15.25        0.0000D+00 +-  0.0000 %
+    NEUTRAL DISS DIPOLE  F=.01683    ELOSS= 15.50        0.0000D+00 +-  0.0000 %
+    NEUTRAL DISS DIPOLE  F=.02135    ELOSS= 15.75        0.0000D+00 +-  0.0000 %
+    NEUTRAL DISS DIPOLE  F=.03232    ELOSS= 16.00        0.0000D+00 +-  0.0000 %
+    NEUTRAL DISS DIPOLE  F=.02534    ELOSS= 16.25        0.0000D+00 +-  0.0000 %
+    NEUTRAL DISS DIPOLE  F=.01433    ELOSS= 16.50        0.0000D+00 +-  0.0000 %
+    NEUTRAL DISS DIPOLE  F=.00965    ELOSS= 16.75        0.0000D+00 +-  0.0000 %
+    NEUTRAL DISS DIPOLE  F=.01481    ELOSS= 17.00        0.0000D+00 +-  0.0000 %
+    NEUTRAL DISS DIPOLE  F=.01148    ELOSS= 17.25        0.0000D+00 +-  0.0000 %
+    NEUTRAL DISS DIPOLE  F=.00885    ELOSS= 17.50        0.0000D+00 +-  0.0000 %
+    NEUTRAL DISS DIPOLE  F=.00931    ELOSS= 17.75        0.0000D+00 +-  0.0000 %
+    NEUTRAL DISS DIPOLE  F=.00666    ELOSS= 18.00        0.0000D+00 +-  0.0000 %
+    NEUTRAL DISS DIPOLE  F=.00443    ELOSS= 18.25        0.0000D+00 +-  0.0000 %
+    NEUTRAL DISS DIPOLE  F=.00371    ELOSS= 18.50        0.0000D+00 +-  0.0000 %
+    NEUTRAL DISS DIPOLE  F=.00344    ELOSS= 18.75        0.0000D+00 +-  0.0000 %
+    NEUTRAL DISS DIPOLE  F=.00357    ELOSS= 19.00        0.0000D+00 +-  0.0000 %
+    NEUTRAL DISS DIPOLE  F=.00530    ELOSS= 19.25        0.0000D+00 +-  0.0000 %
+    NEUTRAL DISS DIPOLE  F=.00621    ELOSS= 19.50        0.0000D+00 +-  0.0000 %
+    NEUTRAL DISS DIPOLE  F=.00619    ELOSS= 19.75        0.0000D+00 +-  0.0000 %
+    SUM OF HIGH TRIPLETS             ELOSS= 25.00        0.0000D+00 +-  0.0000 %
+-----------------------------------------------------------------------------
+-----------------------------------------------------------------------------
+
+
+           NORMALISED ENERGY DISTRIBUTION
+      E=      0.625      SPEC= 0.1000D+01
+      E=      1.875      SPEC= 0.0000D+00
+      E=      3.125      SPEC= 0.0000D+00
+      E=      4.375      SPEC= 0.0000D+00
+      E=      5.625      SPEC= 0.0000D+00
+      E=      6.875      SPEC= 0.0000D+00
+      E=      8.125      SPEC= 0.0000D+00
+      E=      9.375      SPEC= 0.0000D+00
+      E=     10.625      SPEC= 0.0000D+00
+      E=     11.875      SPEC= 0.0000D+00
+      E=     13.125      SPEC= 0.0000D+00
+      E=     14.375      SPEC= 0.0000D+00
+      E=     15.625      SPEC= 0.0000D+00
+      E=     16.875      SPEC= 0.0000D+00
+      E=     18.125      SPEC= 0.0000D+00
+      E=     19.375      SPEC= 0.0000D+00
+      E=     20.625      SPEC= 0.0000D+00
+      E=     21.875      SPEC= 0.0000D+00
+      E=     23.125      SPEC= 0.0000D+00
+      E=     24.375      SPEC= 0.0000D+00
+      E=     25.625      SPEC= 0.0000D+00
+      E=     26.875      SPEC= 0.0000D+00
+      E=     28.125      SPEC= 0.0000D+00
+      E=     29.375      SPEC= 0.0000D+00
+      E=     30.625      SPEC= 0.0000D+00
+      E=     31.875      SPEC= 0.0000D+00
+      E=     33.125      SPEC= 0.0000D+00
+      E=     34.375      SPEC= 0.0000D+00
+      E=     35.625      SPEC= 0.0000D+00
+      E=     36.875      SPEC= 0.0000D+00
+      E=     38.125      SPEC= 0.0000D+00
+      E=     39.375      SPEC= 0.0000D+00
+      E=     40.625      SPEC= 0.0000D+00
+      E=     41.875      SPEC= 0.0000D+00
+      E=     43.125      SPEC= 0.0000D+00
+      E=     44.375      SPEC= 0.0000D+00
+      E=     45.625      SPEC= 0.0000D+00
+      E=     46.875      SPEC= 0.0000D+00
+      E=     48.125      SPEC= 0.0000D+00
+      E=     49.375      SPEC= 0.0000D+00
