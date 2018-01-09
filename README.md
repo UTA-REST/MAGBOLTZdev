@@ -1,5 +1,6 @@
 # MAGBOLTZdev
-MAGBOLTZ code development
+
+In this repository, we decided to enhance the user experiance and the running time of the MAGBOLTZ code. Being built on Fortran77, and having its database integrated in its code, we believe that the MAGBOLTZ code can be enhanced by the use of modern programming languages and modern algorithms. Moreover, we also believe that having the code connected to a user friendly GUI would improve its usabilty.
 
 # Running Instructions
 
@@ -21,3 +22,13 @@ $ gfortran <magboltz ... .f>
 $ ./a.out
 
 type in the inputs in order, hitting enter after each one.
+
+# About MAGBOLTZ
+
+The MAGBOLTZ program computes drift gas properties by "numerically integrating the Boltzmann transport equation"-- i.e., simulating an electron bouncing around inside a gas. By tracking how far the virtual electron propagates, the program can compute the drift velocity. By including a magnetic field, the program can also calculate the Lorentz angle.
+
+Taken from - http://cyclo.mit.edu/drift/www/aboutMagboltz.html
+
+# About our wrapper
+
+As a first step of this project, we decided to build a wrapper to the MAGBOLTZ code. This wrapper will enhance the user experiance as the user will have a GUI to interact with. 
