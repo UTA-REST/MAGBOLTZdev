@@ -35,4 +35,4 @@ As a first step of this project, we decided to build a wrapper to the MAGBOLTZ c
 
 # Current plans
 
-Given that Magboltz uses an inefficient huge set of arrays as its database, we decided to build a better database system as well as modernizing the functions that call those databases. The current Magboltz "Gas functions" can be minimized to a single standardized gas function that operates depending on the gas given. This standardized gas function should dramatically enhance the running times, as well as enhance the user experiance with the whole system.
+Given that Magboltz uses an inefficient huge set of arrays as its database, we decided to build a better database system as well as modernizing the functions that call those databases. The current Magboltz "Gas functions" can be minimized to a single standardized gas function that operates depending on the gas given. This standardized gas function should dramatically enhance the running times, as well as enhance the user experience with the whole system.
