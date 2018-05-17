@@ -1,8 +1,54 @@
-# MAGBOLTZdev
+# Open-Source Degrad and MAGBOLTZ
 
-In this repository, we decided to enhance the user experiance and the running time of the MAGBOLTZ code. Being built on Fortran77, and having its database integrated in its code, we believe that the MAGBOLTZ code can be enhanced by the use of modern programming languages and modern algorithms. Moreover, we also believe that having the code connected to a user friendly GUI would improve its usabilty.
+Magboltz and Degrad Software in Fortran.
 
-# Running Instructions
+Author: Stephen Biagi
+
+http://magboltz.web.cern.ch/magboltz/
+
+___
+
+Magboltz solves the Boltzmann transport equations with numerical integration in order to simulate the interactions of electrons in gas mixtures under the influence of electric and magnetic fields.
+
+Degrad calculates the cluster size distribution and primary cluster distribution in gas mixtures for minimum ionizing particles and X-rays.
+
+Both of these programs were originally made in Fortran, the code is available in the links bellow.
+
+The goal of this project is to:
+- Develop and test a fully-functional python API for joint functionality of Magboltz and Degrad with optional GUI controls.
+- Design optimized python implementations of their processes, joint functionality.
+- Implement extensive reports of the results and complement with detailed documentation.
+- Extend the interface and code modularity to allow for new functionality related to the calculation to be implemented.
+
+Check out the 2018 GSoC project here: http://hepsoftwarefoundation.org/gsoc/2018/proposal_OpenSourceGasSim.html 
+
+R&D of gaseous detectors requires simulations like those provided by Magboltz and Degrad. An open-source, modernized and optimized incarnation of this software would be employed in many existing R&D efforts.
+
+
+In this repository, we are testing enhancements the user interface and improvements aimed at improving the running time of Degrad and Magboltz. Being built on Fortran77, and having its database integrated in the code, there is opportunity for enhancement of the functionality and modularization by the use of modern programming languages and algorithms. Moreover, that having the code connected to a user friendly GUI will encourage development of an open source version of the code.
+
+---
+
+# About MAGBOLTZ
+
+[Documentation]
+
+(http://cyclo.mit.edu/drift/www/aboutMagboltz.html)
+
+[Article in sciencedirect]
+
+(https://www.sciencedirect.com/science/article/pii/S0168900298012339?via%3Dihub)
+
+The MAGBOLTZ program computes drift gas properties by numerically integrating the Boltzmann transport equation -- i.e., simulating an electron bouncing around inside a gas. By tracking how far this electron propagates, one can compute the drift velocity. By including a magnetic field, one can also calculate the Lorentz angle.
+
+http://cyclo.mit.edu/drift/www/aboutMagboltz.html
+
+## About our wrapper
+
+A first step of this project, is a python wrapper to Magboltz.
+
+
+## Running Instructions
 
 REQUIREMENTS:
 
@@ -23,16 +69,7 @@ $ ./a.out
 
 type in the inputs in order, hitting enter after each one.
 
-# About MAGBOLTZ
+## Current plans for Magboltz
 
-The MAGBOLTZ program computes drift gas properties by "numerically integrating the Boltzmann transport equation"-- i.e., simulating an electron bouncing around inside a gas. By tracking how far the virtual electron propagates, the program can compute the drift velocity. By including a magnetic field, the program can also calculate the Lorentz angle.
-
-Taken from - http://cyclo.mit.edu/drift/www/aboutMagboltz.html
-
-# About our wrapper
-
-As a first step of this project, we decided to build a wrapper to the MAGBOLTZ code. This wrapper will enhance the user experiance as the user will have a GUI to interact with. 
-
-# Current plans
-
-Given that Magboltz uses an inefficient huge set of arrays as its database, we decided to build a better database system as well as modernizing the functions that call those databases. The current Magboltz "Gas functions" can be minimized to a single standardized gas function that operates depending on the gas given. This standardized gas function should dramatically enhance the running times, as well as enhance the user experience with the whole system.
+Currently Magboltz uses a set of arrays as its database. A more modular database system is being built.
+It is possible that the current Magboltz Gas functions may be minimized to a single standardized gas function dependent on the gas evaluated. This standardized gas function is expected to enhance the running times.
