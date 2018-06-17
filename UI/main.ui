@@ -1,0 +1,548 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>MainWindow</class>
+ <widget class="QMainWindow" name="MainWindow">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>889</width>
+    <height>490</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>MainWindow</string>
+  </property>
+  <widget class="QWidget" name="centralwidget">
+   <widget class="QWidget" name="verticalLayoutWidget">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>30</y>
+      <width>865</width>
+      <height>373</height>
+     </rect>
+    </property>
+    <layout class="QVBoxLayout" name="verticalLayout">
+     <item>
+      <layout class="QGridLayout" name="gridLayout">
+       <item row="0" column="2">
+        <layout class="QFormLayout" name="formLayout_3">
+         <property name="leftMargin">
+          <number>10</number>
+         </property>
+         <property name="topMargin">
+          <number>10</number>
+         </property>
+         <property name="rightMargin">
+          <number>10</number>
+         </property>
+         <property name="bottomMargin">
+          <number>10</number>
+         </property>
+         <item row="1" column="0">
+          <widget class="QLabel" name="fRAC1Label">
+           <property name="text">
+            <string>FRAC1</string>
+           </property>
+          </widget>
+         </item>
+         <item row="1" column="1">
+          <widget class="QLineEdit" name="fRAC1LineEdit"/>
+         </item>
+         <item row="2" column="0">
+          <widget class="QLabel" name="fRAC2Label">
+           <property name="text">
+            <string>FRAC2</string>
+           </property>
+          </widget>
+         </item>
+         <item row="2" column="1">
+          <widget class="QLineEdit" name="fRAC2LineEdit"/>
+         </item>
+         <item row="3" column="0">
+          <widget class="QLabel" name="fRAC3Label">
+           <property name="text">
+            <string>FRAC3</string>
+           </property>
+          </widget>
+         </item>
+         <item row="3" column="1">
+          <widget class="QLineEdit" name="fRAC3LineEdit"/>
+         </item>
+         <item row="4" column="0">
+          <widget class="QLabel" name="fRAC4Label">
+           <property name="text">
+            <string>FRAC4</string>
+           </property>
+          </widget>
+         </item>
+         <item row="4" column="1">
+          <widget class="QLineEdit" name="fRAC4LineEdit"/>
+         </item>
+         <item row="5" column="0">
+          <widget class="QLabel" name="fRAC5Label">
+           <property name="text">
+            <string>FRAC5</string>
+           </property>
+          </widget>
+         </item>
+         <item row="5" column="1">
+          <widget class="QLineEdit" name="fRAC5LineEdit"/>
+         </item>
+         <item row="6" column="0">
+          <widget class="QLabel" name="fRAC6Label">
+           <property name="text">
+            <string>FRAC6</string>
+           </property>
+          </widget>
+         </item>
+         <item row="6" column="1">
+          <widget class="QLineEdit" name="fRAC6LineEdit"/>
+         </item>
+         <item row="7" column="0">
+          <widget class="QLabel" name="tEMPLabel">
+           <property name="text">
+            <string>TEMP</string>
+           </property>
+          </widget>
+         </item>
+         <item row="7" column="1">
+          <widget class="QLineEdit" name="tEMPLineEdit"/>
+         </item>
+         <item row="8" column="0">
+          <widget class="QLabel" name="tORRLabel">
+           <property name="text">
+            <string>TORR</string>
+           </property>
+          </widget>
+         </item>
+         <item row="8" column="1">
+          <widget class="QLineEdit" name="tORRLineEdit"/>
+         </item>
+         <item row="0" column="1">
+          <widget class="QLabel" name="label_3">
+           <property name="text">
+            <string>Card 3</string>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </item>
+       <item row="0" column="3">
+        <layout class="QFormLayout" name="formLayout_4">
+         <property name="leftMargin">
+          <number>10</number>
+         </property>
+         <property name="topMargin">
+          <number>10</number>
+         </property>
+         <property name="rightMargin">
+          <number>10</number>
+         </property>
+         <property name="bottomMargin">
+          <number>10</number>
+         </property>
+         <item row="1" column="0">
+          <widget class="QLabel" name="eFIELDLabel">
+           <property name="text">
+            <string>EFIELD</string>
+           </property>
+          </widget>
+         </item>
+         <item row="1" column="1">
+          <widget class="QLineEdit" name="eFIELDLineEdit"/>
+         </item>
+         <item row="2" column="0">
+          <widget class="QLabel" name="bMAGLabel">
+           <property name="text">
+            <string>BMAG</string>
+           </property>
+          </widget>
+         </item>
+         <item row="2" column="1">
+          <widget class="QLineEdit" name="bMAGLineEdit"/>
+         </item>
+         <item row="3" column="0">
+          <widget class="QLabel" name="bTHETALabel">
+           <property name="text">
+            <string>BTHETA</string>
+           </property>
+          </widget>
+         </item>
+         <item row="3" column="1">
+          <widget class="QLineEdit" name="bTHETALineEdit"/>
+         </item>
+         <item row="4" column="0">
+          <widget class="QLabel" name="iWRITELabel">
+           <property name="text">
+            <string>IWRITE</string>
+           </property>
+          </widget>
+         </item>
+         <item row="4" column="1">
+          <widget class="QLineEdit" name="iWRITELineEdit"/>
+         </item>
+         <item row="5" column="0">
+          <widget class="QLabel" name="iPENLabel">
+           <property name="text">
+            <string>IPEN</string>
+           </property>
+          </widget>
+         </item>
+         <item row="5" column="1">
+          <widget class="QLineEdit" name="iPENLineEdit"/>
+         </item>
+         <item row="0" column="1">
+          <widget class="QLabel" name="label_4">
+           <property name="text">
+            <string>Card 4</string>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </item>
+       <item row="0" column="4">
+        <layout class="QFormLayout" name="formLayout_5">
+         <property name="leftMargin">
+          <number>10</number>
+         </property>
+         <property name="topMargin">
+          <number>10</number>
+         </property>
+         <property name="rightMargin">
+          <number>10</number>
+         </property>
+         <property name="bottomMargin">
+          <number>10</number>
+         </property>
+         <item row="1" column="0">
+          <widget class="QLabel" name="dETEFFLabel">
+           <property name="text">
+            <string>DETEFF</string>
+           </property>
+          </widget>
+         </item>
+         <item row="1" column="1">
+          <widget class="QLineEdit" name="dETEFFLineEdit"/>
+         </item>
+         <item row="2" column="0">
+          <widget class="QLabel" name="eXCWGHTLabel">
+           <property name="text">
+            <string>EXCWGHT</string>
+           </property>
+          </widget>
+         </item>
+         <item row="2" column="1">
+          <widget class="QLineEdit" name="eXCWGHTLineEdit"/>
+         </item>
+         <item row="3" column="0">
+          <widget class="QLabel" name="kGASLabel">
+           <property name="text">
+            <string>KGAS</string>
+           </property>
+          </widget>
+         </item>
+         <item row="3" column="1">
+          <widget class="QLineEdit" name="kGASLineEdit"/>
+         </item>
+         <item row="4" column="0">
+          <widget class="QLabel" name="lGASLabel">
+           <property name="text">
+            <string>LGAS</string>
+           </property>
+          </widget>
+         </item>
+         <item row="4" column="1">
+          <widget class="QLineEdit" name="lGASLineEdit"/>
+         </item>
+         <item row="5" column="0">
+          <widget class="QLabel" name="lCMPLabel">
+           <property name="text">
+            <string>LCMP</string>
+           </property>
+          </widget>
+         </item>
+         <item row="5" column="1">
+          <widget class="QLineEdit" name="lCMPLineEdit"/>
+         </item>
+         <item row="6" column="0">
+          <widget class="QLabel" name="lRAYLabel">
+           <property name="text">
+            <string>LRAY</string>
+           </property>
+          </widget>
+         </item>
+         <item row="6" column="1">
+          <widget class="QLineEdit" name="lRAYLineEdit"/>
+         </item>
+         <item row="7" column="0">
+          <widget class="QLabel" name="lPAPLabel">
+           <property name="text">
+            <string>LPAP</string>
+           </property>
+          </widget>
+         </item>
+         <item row="7" column="1">
+          <widget class="QLineEdit" name="lPAPLineEdit"/>
+         </item>
+         <item row="8" column="0">
+          <widget class="QLabel" name="lBRMLabel">
+           <property name="text">
+            <string>LBRM</string>
+           </property>
+          </widget>
+         </item>
+         <item row="8" column="1">
+          <widget class="QLineEdit" name="lBRMLineEdit"/>
+         </item>
+         <item row="9" column="0">
+          <widget class="QLabel" name="iECASCLabel">
+           <property name="text">
+            <string>IECASC</string>
+           </property>
+          </widget>
+         </item>
+         <item row="9" column="1">
+          <widget class="QLineEdit" name="iECASCLineEdit"/>
+         </item>
+         <item row="0" column="1">
+          <widget class="QLabel" name="label_5">
+           <property name="text">
+            <string>Card 5</string>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </item>
+       <item row="0" column="1">
+        <layout class="QFormLayout" name="formLayout_2">
+         <property name="leftMargin">
+          <number>10</number>
+         </property>
+         <property name="topMargin">
+          <number>10</number>
+         </property>
+         <property name="rightMargin">
+          <number>10</number>
+         </property>
+         <property name="bottomMargin">
+          <number>10</number>
+         </property>
+         <item row="1" column="0">
+          <widget class="QLabel" name="nGAS1Label">
+           <property name="text">
+            <string>NGAS1</string>
+           </property>
+          </widget>
+         </item>
+         <item row="1" column="1">
+          <widget class="QLineEdit" name="nGAS1LineEdit"/>
+         </item>
+         <item row="2" column="0">
+          <widget class="QLabel" name="nGAS2Label">
+           <property name="text">
+            <string>NGAS2</string>
+           </property>
+          </widget>
+         </item>
+         <item row="2" column="1">
+          <widget class="QLineEdit" name="nGAS2LineEdit"/>
+         </item>
+         <item row="3" column="0">
+          <widget class="QLabel" name="nGAS3Label">
+           <property name="text">
+            <string>NGAS3</string>
+           </property>
+          </widget>
+         </item>
+         <item row="3" column="1">
+          <widget class="QLineEdit" name="nGAS3LineEdit"/>
+         </item>
+         <item row="4" column="0">
+          <widget class="QLabel" name="nGAS4Label">
+           <property name="text">
+            <string>NGAS4</string>
+           </property>
+          </widget>
+         </item>
+         <item row="4" column="1">
+          <widget class="QLineEdit" name="nGAS4LineEdit"/>
+         </item>
+         <item row="5" column="0">
+          <widget class="QLabel" name="nGAS5Label">
+           <property name="text">
+            <string>NGAS5</string>
+           </property>
+          </widget>
+         </item>
+         <item row="5" column="1">
+          <widget class="QLineEdit" name="nGAS5LineEdit"/>
+         </item>
+         <item row="6" column="0">
+          <widget class="QLabel" name="nGAS6Label">
+           <property name="text">
+            <string>NGAS6</string>
+           </property>
+          </widget>
+         </item>
+         <item row="6" column="1">
+          <widget class="QLineEdit" name="nGAS6LineEdit"/>
+         </item>
+         <item row="0" column="1">
+          <widget class="QLabel" name="label_2">
+           <property name="text">
+            <string>Card 2</string>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </item>
+       <item row="0" column="0">
+        <layout class="QFormLayout" name="formLayout">
+         <property name="leftMargin">
+          <number>10</number>
+         </property>
+         <property name="topMargin">
+          <number>10</number>
+         </property>
+         <property name="rightMargin">
+          <number>10</number>
+         </property>
+         <property name="bottomMargin">
+          <number>10</number>
+         </property>
+         <item row="0" column="1">
+          <widget class="QLabel" name="label">
+           <property name="text">
+            <string>Card 1</string>
+           </property>
+          </widget>
+         </item>
+         <item row="1" column="0">
+          <widget class="QLabel" name="nGASLabel">
+           <property name="text">
+            <string>NGAS</string>
+           </property>
+          </widget>
+         </item>
+         <item row="1" column="1">
+          <widget class="QLineEdit" name="nGASLineEdit"/>
+         </item>
+         <item row="2" column="0">
+          <widget class="QLabel" name="nDELTALabel">
+           <property name="text">
+            <string>NDELTA</string>
+           </property>
+          </widget>
+         </item>
+         <item row="2" column="1">
+          <widget class="QLineEdit" name="nDELTALineEdit"/>
+         </item>
+         <item row="4" column="0">
+          <widget class="QLabel" name="iMIPLabel">
+           <property name="text">
+            <string>IMIP</string>
+           </property>
+          </widget>
+         </item>
+         <item row="4" column="1">
+          <widget class="QLineEdit" name="iMIPLineEdit"/>
+         </item>
+         <item row="5" column="0">
+          <widget class="QLabel" name="nDVECLabel">
+           <property name="text">
+            <string>NDVEC</string>
+           </property>
+          </widget>
+         </item>
+         <item row="5" column="1">
+          <widget class="QLineEdit" name="nDVECLineEdit"/>
+         </item>
+         <item row="6" column="0">
+          <widget class="QLabel" name="nSEEDLabel">
+           <property name="text">
+            <string>NSEED</string>
+           </property>
+          </widget>
+         </item>
+         <item row="6" column="1">
+          <widget class="QLineEdit" name="nSEEDLineEdit"/>
+         </item>
+         <item row="7" column="0">
+          <widget class="QLabel" name="eSTARTLabel">
+           <property name="text">
+            <string>ESTART</string>
+           </property>
+          </widget>
+         </item>
+         <item row="7" column="1">
+          <widget class="QLineEdit" name="eSTARTLineEdit"/>
+         </item>
+         <item row="8" column="0">
+          <widget class="QLabel" name="eTHRMLabel">
+           <property name="text">
+            <string>ETHRM</string>
+           </property>
+          </widget>
+         </item>
+         <item row="8" column="1">
+          <widget class="QLineEdit" name="eTHRMLineEdit"/>
+         </item>
+         <item row="9" column="0">
+          <widget class="QLabel" name="eCUTLabel">
+           <property name="text">
+            <string>ECUT</string>
+           </property>
+          </widget>
+         </item>
+         <item row="9" column="1">
+          <widget class="QLineEdit" name="eCUTLineEdit"/>
+         </item>
+        </layout>
+       </item>
+      </layout>
+     </item>
+     <item>
+      <layout class="QHBoxLayout" name="horizontalLayout">
+       <item>
+        <widget class="QPushButton" name="pushButton_2">
+         <property name="text">
+          <string>Reset</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QPushButton" name="pushButton_3">
+         <property name="text">
+          <string>Quit</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QPushButton" name="pushButton">
+         <property name="text">
+          <string>Submit</string>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </item>
+    </layout>
+   </widget>
+  </widget>
+  <widget class="QMenuBar" name="menubar">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>889</width>
+     <height>22</height>
+    </rect>
+   </property>
+  </widget>
+  <widget class="QStatusBar" name="statusbar"/>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>
