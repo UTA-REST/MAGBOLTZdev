@@ -58,7 +58,7 @@ Please also note that you might need to install gfortran to run the magboltz cod
 To run this program you will need to do the following,
 
 1) open a terminal, go to the directory where the code is
-2) type "python run.py"
+2) type "python Main.py"
 3) fill inputs and press run
 
 
