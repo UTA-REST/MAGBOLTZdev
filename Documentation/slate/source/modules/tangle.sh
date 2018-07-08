@@ -6,5 +6,5 @@ cat Tail.md >> ../index.html.md
 # cat first.md > ../index.html.md
 # cat second.md >> ../index.html.md
 # cat third.md >> ../index.html.md
-head -n 5 ../index.html.md
-tail -f ../index.html.md
+# head -n 5 ../index.html.md
+# tail -f ../index.html.md

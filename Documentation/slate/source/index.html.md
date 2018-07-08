@@ -156,14 +156,6 @@ def DEGRADE():
 
 This is the main function which calls all the subroutines.
 
-### HTTP Request
-
-```shell
-do something
-```
-
-`DELETE http://example.com/kittens/<ID>`
-
 ### Arguments
 
 Argument | Description
@@ -3166,15 +3158,155 @@ def SETUP(LAST):
 	# end                                                               
 ```
 
-The SETUP() function does something
+The SETUP() function handles the gas inputs
 
 ### Arguments
 
-Argument  | Description
---------- | -----------
-LAST      | 1 -> end the program <br>
-		  | 0 -> keep the program running 
-# Kittens
+| Argument |          Description          |
+|----------|-------------------------------|
+| LAST     | 1 -> end the program          |
+|          | 0 -> keep the Program running |
+|          |                               |
+
+### Pseudo Code
+
+* (Input Card 1)
+
+| Variables |                          Description                          |
+|-----------|---------------------------------------------------------------|
+| NGAS      | Number of Gases                                               |
+|           |                                                               |
+| NEVENT    | Event Number                                                  |
+|           |                                                               |
+| IMIP      | = 1 Mips Simulation  (dE/dX, Clusters)                        |
+|           | = 2 Electron Beam  (Total Absorption)                         |
+|           | = 3 X-ray                                                     |
+|           | = 4 Beta Decay                                                |
+|           | = 5 Double Beta Decay                                         |
+|           |                                                               |
+| NDVEC     | = 2 Mip X-ray or Beta in Random Direction                     |
+|           | = 1 Mip X-ray or Beta Direction Parallel to E-field (Z)       |
+|           | =-1 Mip X-ray or Beta Direction Anti Parallel to E-field (-z) |
+|           | = 0 Mip X-ray or Beta in Random Direction in X-y Plane        |
+|           |                                                               |
+| NSEED     | = 0 Uses Standard Seed Value = 54217137                       |
+|           | != 0 Uses Value of NSEED as Seed Value                        |
+|           |                                                               |
+| ESTART    | Starting energy of the chosen IMIP ( MIP                      |
+|           | electron,beta Decay or X-ray Energy in eV).                   |
+|           | Note Double Beta Decay Energy Is to Be Entered as the         |
+|           | Energy of Each Beta (0.5 Times Total Decay Energy)            |
+|           | (if X-ray Max Energy=2.0 MeV)                                 |
+|           |                                                               |
+| ETHRM     | Electrons Tracked Until They Fall to This Energy eV.          |
+|           | for Fast Calculation the Thermalisation Energy Should         |
+|           | Be Set to the Lowest Ionisation Potential in the Gas Mixture. |
+|           | for More Accurate Thermalisation Range the Thermalisation     |
+|           | Energy Should Be Set to the Lowest Excitation Energy in       |
+|           | Pure Noble Gases or to 2.0 eV for Mixtures With Molecular Gas |
+|           |                                                               |
+| ECUT      | For Mips only. Applies Energy Cut in eV to Give the           |
+|           | Maximum Allowed Primary Cluster Energy ( Should Be Set        |
+|           | to Less Than 10000 eV to Give Maximum Primary Cluster Size)   |
+|           | of Typically 400 Electrons                                    |
+|           |                                                               |
+
+* If number of gases is 0, then LAST =1 ( and end the program)
+* If X-Ray and Start energy ESTART > 3 MeV then stop program
+* Stop if event limit NEVENT exceeded
+  * non-MIPS Simulation:Limit for number of events = 10000 
+  * MIPS Simulation: Limit for number of events = 100000
+* Input Gas Identifiers (Input Card 2)
+
+
+| Variable | Number of Inputs |               Description                |
+|----------|------------------|------------------------------------------|
+| NGASN    |                6 | Number to define which gas(between 1-80) |
+|          |                  | see Gas-List for identifying numbers     |
+|          |                  |                                          |
+
+* Input Gas Parameters (Input Card 3)
+
+
+| Variable | Number of Inputs |              Description              |
+|----------|------------------|---------------------------------------|
+| FRAC     |                6 | Percentage fraction of gas in mixture |
+|          |                  |                                       |
+| TEMP     |                1 | Temperature of Gas in Centigrade      |
+|          |                  |                                       |
+| TORR     |                1 | Pressure of Gas in Torr               |
+|          |                  |                                       |
+
+* Input Field values (Input Card 4)
+
+| Variable |                        Description                        |
+|----------|-----------------------------------------------------------|
+| EFIELD   | Electric Field in Volts/cm                                |
+|          |                                                           |
+| BMAG     | Magnetic Field in Kilo Gauss                              |
+|          |                                                           |
+| BTHETA   | Angle between electric and magnetic fields in degrees     |
+|          |                                                           |
+| IWRITE   | = 0 Standard Output                                       |
+|          | = 1 then                                                  |
+|          | Line 1: Output no. of electrons and no. of excitations    |
+|          | for each event                                            |
+|          | Line 2 : Output X,Y,Z and T for each thermalised electron |
+|          | = 2 then                                                  |
+|          | Line 1: Output no. of electrons and no. of excitations    |
+|          | for each event                                            |
+|          | Line 2: Outputs X,Y,Z and T for each thermalised electron |
+|          | Line 3: Outputs X,Y,Z and T for each excitation           |
+|          |                                                           |
+| IPEN     | = 0 No Penning transfers                                  |
+|          | = 1 Penning transfers allowed                             |
+|          |                                                           |
+
+* (Input Card 5) 
+
+| Variable | Input type |                Description                |
+|----------|------------|-------------------------------------------|
+| DETEFF   | float .3f  | Detection efficiency of photons. Used for |
+|          |            | calculation of FANO factors for combined  |
+|          |            | electron and photon detection in pure     |
+|          |            | noble gases (Between 0.0 - 100.0)         |
+|          |            |                                           |
+| EXCWGHT  | float .3f  | Weight given to excitation events in      |
+|          |            | FANO calculation with respect to          |
+|          |            | ionisation. Typically 0.5 - 0.6           |
+|          |            | Use weight given by SQRT((Fele)/(Fexc))   |
+|          |            | Fele = Electron FANO factor               |
+|          |            | Fexc = Electron FANO factor               |
+|          |            |                                           |
+| KGAS     | int        | Gas identifier for which gas in mixture   |
+|          |            | has Beta decayed.                         |
+|          |            | Identifier Numbers : NGAS1 etc.           |
+|          |            |                                           |
+| LGAS     | int        | If molecular gas : LGAS identifies        |
+|          |            | the component atom in the molecule        |
+|          |            | which has Beta decayed :                  |
+|          |            | E.g. in CO2 1 = Carbon 2 = Oxygen         |
+|          |            | in CF4 1 = Carbon 2 = Fluorine            |
+|          |            |                                           |
+| LCMP     | int        | =0 No Compton Scattering                  |
+|          |            | =1 Include Compton Scattering             |
+|          |            |                                           |
+| LRAY     | int        | =0 No Rayleigh Scattering                 |
+|          |            | =1 Include Rayleigh Scattering            |
+|          |            |                                           |
+| LPAP     | int        | =0 No pair production                     |
+|          |            | =1 Include pair production                |
+|          |            |                                           |
+| LBRM     | int        | =0 No Bremsstrahlung                      |
+|          |            | =1 Include Bremsstrahlung                 |
+|          |            |                                           |
+| IECASC   | int        | =0 Use parameterised cascade for          |
+|          |            | 2nd to n^(th) generation of electron      |
+|          |            | ionising collisions.                      |
+|          |            | =1 Use exact cascade for 2nd to nth       |
+|          |            | generation of electron ionising           |
+|          |            | collisions.                               |
+|          |            |                                           |# Kittens
 
 ## Get All Kittens
 

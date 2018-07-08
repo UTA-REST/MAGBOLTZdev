@@ -156,14 +156,6 @@ def DEGRADE():
 
 This is the main function which calls all the subroutines.
 
-### HTTP Request
-
-```shell
-do something
-```
-
-`DELETE http://example.com/kittens/<ID>`
-
 ### Arguments
 
 Argument | Description
