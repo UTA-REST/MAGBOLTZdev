@@ -910,91 +910,87 @@ The SETUP() function handles the gas inputs
 * Input Gas Identifiers (Input Card 2)
 
 
-| Variable | Number of Inputs |               Description                |
-|----------|------------------|------------------------------------------|
-| NGASN    |                6 | Number to define which gas(between 1-80) |
-|          |                  | see Gas-List for identifying numbers     |
-|          |                  |                                          |
+| Variable | Number of Inputs | Input Type |               Description                |
+|----------|------------------|------------|------------------------------------------|
+| NGASN    |                6 | int        | Number to define which gas(between 1-80) |
+|          |                  |            | see Gas-List for identifying numbers     |
+|          |                  |            |                                          |
+|          |                  |            |                                          |
 
 * Input Gas Parameters (Input Card 3)
 
 
-| Variable | Number of Inputs |              Description              |
-|----------|------------------|---------------------------------------|
-| FRAC     |                6 | Percentage fraction of gas in mixture |
-|          |                  |                                       |
-| TEMP     |                1 | Temperature of Gas in Centigrade      |
-|          |                  |                                       |
-| TORR     |                1 | Pressure of Gas in Torr               |
-|          |                  |                                       |
+| Variable | Number of Inputs | Input Type |              Description              |
+|----------|------------------|------------|---------------------------------------|
+| FRAC     |                6 | float .4f  | Percentage fraction of gas in mixture |
+|          |                  |            |                                       |
+| TEMPC    |                1 | float .4f  | Temperature of Gas in Centigrade      |
+|          |                  |            |                                       |
+| TORR     |                1 | float .4f  | Pressure of Gas in Torr               |
+|          |                  |            |                                       |
 
 * Input Field values (Input Card 4)
 
-| Variable |                        Description                        |
-|----------|-----------------------------------------------------------|
-| EFIELD   | Electric Field in Volts/cm                                |
-|          |                                                           |
-| BMAG     | Magnetic Field in Kilo Gauss                              |
-|          |                                                           |
-| BTHETA   | Angle between electric and magnetic fields in degrees     |
-|          |                                                           |
-| IWRITE   | = 0 Standard Output                                       |
-|          | = 1 then                                                  |
-|          | Line 1: Output no. of electrons and no. of excitations    |
-|          | for each event                                            |
-|          | Line 2 : Output X,Y,Z and T for each thermalised electron |
-|          | = 2 then                                                  |
-|          | Line 1: Output no. of electrons and no. of excitations    |
-|          | for each event                                            |
-|          | Line 2: Outputs X,Y,Z and T for each thermalised electron |
-|          | Line 3: Outputs X,Y,Z and T for each excitation           |
-|          |                                                           |
-| IPEN     | = 0 No Penning transfers                                  |
-|          | = 1 Penning transfers allowed                             |
-|          |                                                           |
+| Variable | Input Type |                        Description                        |
+|----------|------------|-----------------------------------------------------------|
+| EFIELD   | float .3f  | Electric Field in Volts/cm                                |
+|          |            |                                                           |
+| BMAG     | float .3f  | Magnetic Field in Kilo Gauss                              |
+|          |            |                                                           |
+| BTHETA   | float .3f  | Angle between electric and magnetic fields in degrees     |
+|          |            |                                                           |
+| IWRITE   | int        | = 0 Standard Output                                       |
+|          |            | = 1 then                                                  |
+|          |            | Line 1: Output no. of electrons and no. of excitations    |
+|          |            | for each event                                            |
+|          |            | Line 2 : Output X,Y,Z and T for each thermalised electron |
+|          |            | = 2 then                                                  |
+|          |            | Line 1: Output no. of electrons and no. of excitations    |
+|          |            | for each event                                            |
+|          |            | Line 2: Outputs X,Y,Z and T for each thermalised electron |
+|          |            | Line 3: Outputs X,Y,Z and T for each excitation           |
+|          |            |                                                           |
+| IPEN     | int        | = 0 No Penning transfers                                  |
+|          |            | = 1 Penning transfers allowed                             |
+|          |            |                                                           |
+|          |            |                                                           |
 
 * (Input Card 5) 
 
-| Variable | Input type |                Description                |
-|----------|------------|-------------------------------------------|
-| DETEFF   | float .3f  | Detection efficiency of photons. Used for |
-|          |            | calculation of FANO factors for combined  |
-|          |            | electron and photon detection in pure     |
-|          |            | noble gases (Between 0.0 - 100.0)         |
-|          |            |                                           |
-| EXCWGHT  | float .3f  | Weight given to excitation events in      |
-|          |            | FANO calculation with respect to          |
-|          |            | ionisation. Typically 0.5 - 0.6           |
-|          |            | Use weight given by SQRT((Fele)/(Fexc))   |
-|          |            | Fele = Electron FANO factor               |
-|          |            | Fexc = Electron FANO factor               |
-|          |            |                                           |
-| KGAS     | int        | Gas identifier for which gas in mixture   |
-|          |            | has Beta decayed.                         |
-|          |            | Identifier Numbers : NGAS1 etc.           |
-|          |            |                                           |
-| LGAS     | int        | If molecular gas : LGAS identifies        |
-|          |            | the component atom in the molecule        |
-|          |            | which has Beta decayed :                  |
-|          |            | E.g. in CO2 1 = Carbon 2 = Oxygen         |
-|          |            | in CF4 1 = Carbon 2 = Fluorine            |
-|          |            |                                           |
-| LCMP     | int        | =0 No Compton Scattering                  |
-|          |            | =1 Include Compton Scattering             |
-|          |            |                                           |
-| LRAY     | int        | =0 No Rayleigh Scattering                 |
-|          |            | =1 Include Rayleigh Scattering            |
-|          |            |                                           |
-| LPAP     | int        | =0 No pair production                     |
-|          |            | =1 Include pair production                |
-|          |            |                                           |
-| LBRM     | int        | =0 No Bremsstrahlung                      |
-|          |            | =1 Include Bremsstrahlung                 |
-|          |            |                                           |
-| IECASC   | int        | =0 Use parameterised cascade for          |
-|          |            | 2nd to n^(th) generation of electron      |
-|          |            | ionising collisions.                      |
-|          |            | =1 Use exact cascade for 2nd to nth       |
-|          |            | generation of electron ionising           |
-|          |            | collisions.                               |
-|          |            |                                           |
+| Variable | Input type |                        Description                        |
+|----------|------------|-----------------------------------------------------------|
+| DETEFF   | float .3f  | Detection efficiency of photons. Used for calculation of  |
+|          |            | FANO factors for combined electron and photon detection   |
+|          |            | in pure noble gases (Between 0.0 - 100.0)                 |
+|          |            |                                                           |
+| EXCWGHT  | float .3f  | Weight given to excitation events in FANO calculation     |
+|          |            | with respect to ionisation. Typically 0.5 - 0.6           |
+|          |            | Use weight given by SQRT((Fele)/(Fexc))                   |
+|          |            | Fele = Electron FANO factor                               |
+|          |            | Fexc = Electron FANO factor                               |
+|          |            |                                                           |
+| KGAS     | int        | Gas identifier for which gas in mixture has Beta decayed. |
+|          |            | Identifier Numbers : NGAS1 etc.                           |
+|          |            |                                                           |
+| LGAS     | int        | If molecular gas : LGAS identifies the component atom in  |
+|          |            | the molecule which has Beta decayed :                     |
+|          |            | E.g. in CO2 1=Carbon 2=Oxygen                             |
+|          |            | in CF4 1=Carbon 2=Fluorine                                |
+|          |            |                                                           |
+| ICMP     | int        | =0 No Compton Scattering                                  |
+|          |            | =1 Include Compton Scattering                             |
+|          |            |                                                           |
+| IRAY     | int        | =0 No Rayleigh Scattering                                 |
+|          |            | =1 Include Rayleigh Scattering                            |
+|          |            |                                                           |
+| IPAP     | int        | =0 No pair production                                     |
+|          |            | =1 Include pair production                                |
+|          |            |                                                           |
+| IBRM     | int        | =0 No Bremsstrahlung                                      |
+|          |            | =1 Include Bremsstrahlung                                 |
+|          |            |                                                           |
+| IECASC   | int        | =0 Use parameterised cascade for 2nd to n^(th) generation |
+|          |            | of electron ionising collisions.                          |
+|          |            | =1 Use exact cascade for 2nd to nth generation of         |
+|          |            | electron ionising collisions.                             |
+|          |            |                                                           |
