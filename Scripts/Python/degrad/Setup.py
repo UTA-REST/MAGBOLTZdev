@@ -1,4 +1,16 @@
+import numpy
+import math
+import sys
 def SETUP(LAST):
+	def GOTO999():
+		print("in GOTO999")
+		print(NGASN,FRAC)
+		print(' ERROR IN GAS INPUT : NGAS=',NGAS,'\n')
+		for J in range(1,6+1):
+			# print(J)
+			print(' N=',J,' NGAS=',NGASN[J],' FRAC=',FRAC[J])
+		LAST=1                                                            
+		return
 	#IMPLICIT #real*8 (A-H,O-Z) 
 	#IMPLICIT #integer*8 (I-N) 
 	#integer*4 NSEED                                       
@@ -154,15 +166,15 @@ def SETUP(LAST):
 	ABZERO=273.150                                                   
 	ATMOS=760.00                                                     
 	CONST1=AWB/2.00*1.0*(10**-19)                                          
-	CONST2=CONST1*1.0*(10**-02)                                             
+	CONST2=CONST1*1.0*(10**-2)                                             
 	CONST3=math.sqrt(0.20*AWB)*1.0*(10**-9)                                   
 	CONST4=CONST3*ALOSCH*1.0*(10**-15)                                      
 	CONST5=CONST3/2.00
 	TWOPI=2.00*API
 	NANISO=2
-	for K in range(1,6):
-		NBREM[K]=0
-		EBRTOT[K]=0.0
+	NBREM=numpy.zeros(7)  # negotiated for extra element 
+	EBRTOT=numpy.zeros(7)   # negotiated for extra element 
+
 	ICFLG=0
 	IRFLG=0
 	IPFLG=0
@@ -171,19 +183,21 @@ def SETUP(LAST):
 	#  --------------------------------------------       
 	#                                                                       
 	#      READ IN OUTPUT CONTROL AND INTEGRATION DATA                      
-	#                                                                       
-	NGAS=int(input())
-	NEVENT=int(input())
-	IMIP=int(input())
-	NDVEC=int(input())
-	NSEED=int(input())
-	ESTART=float(input())
-	ETHRM=float(input())
-	ECUT=float(input())
+	#                
+	NGAS,NEVENT,IMIP,NDVEC,NSEED,ESTART,ETHRM,ECUT=2,100,5,1,0,1.0,1.5,2.0
+	# NGAS,NEVENT,IMIP,NDVEC,NSEED,ESTART,ETHRM,ECUT=input("Input Card 1 ").split()
+	NGAS=int(NGAS)#input('NGAS'))
+	NEVENT=int(NEVENT)#input('NEVENT'))
+	IMIP=int(IMIP)#input('IMIP'))
+	NDVEC=int(NDVEC)#input('NDVEC'))
+	NSEED=int(NSEED)#input('NSEED'))
+	ESTART=float(ESTART)#input('ESTART'))
+	ETHRM=float(ETHRM)#input('ETHRM'))
+	ECUT=float(ECUT)#input('ECUT'))
 	ICOUNT=0
 	if(IMIP == 1):
 		ICOUNT=1 
-	if(NGAS == 0):  #yet to figure out 
+	if(NGAS == 0):
 		LAST=1
 		return  
 	if(ESTART > 3.0*(10**6) and IMIP == 3):
@@ -199,42 +213,52 @@ def SETUP(LAST):
 		sys.exit()
 	# endif
 	# 
-	#   GAS IDENTifIERS 
+	#   GAS IDENTIFIERS 
 	#
-	for i in range(1,6):
-		NGASN[i]=int(input())
+	NGASN=numpy.zeros(7)
+	card2=[2 , 12 , 0 , 0 , 0 , 0]
+	# card2=input("Input Card 2 ").split()
+	for i in range(6):
+		NGASN[i+1]=card2[i]
 	#      
 	#      GAS PARAMETERS
 	#
-	for i in range(1,6):
-		FRAC[i]=round(float(input()),4)  			#print(8'%.4f' %)      
-	TEMPC=round(float(input()),4)  					#print(8'%.4f' %)      
-	TORR=round(float(input()),4)                  	#print(8'%.4f' %)      
+	FRAC=numpy.zeros(7)
+	card3=[80.000,20.000,0.0,0.0,0.0,0.0,20.000,760.000]
+	# card3=input("Input Card 3 ").split()
+	for i in range(6):
+		FRAC[i+1]=float(card3[i])
+	TEMPC=round(float(card3[6]),4)  					#print(8'%.4f' %)      
+	TORR=round(float(card3[7]),4)                  	#print(8'%.4f' %)      
 
        
 	#print(8'%.4f' %)      
 	#                                                  
 	#      FIELD VALUES                                                    
-	#                                                                       
-	EFIELD=round(float(input()),3)  			#print(3'%.3f' % ,2I5)
-	BMAG=round(float(input()),3)			#print(3'%.3f' % ,2I5)
-	BTHETA=round(float(input()),3)			#print(3'%.3f' % ,2I5)
-	IWRITE=int(input())			#print(3'%.3f' % ,2I5)
-	IPEN=int(input())                    			#print(3'%.3f' % ,2I5)     
+	#   
+	EFIELD,BMAG,BTHETA,IWRITE,IPEN=2.000,3.000,30.000,0,0
+	# EFIELD,BMAG,BTHETA,IWRITE,IPEN=input("Input Card 4 ").split()                                                                    
+	EFIELD=round(float(EFIELD),3)  			#print(3'%.3f' % ,2I5)
+	BMAG=round(float(BMAG),3)			#print(3'%.3f' % ,2I5)
+	BTHETA=round(float(BTHETA),3)			#print(3'%.3f' % ,2I5)
+	IWRITE=int(IWRITE)			#print(3'%.3f' % ,2I5)
+	IPEN=int(IPEN)                    			#print(3'%.3f' % ,2I5)     
 	
-	DETEFF=round(float(input()),3)      	# print(2'%.3f' % ,7I5)
-	EXCWGHT=round(float(input()),3)			# print(2'%.3f' % ,7I5)			
-	KGAS=int(input())						# print(2'%.3f' % ,7I5)
-	LGAS=int(input())						# print(2'%.3f' % ,7I5)
-	ICMP=int(input())						# print(2'%.3f' % ,7I5)
-	IRAY=int(input())						# print(2'%.3f' % ,7I5)
-	IPAP=int(input())						# print(2'%.3f' % ,7I5)
-	IBRM=int(input())						# print(2'%.3f' % ,7I5)
-	IECASC =int(input())					# print(2'%.3f' % ,7I5)
+	DETEFF,EXCWGHT,KGAS,LGAS,ICMP,IRAY,IPAP,IBRM,IECASC=50.0,0.55,2,1,1,1,1,1,1
+	# DETEFF,EXCWGHT,KGAS,LGAS,ICMP,IRAY,IPAP,IBRM,IECASC=input("Input Card 5 ").split()
+	DETEFF=round(float(DETEFF),3)      	# print(2'%.3f' % ,7I5)
+	EXCWGHT=round(float(EXCWGHT),3)			# print(2'%.3f' % ,7I5)			
+	KGAS=int(KGAS)						# print(2'%.3f' % ,7I5)
+	LGAS=int(LGAS)						# print(2'%.3f' % ,7I5)
+	ICMP=int(ICMP)						# print(2'%.3f' % ,7I5)
+	IRAY=int(IRAY)						# print(2'%.3f' % ,7I5)
+	IPAP=int(IPAP)						# print(2'%.3f' % ,7I5)
+	IBRM=int(IBRM)						# print(2'%.3f' % ,7I5)
+	IECASC =int(IECASC)					# print(2'%.3f' % ,7I5)
 	#     WRITE(6,656) IWRITE
 	# 656 print(' IWRITE=',I3)  
 	if(IWRITE != 0):
-		OPEN(UNIT=50,FILE='DEGRAD.OUT')  #yet to be
+		outputfile=open("DEGRAD.OUT","w")
 	# CALCULATE EFINAL FOR DELTAS OR XRAYS 
 	# INCREASED EFINAL CAUSED BY ELECTRIC FIELD 
 	EBIG=0.05*ESTART/1000. 
@@ -245,11 +269,14 @@ def SETUP(LAST):
 	TOTFRAC=0.00
 	if(NGAS == 0 or NGAS > 6):
 			GOTO999()
-	for J in range(1,NGAS):
+	for J in range(1,NGAS+1):
+		# 	print('J',J)
 		if(NGASN[J]== 0 or FRAC[J] == 0.00):
 			GOTO999()
 		TOTFRAC=TOTFRAC+FRAC[J]
+
 	if(abs(TOTFRAC-100.00)> 1*(10**-6)):
+		print(TOTFRAC)
 		GOTO999()
 	LAST=0
 	TMAX=100.00  
@@ -259,13 +286,13 @@ def SETUP(LAST):
 	if(NDVEC): #22594
 		PHI=0
 		THETA=0
-	else if(NDVEC==-1):
+	elif(NDVEC==-1):
 		PHI=0
 		THETA=numpy.arccos(-1)
-	else if(NDVEC==0):
+	elif(NDVEC==0):
 		PHI=0.0
 		THETA=API/2.0
-	else if(NDVEC==2):
+	elif(NDVEC==2):
 		R3=DRAND48(0.0,1.0)
 		PHI=TWOPI*R3
 		R4=DRAND48(1.5, 1.9)
@@ -279,104 +306,99 @@ def SETUP(LAST):
 	DRXINIT= numpy.sin(THETA)*numpy.cos(PHI)
 	DRYINIT=numpy.sin(THETA)*numpy.sin(PHI)
 	# ZERO COMMON BLOCKS OF OUTPUT RESULTS
-	for J in range(1,10000):
-		MSUM[J]=0
-		MCOMP[J]=0
-		MRAYL[J]=0
-		MPAIR[J]=0
-		MPHOT[J]=0
-		MVAC[J]=0
+	MSUM=numpy.zeros(10001,dtype=int)
+	MCOMP=numpy.zeros(10001,dtype=int)
+	MRAYL=numpy.zeros(10001,dtype=int)
+	MPAIR=numpy.zeros(10001,dtype=int)
+	MPHOT=numpy.zeros(10001,dtype=int)
+	MVAC=numpy.zeros(10001,dtype=int)
 
-	for J in range(1,300):
-		TIME[J]=0
-	for K in range(1,30):
-		ICOLL[K]=0
-	for K in range(1,512):
-		ICOLN[K]=0
-	for K in range(1,60):
-		ICOLNN[K]=0
-	for in range(1,10):
-		TCFMAX[K]=float(0)
+	# for J in range(1,300):
+	TIME=numpy.zeros(301,dtype=int)
+	# for K in range(1,30):
+	ICOLL=numpy.zeros(31,dtype=int)
+	# for K in range(1,512):
+	ICOLN=numpy.zeros(513,dtype=int)
+	# for K in range(1,60):
+	ICOLNN=numpy.zeros(61,dtype=int)
+	# for K in range(1,10):
+	TCFMAX=numpy.zeros(11)
 	# ZERO PLOT ARRAYS
-	for K in range(1,31):
-		NXPL2[K]=0
-		NYPL2[K]=0
-		NZPL2[K]=0
-		NXPL10[K]=0
-		NYPL10[K]=0
-		NZPL10[K]=0
-		NXPL40[K]=0
-		NYPL40[K]=0
-		NZPL40[K]=0
-		NXPL100[K]=0
-		NYPL100[K]=0
-		NZPL100[K]=0
-		NXPL400[K]=0
-		NYPL400[K]=0
-		NZPL400[K]=0
-		NXPL1000[K]=0
-		NYPL1000[K]=0
-		NZPL1000[K]=0
-		NXPL4000[K]=0
-		NYPL4000[K]=0
-		NZPL4000[K]=0
-		NXPL10000[K]=0
-		NYPL10000[K]=0
-		NZPL10000[K]=0
-		NXPL40000[K]=0
-		NYPL40000[K]=0
-		NZPL40000[K]=0
-		NXPL100000[K]=0
-		NYPL100000[K]=0
-		NZPL100000[K]=0
-		NRPL2[K]=0
-		NRPL10[K]=0
-		NRPL40[K]=0
-		NRPL100[K]=0
-		NRPL400[K]=0
-		NRPL1000[K]=0
-		NRPL4000[K]=0
-		NRPL10000[K]=0
-		NRPL40000[K]=0
-		NRPL100000[K]=0 #22678
-	for K in range(1,100):
-		NEPL1[K]=0
-		NEPL10[K]=0
-		NEPL100[K]=0
-	for K in range(1,1000):
-		MELEC[K]=0
-		MELEC3[K]=0
-		MELEC10[K]=0
-		MELEC30[K]=0
-		MELEC100[K]=0
-		MELEC300[K]=0 #22689
+	NXPL2=numpy.zeros(32,dtype=int)
+	NYPL2=numpy.zeros(32,dtype=int)
+	NZPL2=numpy.zeros(32,dtype=int)
+	NXPL10=numpy.zeros(32,dtype=int)
+	NYPL10=numpy.zeros(32,dtype=int)
+	NZPL10=numpy.zeros(32,dtype=int)
+	NXPL40=numpy.zeros(32,dtype=int)
+	NYPL40=numpy.zeros(32,dtype=int)
+	NZPL40=numpy.zeros(32,dtype=int)
+	NXPL100=numpy.zeros(32,dtype=int)
+	NYPL100=numpy.zeros(32,dtype=int)
+	NZPL100=numpy.zeros(32,dtype=int)
+	NXPL400=numpy.zeros(32,dtype=int)
+	NYPL400=numpy.zeros(32,dtype=int)
+	NZPL400=numpy.zeros(32,dtype=int)
+	NXPL1000=numpy.zeros(32,dtype=int)
+	NYPL1000=numpy.zeros(32,dtype=int)
+	NZPL1000=numpy.zeros(32,dtype=int)
+	NXPL4000=numpy.zeros(32,dtype=int)
+	NYPL4000=numpy.zeros(32,dtype=int)
+	NZPL4000=numpy.zeros(32,dtype=int)
+	NXPL10000=numpy.zeros(32,dtype=int)
+	NYPL10000=numpy.zeros(32,dtype=int)
+	NZPL10000=numpy.zeros(32,dtype=int)
+	NXPL40000=numpy.zeros(32,dtype=int)
+	NYPL40000=numpy.zeros(32,dtype=int)
+	NZPL40000=numpy.zeros(32,dtype=int)
+	NXPL100000=numpy.zeros(32,dtype=int)
+	NYPL100000=numpy.zeros(32,dtype=int)
+	NZPL100000=numpy.zeros(32,dtype=int)
+	NRPL2=numpy.zeros(32,dtype=int)
+	NRPL10=numpy.zeros(32,dtype=int)
+	NRPL40=numpy.zeros(32,dtype=int)
+	NRPL100=numpy.zeros(32,dtype=int)
+	NRPL400=numpy.zeros(32,dtype=int)
+	NRPL1000=numpy.zeros(32,dtype=int)
+	NRPL4000=numpy.zeros(32,dtype=int)
+	NRPL10000=numpy.zeros(32,dtype=int)
+	NRPL40000=numpy.zeros(32,dtype=int)
+	NRPL100000=numpy.zeros(32,dtype=int) #22678
+	NEPL1=numpy.zeros(101,dtype=int)
+	NEPL10=numpy.zeros(101,dtype=int)
+	NEPL100=numpy.zeros(101,dtype=int)
+	MELEC=numpy.zeros(1001,dtype=int)
+	MELEC3=numpy.zeros(1001,dtype=int)
+	MELEC10=numpy.zeros(1001,dtype=int)
+	MELEC30=numpy.zeros(1001,dtype=int)
+	MELEC100=numpy.zeros(1001,dtype=int)
+	MELEC300=numpy.zeros(1001,dtype=int) #22689
 	# C ZERO ARRAYS
-	for KS in range(1,100000):
-		XAV[KS]=0.0
-		YAV[KS]=0.0
-		ZAV[KS]=0.0
-		TAV[KS]=0.0
-		XYAV[KS]=0.0
-		XYZAV[KS]=0.0
-		DX[KS]=0.0
-		DY[KS]=0.0
-		DZ[KS]=0.0
-		DT[KS]=0.0
-		DXY[KS]=0.0
-		DXYZ[KS]=0.0
-		FARX1[KS]=0.0
-		FARY1[KS]=0.0
-		FARZ1[KS]=0.0
-		FARXY1[KS]=0.0
-		RMAX1[KS]=0.0
-		TSUM[KS]=0.0
-		XNEG[KS]=0.0
-		YNEG[KS]=0.0
-		ZNEG[KS]=0.0
-		EDELTA[KS]=0.0
-		EDELTA2[KS]=0.0
-		NCL[KS]=0
-		NCLEXC[KS]=0 ##22716 #22915
+	XAV=numpy.zeros(100001)
+	YAV=numpy.zeros(100001)
+	ZAV=numpy.zeros(100001)
+	TAV=numpy.zeros(100001)
+	XYAV=numpy.zeros(100001)
+	XYZAV=numpy.zeros(100001)
+	DX=numpy.zeros(100001)
+	DY=numpy.zeros(100001)
+	DZ=numpy.zeros(100001)
+	DT=numpy.zeros(100001)
+	DXY=numpy.zeros(100001)
+	DXYZ=numpy.zeros(100001)
+	FARX1=numpy.zeros(100001)
+	FARY1=numpy.zeros(100001)
+	FARZ1=numpy.zeros(100001)
+	FARXY1=numpy.zeros(100001)
+	RMAX1=numpy.zeros(100001)
+	TSUM=numpy.zeros(100001)
+	XNEG=numpy.zeros(100001)
+	YNEG=numpy.zeros(100001)
+	ZNEG=numpy.zeros(100001)
+	EDELTA=numpy.zeros(100001)
+	EDELTA2=numpy.zeros(100001)
+	NCL=numpy.zeros(100001)
+	NCLEXC=numpy.zeros(100001) ##22716 #22915
 	# ----------------------------------------------------  
 	# if NSEED = 0 : USE STANDARD SEED VALUE =54217137
 	if(NSEED != 0):
@@ -385,12 +407,12 @@ def SETUP(LAST):
 	#
 	CORR=ABZERO*TORR/(ATMOS*(ABZERO+TEMPC)*100.00)                    #check precision
 	AKT=(ABZERO+TEMPC)*BOLTZ
-	AN1=FRAC[1]CORR*ALOSCH                                           
-	AN2=FRAC[2]CORR*ALOSCH                                           
-	AN3=FRAC[3]CORR*ALOSCH                                           
-	AN4=FRAC[4]CORR*ALOSCH
-	AN5=FRAC[5]CORR*ALOSCH
-	AN6=FRAC[6]CORR*ALOSCH                                           
+	AN1=FRAC[1]*CORR*ALOSCH                                           
+	AN2=FRAC[2]*CORR*ALOSCH                                           
+	AN3=FRAC[3]*CORR*ALOSCH                                           
+	AN4=FRAC[4]*CORR*ALOSCH
+	AN5=FRAC[5]*CORR*ALOSCH
+	AN6=FRAC[6]*CORR*ALOSCH                                           
 	AN=float(100.00*CORR*ALOSCH)
 	AN=100.00*CORR*ALOSCH                                            
 	#VAN1=FRAC[1]*CORR*CONST4*1.0D15                                   
@@ -408,31 +430,33 @@ def SETUP(LAST):
 	VAN6=FRAC[6]*CORR*ALOSCH*VC                                  
 	VAN=float(100.00*CORR*ALOSCH*VC)    #22745 #22945
 	# CALCULATE AND STORE ENERGY GRID FOR XRAYS BETAS OR PARTICLES
-	 
+	E=numpy.zeros(20001)
+	GAM=numpy.zeros(20001)
+	BET=numpy.zeros(20001)
 	if(EFINAL <= 20000.0):
 		ESTEP=float(EFINAL/float(NSTEP))
 		EHALF=float(ESTEP/2.00)
 		E[1]=EHALF
 		GAM[1]=(EMS+E[1])/EMS
 		BET[1]=math.sqrt(1.00-1.00/(GAM[1]*GAM[1]))  #ifcontinues
-		for I in range(2,20000):                      #ifcontinues
+		for I in range(2,20000+1):                      #ifcontinues
 			AJ=float(I-1)
 			E[I]=EHALF+ESTEP*AJ
 			GAM[I]=(EMS+E[I])/EMS
 			BET[I]=math.sqrt(1.00-1.00/(GAM[I]*GAM[I]))
-	else if(EFINAL > 20000.0 and EFINAL <= 140000.) :
+	elif(EFINAL > 20000.0 and EFINAL <= 140000.) :
 		ESTEP=1.0
 		EHALF=0.5
 		E[1]=EHALF
 		GAM[1]=(EMS+E[1])/EMS
 		BET[1]=math.sqrt(1.00-1.00/(GAM[1]*GAM[1]))
-		for i in range(2,16000):
+		for i in range(2,16000+1):
 			AJ=float(I-1)
 			E[I]=EHALF+ESTEP*AJ
 			GAM[I]=(EMS+E[I])/EMS
 			BET[I]=math.sqrt(1.00-1.00/(GAM[I]*GAM[I]))   #22768 #22968  
 		ESTEP1=(EFINAL-16000.0)/float(4000)
-		for I in range(16001,2000):
+		for I in range(16001,2000+1):
 			AJ=float(I-16000)
 			E[I]=16000.0+AJ*ESTEP1
 			GAM[I]=(EMS+E[I])/EMS
@@ -443,23 +467,23 @@ def SETUP(LAST):
 		E[1]=EHALF
 		GAM[1]=(EMS+E[1])/EMS
 		BET[1]=math.sqrt(1.00-1.00/(GAM[1]*GAM[1]))
-		for I in range(2,12000):
+		for I in range(2,12000+1):
 			AJ=float(I-1)
 			E[I]=EHALF+ESTEP*AJ
 			GAM[I]=(EMS+E[I])/EMS
-			BET[I]math.sqrt(1.00-1.00/(GAM[I]*GAM[I]))
+			BET[I]=math.sqrt(1.00-1.00/(GAM[I]*GAM[I]))
 		ESTEP1=20.0
-		for I in range(12001,16000):
+		for I in range(12001,16000+1):
 			AJ=float(I-12000)
 			E[I]=12000.0+AJ*ESTEP1
 			GAM[I]=(EMS+E[I])/EMS
-			BET[I]math.sqrt(1.00-1.00/(GAM[I]*GAM[I]))
+			BET[I]=math.sqrt(1.00-1.00/(GAM[I]*GAM[I]))
 		ESTEP2=(EFINAL-92000.0)/float(4000)
-		for I in range(16001,20000):
+		for I in range(16001,20000+1):
 			AJ=float(I-16000)
 			E[I]=92000.0+AJ*ESTEP2
 			GAM[I]=(EMS+E[I])/EMS
-			BET[I]math.sqrt(1.00-1.00/(GAM[I]*GAM[I]))
+			BET[I]=math.sqrt(1.00-1.00/(GAM[I]*GAM[I]))
 	# endif
 	#  RADIANS PER PICOSECOND                                        
 	WB=AWB*BMAG*1.0*(10**-12 )
@@ -468,9 +492,8 @@ def SETUP(LAST):
 		return
 	EOVB=EFIELD*1*(10**-9)/BMAG
 	return
-	print(' ERROR IN GAS INPUT : NGAS=',NGAS,'\n')
-	for J in range(1,6):
-		print(' N=',J,' NGAS=',NGASN[J],' FRAC=',FRAC[J])
-	LAST=1                                                            
-	return                                                            
+	
+	GOTO999()                                                            
 	# end                                                               
+
+# SETUP(0)
