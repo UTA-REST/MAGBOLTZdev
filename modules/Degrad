@@ -1,0 +1,136 @@
+<h1 id='introduction'>Introduction</h1>
+<p>Welcome to Degrad! This program can be used to give cluster size distribution and primary cluster distribution in gas mixtures for ionising particles. The spatial distribution of the thermalised electron is given and plotted as a cumulated sum. The individual events can also be output using control word, IWRITE, so that a more detailed analysis can be performed with other detector simulation programs.</p>
+
+<p>Ionising particle clusters are created with a start position of the primart electron in X Y and Z of (0,0,0). It is easy to transform and pace the generated clusters on a track with the calculated primary cluster spacing along the track given by a poisson distribution.</p>
+
+<p>There is at the moment no facility to allow the density effect, which may change the cluster size at energies above minimum ionising. However, the  density effect is expected to be small above minimum ionising. The dE/dX is also calculated for the ionising particle energy.</p>
+
+<p>We have language bindings in Shell, Fortran, and Python! You can view code in the dark area to the right, and you can switch the programming language of the examples with the tabs in the top right.</p>
+
+<p>This documentation page was created with <a href="https://github.com/lord/slate">Slate</a>. </p>
+<h1 id='using'>Using</h1>
+<p>Degrad is written in python3 and FORTRAN</p>
+
+<blockquote>
+<p>To run Degrad, use this code:</p>
+</blockquote>
+<pre class="highlight shell tab-shell"><code><span class="c"># to run fortran code</span>
+gfortran degrad3.3.f 
+./a.out
+
+<span class="c"># to run python</span>
+python3 degrad1.py 
+
+<span class="c"># With shell, you can just run the input interface if you have python3 and qt5 installed on your machine</span>
+<span class="nb">cd </span>UI/
+python3 MAIN.py
+</code></pre>
+<blockquote>
+<p>Make sure you&#39;re in the same directory as the file you&#39;re executing.</p>
+</blockquote>
+
+<p>The input interface for degrad UI has been written in pyqt-5. main.ui contains the ui structure of the interface, created in the qt-designer. 
+Kittn uses API keys to allow access to the API. You can register a new Kittn API key at our <a href="http://example.com/developers">developer portal</a>.</p>
+
+<p>Kittn expects for the API key to be included in all API requests to the server in a header that looks like the following:</p>
+
+<aside class="notice">
+Make sure you're in the same directory as the file you're executing.
+</aside>
+<h1 id='function-documentation'>Function Documentation</h1><h2 id='degrade'>DEGRADE()</h2><pre class="highlight fortran tab-fortran"><code><span class="w">      </span><span class="k">PROGRAM</span><span class="w"> </span><span class="n">DEGRADE</span><span class="w">                                                   
+      </span><span class="k">IMPLICIT</span><span class="w"> </span><span class="kt">REAL</span><span class="o">*</span><span class="mi">8</span><span class="w"> </span><span class="p">(</span><span class="n">A</span><span class="o">-</span><span class="n">H</span><span class="p">,</span><span class="n">O</span><span class="o">-</span><span class="n">Z</span><span class="p">)</span><span class="w">
+      </span><span class="k">IMPLICIT</span><span class="w"> </span><span class="kt">INTEGER</span><span class="o">*</span><span class="mi">8</span><span class="w"> </span><span class="p">(</span><span class="n">I</span><span class="o">-</span><span class="n">N</span><span class="p">)</span><span class="w">
+      </span><span class="k">COMMON</span><span class="p">/</span><span class="n">SETP</span><span class="p">/</span><span class="n">TMAX</span><span class="p">,</span><span class="n">SMALL</span><span class="p">,</span><span class="n">API</span><span class="p">,</span><span class="n">ESTART</span><span class="p">,</span><span class="n">THETA</span><span class="p">,</span><span class="n">PHI</span><span class="p">,</span><span class="n">TCFMAX</span><span class="p">(</span><span class="mi">10</span><span class="p">),</span><span class="n">TCFMAX1</span><span class="p">,</span><span class="w">
+     </span><span class="p">/</span><span class="n">RSTART</span><span class="p">,</span><span class="n">EFIELD</span><span class="p">,</span><span class="n">ETHRM</span><span class="p">,</span><span class="n">ECUT</span><span class="p">,</span><span class="n">NEVENT</span><span class="p">,</span><span class="n">IMIP</span><span class="p">,</span><span class="n">IWRITE</span><span class="w">
+      </span><span class="k">COMMON</span><span class="p">/</span><span class="n">BFLD</span><span class="p">/</span><span class="n">EOVB</span><span class="p">,</span><span class="n">WB</span><span class="p">,</span><span class="n">BTHETA</span><span class="p">,</span><span class="n">BMAG</span><span class="w">
+ </span><span class="mi">1</span><span class="w">    </span><span class="k">CALL</span><span class="w"> </span><span class="n">SETUP</span><span class="p">(</span><span class="n">LAST</span><span class="p">)</span><span class="w">                                                  
+      </span><span class="k">IF</span><span class="p">(</span><span class="n">LAST</span><span class="ow">.EQ.</span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="k">GO</span><span class="w"> </span><span class="k">TO</span><span class="w"> </span><span class="mi">99</span><span class="w">
+      </span><span class="k">CALL</span><span class="w"> </span><span class="n">DENSITY</span><span class="w">
+      </span><span class="k">CALL</span><span class="w"> </span><span class="n">CASCDAT</span><span class="w">
+      </span><span class="k">CALL</span><span class="w"> </span><span class="n">MIXERC</span><span class="w">
+      </span><span class="k">CALL</span><span class="w"> </span><span class="n">MIXER</span><span class="w">
+</span><span class="n">C</span><span class="w"> </span><span class="n">CALCULATE</span><span class="w"> </span><span class="n">FLUORESCENCE</span><span class="w"> </span><span class="n">ABSORPTION</span><span class="w"> </span><span class="n">DISTANCES</span><span class="w"> 
+      </span><span class="k">CALL</span><span class="w"> </span><span class="n">FLDIST</span><span class="w">
+      </span><span class="k">CALL</span><span class="w"> </span><span class="n">PRINTER</span><span class="w">
+      </span><span class="k">IF</span><span class="p">(</span><span class="n">IMIP</span><span class="ow">.EQ.</span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="k">CALL</span><span class="w"> </span><span class="n">MIPCALC</span><span class="w">
+</span><span class="n">C</span><span class="w"> </span><span class="k">IF</span><span class="w"> </span><span class="n">MIP</span><span class="w"> </span><span class="n">OR</span><span class="w"> </span><span class="n">ELECTRON</span><span class="w"> </span><span class="n">BEAM</span><span class="w"> </span><span class="n">SKIP</span><span class="w"> </span><span class="n">DIRECT</span><span class="w"> </span><span class="n">CASCADE</span><span class="w"> </span><span class="n">CALCULATION</span><span class="w">
+      </span><span class="k">IF</span><span class="p">(</span><span class="n">IMIP</span><span class="ow">.LE.</span><span class="mi">2</span><span class="p">)</span><span class="w"> </span><span class="k">GO</span><span class="w"> </span><span class="k">TO</span><span class="w"> </span><span class="mi">10</span><span class="w">
+      </span><span class="n">ICON</span><span class="o">=</span><span class="n">IMIP</span><span class="mi">-2</span><span class="w">
+</span><span class="n">C</span><span class="w">  </span><span class="n">ICON</span><span class="o">=</span><span class="mi">1</span><span class="w"> </span><span class="n">XRAY</span><span class="p">,</span><span class="w">   </span><span class="n">ICON</span><span class="o">=</span><span class="mi">2</span><span class="w"> </span><span class="n">BETA</span><span class="w"> </span><span class="n">DECAY</span><span class="w"> </span><span class="p">,</span><span class="w"> </span><span class="n">ICON</span><span class="o">=</span><span class="mi">3</span><span class="w"> </span><span class="kt">DOUBLE</span><span class="w"> </span><span class="n">BETA</span><span class="w"> </span><span class="n">DECAY</span><span class="w">  
+      </span><span class="k">CALL</span><span class="w"> </span><span class="n">CONTROL0</span><span class="p">(</span><span class="n">NEVENT</span><span class="p">,</span><span class="n">ESTART</span><span class="p">,</span><span class="n">ICON</span><span class="p">)</span><span class="w">
+</span><span class="n">C</span><span class="w"> </span><span class="n">CALCULATE</span><span class="w"> </span><span class="n">AND</span><span class="w"> </span><span class="n">OUTPUT</span><span class="w"> </span><span class="n">AVERAGES</span><span class="w"> </span><span class="n">FROM</span><span class="w"> </span><span class="n">SHELLS</span><span class="w">
+      </span><span class="k">CALL</span><span class="w"> </span><span class="n">OUTPUTC</span><span class="p">(</span><span class="n">NEVENT</span><span class="p">,</span><span class="n">IMIP</span><span class="p">)</span><span class="w">
+</span><span class="n">C</span><span class="w"> </span><span class="n">AFTER</span><span class="w"> </span><span class="nb">ALL</span><span class="w"> </span><span class="n">SHELL</span><span class="w"> </span><span class="n">EMISSIONS</span><span class="w"> </span><span class="n">THERMALISE</span><span class="w"> </span><span class="n">ELECTRONS</span><span class="w">
+  </span><span class="mi">10</span><span class="w">  </span><span class="k">IF</span><span class="p">(</span><span class="n">BMAG</span><span class="ow">.EQ.</span><span class="mf">0.0D0</span><span class="p">)</span><span class="w"> </span><span class="k">CALL</span><span class="w"> </span><span class="n">MONTEFE</span><span class="w">
+      </span><span class="k">IF</span><span class="p">(</span><span class="n">BMAG</span><span class="ow">.NE.</span><span class="mf">0.0D0</span><span class="p">)</span><span class="w"> </span><span class="k">THEN</span><span class="w">
+       </span><span class="k">IF</span><span class="p">(</span><span class="n">BTHETA</span><span class="ow">.EQ.</span><span class="mf">0.0D0</span><span class="ow">.OR.</span><span class="n">BTHETA</span><span class="ow">.EQ.</span><span class="mf">180.0D0</span><span class="p">)</span><span class="w"> </span><span class="k">THEN</span><span class="w">
+        </span><span class="k">CALL</span><span class="w"> </span><span class="n">MONTEFA</span><span class="w">
+        </span><span class="k">ELSE</span><span class="w"> </span><span class="k">IF</span><span class="p">(</span><span class="n">BTHETA</span><span class="ow">.EQ.</span><span class="mf">90.0D0</span><span class="p">)</span><span class="w"> </span><span class="k">THEN</span><span class="w">
+        </span><span class="k">CALL</span><span class="w"> </span><span class="n">MONTEFB</span><span class="w">
+        </span><span class="k">ELSE</span><span class="w">
+        </span><span class="k">CALL</span><span class="w"> </span><span class="n">MONTEFC</span><span class="w">
+       </span><span class="k">ENDIF</span><span class="w">
+      </span><span class="k">ENDIF</span><span class="w">
+      </span><span class="k">CALL</span><span class="w"> </span><span class="n">STATS2</span><span class="w">
+      </span><span class="k">CALL</span><span class="w"> </span><span class="n">OUTPUT</span><span class="w"> 
+      </span><span class="k">GO</span><span class="w"> </span><span class="k">TO</span><span class="w"> </span><span class="mi">1</span><span class="w">
+  </span><span class="mi">99</span><span class="w">  </span><span class="k">STOP</span><span class="w">                                                             
+      </span><span class="k">END</span><span class="w">
+</span></code></pre><pre class="highlight python tab-python"><code><span class="k">def</span> <span class="nf">DEGRADE</span><span class="p">():</span>
+  <span class="c"># IMPLICIT #real*8 (A-H,O-Z)</span>
+  <span class="c"># IMPLICIT #integer*8 (I-N)</span>
+  <span class="k">global</span> <span class="n">TMAX</span><span class="p">,</span><span class="n">SMALL</span><span class="p">,</span><span class="n">API</span><span class="p">,</span><span class="n">ESTART</span><span class="p">,</span><span class="n">THETA</span><span class="p">,</span><span class="n">PHI</span>
+  <span class="k">global</span> <span class="n">TCFMAX</span> <span class="c">#array size 10</span>
+  <span class="k">global</span> <span class="n">TCFMAX1</span><span class="p">,</span><span class="n">RSTART</span><span class="p">,</span><span class="n">EFIELD</span><span class="p">,</span><span class="n">ETHRM</span><span class="p">,</span><span class="n">ECUT</span><span class="p">,</span><span class="n">NEVENT</span><span class="p">,</span><span class="n">IMIP</span><span class="p">,</span><span class="n">IWRITE</span><span class="p">,</span><span class="n">EOVB</span><span class="p">,</span><span class="n">WB</span><span class="p">,</span><span class="n">BTHETA</span><span class="p">,</span><span class="n">BMAG</span>
+  <span class="n">SETUP</span><span class="p">(</span><span class="n">LAST</span><span class="p">)</span>
+  <span class="k">if</span><span class="p">(</span><span class="n">LAST</span> <span class="o">==</span> <span class="mi">1</span><span class="p">):</span>
+    <span class="n">sys</span><span class="o">.</span><span class="nb">exit</span><span class="p">()</span>
+  <span class="n">DENSITY</span><span class="p">()</span>
+  <span class="n">CASCDAT</span><span class="p">()</span>
+  <span class="n">MIXERC</span><span class="p">()</span>
+  <span class="n">MIXER</span><span class="p">()</span>
+  <span class="c"># CALCULATE FLUORESCENCE ABSORPTION DISTANCES </span>
+  <span class="n">FLDIST</span><span class="p">()</span>
+  <span class="n">PRINTER</span><span class="p">()</span>
+  <span class="k">if</span><span class="p">(</span><span class="n">IMIP</span> <span class="o">==</span> <span class="mi">1</span><span class="p">):</span>
+    <span class="n">MIPCALC</span><span class="p">()</span>
+  <span class="c"># if MIP OR ELECTRON BEAM SKIP DIRECT CASCADE CALCULATION</span>
+  <span class="k">if</span><span class="p">(</span><span class="n">IMIP</span> <span class="o">&lt;=</span> <span class="mi">2</span><span class="p">):</span>
+    <span class="n">PASSING</span> 
+  <span class="k">else</span><span class="p">:</span>
+    <span class="n">ICON</span><span class="o">=</span><span class="n">IMIP</span><span class="o">-</span><span class="mi">2</span>
+    <span class="c">#  ICON=1 XRAY,   ICON=2 BETA DECAY , ICON=3 DOUBLE BETA DECAY  </span>
+    <span class="n">CONTROL0</span><span class="p">(</span><span class="n">NEVENT</span><span class="p">,</span><span class="n">ESTART</span><span class="p">,</span><span class="n">ICON</span><span class="p">)</span>
+    <span class="c"># CALCULATE AND OUTPUT AVERAGES FROM SHELLS</span>
+    <span class="n">OUTPUTC</span><span class="p">(</span><span class="n">NEVENT</span><span class="p">,</span><span class="n">IMIP</span><span class="p">)</span>
+    <span class="c"># AFTER ALL SHELL EMISSIONS THERMALISE ELECTRONS</span>
+  <span class="k">if</span><span class="p">(</span><span class="n">BMAG</span> <span class="o">==</span> <span class="mf">0.00</span><span class="p">):</span>
+    <span class="n">MONTEFE</span><span class="p">()</span>
+  <span class="k">if</span><span class="p">(</span><span class="n">BMAG</span> <span class="o">!=</span> <span class="mf">0.00</span><span class="p">):</span>
+    <span class="k">if</span><span class="p">(</span><span class="n">BTHETA</span> <span class="o">==</span> <span class="mf">0.00</span> <span class="ow">or</span> <span class="n">BTHETA</span> <span class="o">==</span> <span class="mf">180.00</span><span class="p">):</span>
+      <span class="n">MONTEFA</span><span class="p">()</span>
+    <span class="k">else</span> <span class="k">if</span><span class="p">(</span><span class="n">BTHETA</span> <span class="o">==</span> <span class="mf">90.00</span><span class="p">)</span> <span class="p">:</span>
+      <span class="n">MONTEFB</span><span class="p">()</span>
+    <span class="k">else</span><span class="p">:</span>
+      <span class="n">MONTEFC</span><span class="p">()</span>
+    <span class="c"># endif</span>
+  <span class="c"># endif</span>
+  <span class="n">STATS2</span><span class="p">()</span>
+  <span class="n">OUTPUT</span><span class="p">()</span>
+  <span class="n">DEGRADE</span><span class="p">()</span>
+  <span class="n">sys</span><span class="o">.</span><span class="nb">exit</span><span class="p">()</span>
+  <span class="c"># end</span>
+</code></pre>
+<p>This is the main function which calls all the subroutines.</p>
+<h3 id='arguments'>Arguments</h3>
+<table><thead>
+<tr>
+<th>Argument</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>no arguments</td>
+<td></td>
+</tr>
+</tbody></table>
