@@ -1,4 +1,5 @@
 from Setup import *
+import Setup
 import unittest
 from unittest.mock import patch
 
@@ -11,11 +12,12 @@ class TestSetup(unittest.TestCase):
 				"2.000 3.000 30.000 0 0",
 				"50.0 0.55 2 1 1 1 1 1 1"
 				]
+		# print(Setup.NGAS)
 		with patch('builtins.input',side_effect=user_input):
 			out=SETUP(0)
 			# ngas=SETUP(0).NGAS
-		output=None
-		print("output",output)
+		output=0
+		print("output",output,Setup.NGAS)
 		self.assertEqual(out,output)
 
 if __name__ == '__main__':

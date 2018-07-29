@@ -1,3 +1,59 @@
+import numpy
+global NGAS,NSTEP,NANISO,EFINAL,ESTEP,AKT,ARY,TEMPC,TORR,IPEN
+#/SETP/
+global TMAX,SMALL,API,ESTART,THETA,PHI
+global TCFMAX#(10)
+global TCFMAX1,RSTART,EFIELD,ETHRM,ECUT,NEVENT,IMIP,IWRITE  
+#/SET2/
+global DRXINIT,DRYINIT,DRZINIT
+#/LARGE/
+global CF#(20000,512)
+global EIN#(512)
+global TCF#(20000)
+global IARRY#(512)
+global RGAS#(512)
+global IPN#(512)
+global WPL#(512)
+global IZBR#(512)
+global IPLAST
+global PENFRA#[3][512]
+#/ANIS/
+global PSCT#(20000,512)
+global ANGCT#(20000,512)
+global INDEX#(512)
+global NISO
+#/RLTVY/
+global BET#[2000]
+global GAM#(20000)
+global VC,EMS
+#/MIPCLC/
+global ANPRELA,ANPRATT,ANPREXC,ANPRION,ANPREXCI,ANPRBRM
+#/DEDX/
+global ELOSS,ELOSEX,ELOSION,ESUM,BETAGAM,TCFHIGH,VELC,EMAXDEL,ELOSIONC,CUTIONFRC,ELOSEXI,ELOSBREM,NREJECT
+#/COMP/
+global LCMP,LCFLG,LRAY,LRFLG,LPAP,LPFLG,LBRM,LBFLG,LPEFLG
+#/MIPOUT/
+global ENM#(100000,20)
+global XS#(100000,20)
+global YS#(100000,20)
+global ZS#(100000,20)
+global DIRX#(100000,20)
+global DIRY#(100000,20)
+global DIRZ#[100000,20]
+global TS#(100000,20)
+global IEVENT#(100000)
+#/IONFL/
+global NC0#(512)
+global EC0#(512)
+global NG1#(512)
+global EG1#(512)
+global NG2#(512)
+global EG2#(512)
+global WKLM#(512)
+global DSTFL#(512)
+#/IONMOD/
+global ESPLIT#(512,20)
+global IONMODEL#(512) 
 def MIPCALC():
 	# IMPLICIT #real*8 (A-H,O-Z)
 	# IMPLICIT #integer*8 (I-N)                                         
@@ -57,9 +113,9 @@ def MIPCALC():
 	#/IONMOD/
 	global ESPLIT#(512,20)
 	global IONMODEL#(512) 
-	CFTEMP=[0 for x in range(512)]
-	PSTEMP=[0 for x in range(512)]
-	ANTEMP=[0 for x in range(512)]
+	CFTEMP=numpy.zeros(512+1)#[0 for x in range(512)]
+	PSTEMP=numpy.zeros(512+1)#[0 for x in range(512)]
+	ANTEMP=numpy.zeros(512+1)#[0 for x in range(512)]
 	# CALCULATE DE/DX AND DISTANCE BETWEEN PRIMARY CLUSTERS AND ALSO
 	# PRIMARY ELECTRON ENERGY AND VACANCY FOR INPUT TO THERMALISATION
 	# ALSO ADDS EXCITATION CLUSTERS WHICH HAVE PENNING FRACTIONS GT 0.0
@@ -90,7 +146,7 @@ def MIPCALC():
 	ELOSION=0.00
 	ELOSIONC=0.00
 	ELOSBREM=0.00
-	for I in range(1,IPLAST):
+	for I in range(1,IPLAST+1):
 		CFTEMP[I]=CF[20000][I]
 		PSTEMP[I]=PSCT[20000][I]
 		ANTEMP[I]=ANGCT[20000][I]
@@ -98,7 +154,7 @@ def MIPCALC():
 		BETA=BET[2000]
 		GAMM=GAM[20000]
 	VEL=BETA*VC
-	for J in range(1,IPLAST):
+	for J in range(1,IPLAST+1):
 		IA=IARRY[J]
 		if(IA == 4 or IA == 5 or IA == 9 or IA == 10 or IA == 14 or IA == 15 or IA == 19 or IA == 20 or IA == 24 or IA == 25 or IA == 29 or IA == 30):
 			# BREMSSTRAHLUNG EXCITATION OR SUPERELASTIC
@@ -114,7 +170,7 @@ def MIPCALC():
 				E=ESTART
 				ESUMBR=0.0
 				print(' ENERGY=','%.4f' % E)
-				for K in range(1,10000):
+				for K in range(1,10000+1):
 					BREMS(IATOMNO,E,DCX2,DCY2,DCZ2,EOUT,EDCX,EDCY,EDCZ,EGAMMA,GDCX,GDCY,GDCZ)
 					ESUMBR=ESUMBR+EGAMMA
 				ELBRM=ESUMBR/10000.0
@@ -146,7 +202,7 @@ def MIPCALC():
 			ELAS=0.00
 			RFAC=1.00+GAMM*(RGAS[J]-1.00)
 			RFAC=(RFAC-1.00)/(RFAC*RFAC)
-			for K in range(1,NE):
+			for K in range(1,NE+1):
 				R3=DRAND48(RDUM)
 				if(INDEX[J]== 1):
 					R31=DRAND48(RDUM)
@@ -176,14 +232,14 @@ def MIPCALC():
 	NEV=10000000
 	ETEMP=0.0
 	ETEMPC=0.0
-	for J in range(1,IPLAST):
+	for J in range(1,IPLAST+1):
 		IA=IARRY[J]
 		if(IA == 2 or IA == 7 or IA == 12 or IA == 17 or IA == 22 or IA==27) :
 			if(EFINAL < EIN[J]):
 				pass 
 			else:
 				#  NEV = NO OF IONISATION EVENTS TO AVERAGE
-				for K in range(1,NEV):
+				for K in range(1,NEV+1):
 					if(IONMODEL[J]> 0) :
 						# CALCULATE SECONDARY ENERGY ,ESEC, IN IONISATION COLLISION USING
 						# FIVE DIFFERENT POSSIBLE MODELS
@@ -234,7 +290,7 @@ def MIPCALC():
 	# 
 	#  LOAD EVENT ARRAYS WITH ELECTRON ENERGY AND DIRECTION COSINES
 	#  ADDS ELECTRONS FROM PENNING EXCITATION IF ALLOWED
-	for K in range(1,NEVENT ):
+	for K in range(1,NEVENT +1):
 		if(K > IEVMAX):
 			print(' WARNING MAXIMUM NUMBER OF EVENTS=',IEVMAX,' def STOPPED:')
 		# endif
@@ -305,7 +361,7 @@ def MIPCALC():
 				ENM[K][NP]=ESEC
 				DIRX[K][NP]=DRXX 
 				DIRY[K][NP]=DRYY 
-				DIRZ[K,NP]=DRZZ
+				DIRZ[K][NP]=DRZZ
 				XS[K][NP]=0.0
 				YS[K][NP]=0.0
 				ZS[K][NP]=0.0
@@ -322,7 +378,7 @@ def MIPCALC():
 					# AUGER EMISSION WITHOUT FLUORESCENCE
 					NAUG=NC0[I]
 					EAVAUG=EC0[I]/float(NAUG)
-					for JFL in range(1,NC0[I]):
+					for JFL in range(1,NC0[I]+1):
 						NP=NP+1
 						if(NP > NPMAX):
 							NPMAX=NP
@@ -343,7 +399,7 @@ def MIPCALC():
 						F9=numpy.cos(PHIS)
 						DIRX[K][NP]=F9*F5
 						DIRY[K][NP]=F8*F5
-						DIRZ[K,NP]=F6
+						DIRZ[K][NP]=F6
 						XS[K][NP]=0.0
 						YS[K][NP]=0.0
 						ZS[K][NP]=0.0
@@ -356,7 +412,7 @@ def MIPCALC():
 					else:
 						NAUG=NG2[I]
 						EAVAUG=EG2[I]/float(NAUG)
-						for JFL in range(1,NG2[I]):
+						for JFL in range(1,NG2[I]+1):
 							NP=NP+1
 							if(NP > NPMAX):
 								NPMAX=NP
@@ -376,7 +432,7 @@ def MIPCALC():
 							F9=numpy.cos(PHIS)
 							DIRX[K][NP]=F9*F5
 							DIRY[K][NP]=F8*F5
-							DIRZ[K,NP]=F6
+							DIRZ[K][NP]=F6
 							XS[K][NP]=0.0
 							YS[K][NP]=0.0
 							ZS[K][NP]=0.0
@@ -390,7 +446,7 @@ def MIPCALC():
 						R9=DRAND48(RDUM)
 						# FLUORESCENCE ABSORPTION DISTANCE
 						DFL=-math.log(R9)*DSTFL[I]
-						for JFL in range(1,NG1[I]):
+						for JFL in range(1,NG1[I]+1):
 							NP=NP+1
 							if(NP > NPMAX):
 								NPMAX=NP
@@ -410,7 +466,7 @@ def MIPCALC():
 							F9=numpy.cos(PHIS)
 							DIRX[K][NP]=F9*F5
 							DIRY[K][NP]=F8*F5
-							DIRZ[K,NP]=F6
+							DIRZ[K][NP]=F6
 							R3=DRAND48(RDUM)
 							THEFL=numpy.arccos(1.0-2.0*R3) 
 							R4=DRAND48(RDUM)
@@ -424,11 +480,11 @@ def MIPCALC():
 			elif(IA == 4 or IA == 9 or IA == 14 or IA == 14 or IA == 19 or IA == 24 or IA == 29) :
 				# EXCITATION
 				#----------------------------------------------------------------
-				if(PENFRA[1,I] == 0.0 or IPEN == 0):
+				if(PENFRA[1][I] == 0.0 or IPEN == 0):
 					GOTO10()
 				# POSSIBLE PENNING TRANSFER
 				R9=DRAND48(RDUM)
-				if(R9 < PENFRA[1,I]):
+				if(R9 < PENFRA[1][I]):
 					# PENNING TRANSFER
 					NP=NP+1
 					if(NP > NPMAX):
@@ -450,7 +506,7 @@ def MIPCALC():
 					F9=numpy.cos(PHIS)
 					DIRX[K][NP]=F9*F5
 					DIRY[K][NP]=F8*F5
-					DIRZ[K,NP]=F6
+					DIRZ[K][NP]=F6
 					# PENNING TRANSFER DISTANCE
 					ASIGN=1.00
 					R1=DRAND48(RDUM)
