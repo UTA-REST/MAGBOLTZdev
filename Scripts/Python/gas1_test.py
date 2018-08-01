@@ -5,24 +5,24 @@ gd = h5py.File("../hdf5_python/gases.hdf5")
 # NANISO, PEQEL*, ESTEP, EN
 EG=np.zeros(4000)#<==== Input to this function
 DEN=np.ones(4000)
-Q=[[0 for x in range(6)] for y in range(4000)]
-QIN=[[0 for x in range(250)] for y in range(4000)]
+Q=[[0 for x in range(4000)] for y in range(6)]
+QIN=[[0 for x in range(4000)] for y in range(250)]
 NIN=[]
-EIN=[3 for x in range(250)]#<=== input to this function 
+EIN=[3 for x in range(250)]#<=== input to this function
 EMASS=9.10938291e-31
-AMU=1.660538921e-27                                                
+AMU=1.660538921e-27
 E=[0.0,1.0,15.9,0.0,0.0,0.0]
-E[1]=E[1]*2.0*EMASS/(88.0043*AMU)  
+E[1]=E[1]*2.0*EMASS/(88.0043*AMU)
 EOBY=[]
-PEQEL= [[0 for x in range(6)] for y in range(4000)]
-PEQIN=[[0 for x in range(30)] for y in range(4000)]
+PEQEL= np.zeros((6,4000))
+PEQIN= np.zeros((250,4000))
 PENFRA=[]
 KEL=[]
 KIN=[]
-QION=[[0 for x in range(30)] for y in range(4000)]
-PEQION=[[0 for x in range(30)] for y in range(4000)]
+QION=[[0 for x in range(4000)] for y in range(30)]
+PEQION=[[0 for x in range(4000)] for y in range(30)]
 EION=[15.7,21.47,29.14,34.5,34.77,36.0,40.0,41.0,43.0,63.0,285.0,685.4]
-QATT=[[0 for x in range(8)] for y in range(4000)]
+QATT=[[0 for x in range(4000)] for y in range(8)]
 NATT=[]
 QNULL=[]
 NNULL=[]
@@ -35,7 +35,7 @@ NG1=[0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,1,2]
 EG1=[0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,253.0,625.2]
 NG2=[0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,1,1]
 EG2=[0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,5.0,5.0]
-ESTEP=20#<===input to this function 
+ESTEP=20#<===input to this function
 # should be a hardcoded value in the main program
 NANISO=2
 IOFFION=[0 for x in range(12)]
@@ -67,15 +67,15 @@ NCF3F=26
 NION=12
 NATT=1
 NIN=46
-NNULL=0  
+NNULL=0
 NASIZE=4000
 NBREM=25
 NSTEP=4000
-AKT=1#<===input to this function 
+AKT=1#<===input to this function
 for i in range(0,6):
 	KEL.append(NANISO)
-#ASSUME CAPITELLI LONGO TYPE OF ANGULAR DISTRIBUTION FOR 
-#ALL VIBRATIONAL LEVELS AND THE SUM OF HIGHER HARMONICS 
+#ASSUME CAPITELLI LONGO TYPE OF ANGULAR DISTRIBUTION FOR
+#ALL VIBRATIONAL LEVELS AND THE SUM OF HIGHER HARMONICS
 for i in range(0,10):
 	KIN.append(1)
 # ANGULAR DISTRIBUTION FOR DISS.EXCITATION IS GIVEN BY OKHRIMOVSKKY
@@ -85,12 +85,12 @@ for i in range(10,NIN):
 #PART OF VIBRATIONAL X-SECTIONS
 RAT=0.75
 NDATA=163
-NVBV4=11                                
-NVBV1=11                                                          
-NVBV3=11                                                          
-NVIB5=12                                                          
+NVBV4=11
+NVBV1=11
+NVBV3=11
+NVIB5=12
 NVIB6=12
-NATT1=11                                                        
+NATT1=11
 NTR1=12
 NTR2=11
 NTR3=11
@@ -119,7 +119,7 @@ for NL in range(10,46):
 			IOFFN[NL]=i-1
 
 #ENTER PENNING TRANSFER FRACTION FOR EACH LEVEL
-#ONLY DISSOCIATION X-SECTION (LEVEL 11) HAS ENOUGH ENERGY TO GIVE 
+#ONLY DISSOCIATION X-SECTION (LEVEL 11) HAS ENOUGH ENERGY TO GIVE
 #POSSIBLE PENNING TRANSFER
 
 for L in range(0,3):
@@ -138,7 +138,7 @@ PENFRA[0][45]=1.0
 DEGV4=3.0
 DEGV3=3.0
 DEGV2=2.0
-DEGV1=1.0 
+DEGV1=1.0
 
 #CALC VIB LEVEL POPULATIONS
 APOPV2=DEGV2*math.exp(EIN[0]/AKT)
@@ -203,38 +203,39 @@ XTR3=gd['gas1/XTR3']
 YTR3=gd['gas1/YTR3']
 #RENORMALISE GROUND STATE TO ALLOW FOR EXCITATION X-SEC FROM
 #EXCITED VIBRATIONAL STATES (EXACT APPROX IF THE HOT TRANSITIONS HAVE
-#EQUAL X-SEC TO THE GROUND STATE TRANSITIONS) 
+#EQUAL X-SEC TO THE GROUND STATE TRANSITIONS)
 APOPGS=1.0
 
-EN=-ESTEP/2.0  #ESTEP is function input                                     
-for i in range(0,NSTEP):  
-	EN=EG[i]                              
-	EN=EN+ESTEP                                
+EN=-ESTEP/2.0  #ESTEP is function input
+for i in range(0,NSTEP):
+	EN=EG[i]
+	EN=EN+ESTEP
 	GAMMA1=(EMASS2+2.0*EN)/EMASS2
 	GAMMA2=GAMMA1*GAMMA1
 	BETA2=1.00-1.00/GAMMA2
-	
+
 	j=0
 	for j in range(1,NDATA):
 		if EN <= XEN[j]:
 			break
-	
+
 	A = (YELM[j]-YELM[j-1])/(XEN[j]-XEN[j-1])
 	B = (XEN[j-1]*YELM[j]-XEN[j]*YELM[j-1])/(XEN[j-1]-XEN[j])
 	QMOM=(A*EN+B)*1e-16
-	
+
 	A=(YELT[j]-YELT[j-1])/(XEN[j]-XEN[j-1])
 	B=(XEN[j-1]*YELT[j]-XEN[j]*YELT[j-1])/(XEN[j-1]-XEN[j])
 	QELA=(A*EN+B)*1e16
-	
+
 	A=(YEPS[j]-YEPS[j-1])/(XEN[j]-XEN[j-1])
 	B=(XEN[j-1]*YEPS[j]-XEN[j]*YEPS[j-1])/(XEN[j-1]-XEN[j])
 	PQ=[0,1 - (A*EN+B),0.5+(QELA-QMOM)/QELA]
-	#^^^^^^EPS CORRECTED FOR 1-EPS^^^^^^^^	
-	PEQEL[i] = PQ[NANISO]
+	#^^^^^^EPS CORRECTED FOR 1-EPS^^^^^^^^
+	PEQEL[1][i] = PQ[NANISO]
+	print(QELA)
 	Q[1][i] = QELA
 	#DISSOCIATIVE IONISATION
-	#ION  =  CF3 +	
+	#ION  =  CF3 +
 	if NANISO == 0:
 		Q[1][i]=QMOM
 	QION[0][i]=0
@@ -242,11 +243,11 @@ for i in range(0,NSTEP):
 
 	if NANISO ==2:
 		PEQION[0][i]=0
-	
+
 	if EN > EION[0]:
 		if EN <=XCF3[NCF3-1]:#<<<check if -1 or not
-			j=0	
-			for j in range(1,NCF3):	
+			j=0
+			for j in range(1,NCF3):
 				if EN <= XCF3[j]:
 					break
 			A=(YCF3[j]-YCF3[j-1])/(XCF3[j]-XCF3[j-1])
@@ -263,14 +264,14 @@ for i in range(0,NSTEP):
 	#ION = CF2 +
 	QION[1][i]=0.0
 	PEQION[1][i]=0.5
-	
+
 	if NANISO ==2:
 		PEQION[1][i]=0.0
-	
+
 	if EN > EION[1]:
 		if EN <=XCF2[NCF2-1]:
-			j=0	
-			for j in range(1,NCF2):	
+			j=0
+			for j in range(1,NCF2):
 				if EN <= XCF2[j]:
 					break
 			A=(YCF2[j]-YCF2[j-1])/(XCF2[j]-XCF2[j-1])
@@ -283,18 +284,18 @@ for i in range(0,NSTEP):
 			QION[1][i]=CONST*(AM2*(X1-DEN[i]/2)+C*X2)*0.0534
 		if EN > 2*EION[1]:
 			PEQION[1][i]=PEQEL[1][(i-IOFFION[1])]
-	
+
 	#  ION = CF +
 	QION[2][i]=0.0
 	PEQION[2][i]=0.5
-	
+
 	if NANISO ==2:
 		PEQION[2][i]=0.0
-	
+
 	if EN > EION[2]:
 		if EN <=XCF1[NCF1-1]:
-			j=0	
-			for j in range(1,NCF1):	
+			j=0
+			for j in range(1,NCF1):
 				if EN <= XCF1[j]:
 					break
 			A=(YCF1[j]-YCF1[j-1])/(XCF1[j]-XCF1[j-1])
@@ -311,14 +312,14 @@ for i in range(0,NSTEP):
 	# ION = F +
 	QION[3][i]=0.0
 	PEQION[3][i]=0.5
-	
+
 	if NANISO ==2:
 		PEQION[3][i]=0.0
-	
+
 	if EN > EION[3]:
 		if EN <=XC0F[NC0F-1]:
-			j=0	
-			for j in range(1,NC0F):	
+			j=0
+			for j in range(1,NC0F):
 				if EN <= XC0F[j]:
 					break
 			A=(YC0F[j]-YC0F[j-1])/(XC0F[j]-XC0F[j-1])
@@ -335,14 +336,14 @@ for i in range(0,NSTEP):
 	#ION = C +
 	QION[4][i]=0.0
 	PEQION[4][i]=0.5
-	
+
 	if NANISO ==2:
 		PEQION[4][i]=0.0
-	
+
 	if EN > EION[4]:
 		if EN <=XCF0[NCF0-1]:
-			j=0	
-			for j in range(1,NCF0):	
+			j=0
+			for j in range(1,NCF0):
 				if EN <= XCF0[j]:
 					break
 			A=(YCF0[j]-YCF0[j-1])/(XCF0[j]-XCF0[j-1])
@@ -359,14 +360,14 @@ for i in range(0,NSTEP):
 	#DOUBLE IONS  CF3 +  AND F +
 	QION[5][i]=0.0
 	PEQION[5][i]=0.5
-	
+
 	if NANISO ==2:
 		PEQION[5][i]=0.0
-	
+
 	if EN > EION[5]:
 		if EN <=XCF3F[NCF3F-1]:
-			j=0	
-			for j in range(1,NCF3F):	
+			j=0
+			for j in range(1,NCF3F):
 				if EN <= XCF3F[j]:
 					break
 			A=(YCF3F[j]-YCF3F[j-1])/(XCF3F[j]-XCF3F[j-1])
@@ -382,14 +383,14 @@ for i in range(0,NSTEP):
 	# DOUBLE IONS  CF2 +  AND F +
 	QION[6][i]=0.0
 	PEQION[6][i]=0.5
-	
+
 	if NANISO ==2:
 		PEQION[6][i]=0.0
-	
+
 	if EN > EION[6]:
 		if EN <=XCF2F[NCF2F-1]:
-			j=0	
-			for j in range(1,NCF2F):	
+			j=0
+			for j in range(1,NCF2F):
 				if EN <= XCF2F[j]:
 					break
 			A=(YCF2F[j]-YCF2F[j-1])/(XCF2F[j]-XCF2F[j-1])
@@ -406,14 +407,14 @@ for i in range(0,NSTEP):
 	# DOUBLE CHARGED ION  CF3 ++
 	QION[7][i]=0.0
 	PEQION[7][i]=0.5
-	
+
 	if NANISO ==2:
 		PEQION[7][i]=0.0
-	
+
 	if EN > EION[7]:
 		if EN <=XCF32[NCF32-1]:
-			j=0	
-			for j in range(1,NCF32):	
+			j=0
+			for j in range(1,NCF32):
 				if EN <= XCF32[j]:
 					break
 			A=(YCF32[j]-YCF32[j-1])/(XCF32[j]-XCF32[j-1])
@@ -430,11 +431,11 @@ for i in range(0,NSTEP):
 
 
 	#DOUBLE CHARGED ION  CF2 ++
-	#ADD INTO CF3 ++ 
+	#ADD INTO CF3 ++
 	if EN>=XCF22[0]:
 		if EN <=XCF32[NCF32-1]:
-			j=0	
-			for j in range(1,NCF22):	
+			j=0
+			for j in range(1,NCF22):
 				if EN <= XCF22[j]:
 					break
 			A=(YCF22[j]-YCF22[j-1])/(XCF22[j]-XCF22[j-1])
@@ -445,19 +446,19 @@ for i in range(0,NSTEP):
 			X2=1/BETA2
 			X1=X2*np.log2(BETA2/(1-BETA2))-1
 			QION[7][i]=QION[7][i]+CONST*(AM2*(X1-DEN[i]/2)+C*X2)*0.0077
-	
+
 
 	#DOUBLE IONS    CF +  AND F +
 	QION[8][i]=0.0
 	PEQION[8][i]=0.5
-	
+
 	if NANISO ==2:
 		PEQION[8][i]=0.0
-	
+
 	if EN > EION[8]:
 		if EN <=XCFF[NCFF-1]:
-			j=0	
-			for j in range(1,NCFF):	
+			j=0
+			for j in range(1,NCFF):
 				if EN <= XCFF[j]:
 					break
 			A=(YCFF[j]-YCFF[j-1])/(XCFF[j]-XCFF[j-1])
@@ -475,14 +476,14 @@ for i in range(0,NSTEP):
 	#DOUBLE IONS    C +  AND F +
 	QION[9][i]=0.0
 	PEQION[9][i]=0.5
-	
+
 	if NANISO ==2:
 		PEQION[9][i]=0.0
-	
+
 	if EN > EION[9]:
 		if EN <=XCF[NCF-1]:
-			j=0	
-			for j in range(1,NCF):	
+			j=0
+			for j in range(1,NCF):
 				if EN <= XCF[j]:
 					break
 			A=(YCF[j]-YCF[j-1])/(XCF[j]-XCF[j-1])
@@ -500,14 +501,14 @@ for i in range(0,NSTEP):
 	#CARBON K-SHELL IONISATION
 	QION[10][i]=0.0
 	PEQION[10][i]=0.5
-	
+
 	if NANISO ==2:
 		PEQION[10][i]=0.0
-	
+
 	if EN > EION[10]:
 		if EN <=XKSHC[NKSHC-1]:
-			j=0	
-			for j in range(1,NKSHC):	
+			j=0
+			for j in range(1,NKSHC):
 				if EN <= XKSHC[j]:
 					break
 			A=(YKSHC[j]-YKSHC[j-1])/(XKSHC[j]-XKSHC[j-1])
@@ -519,14 +520,14 @@ for i in range(0,NSTEP):
 	#CARBON K-SHELL IONISATION
 	QION[11][i]=0.0
 	PEQION[11][i]=0.5
-	
+
 	if NANISO ==2:
 		PEQION[11][i]=0.0
-	
+
 	if EN > EION[11]:
 		if EN <=XKSHF[NKSHF-1]:
-			j=0	
-			for j in range(1,NKSHF):	
+			j=0
+			for j in range(1,NKSHF):
 				if EN <= XKSHF[j]:
 					break
 			A=(YKSHF[j]-YKSHF[j-1])/(XKSHF[j]-XKSHF[j-1])
@@ -539,7 +540,7 @@ for i in range(0,NSTEP):
 	Q[3][i]=0.0
 	if EN>XATT[0]:
 		if EN<=XATT[NATT1-1]:
-			for j in range(1,NATT1):	
+			for j in range(1,NATT1):
 				if EN <= XATT[j]:
 					break
 			A=(YATT[j]-YATT[j-1])/(XATT[j]-XATT[j-1])
@@ -549,14 +550,14 @@ for i in range(0,NSTEP):
 	Q[4][i]=0.0
 	Q[5][i]=0.0
 	#SCALE FACTOR FOR VIBRATIONAL DIPOLE V3 ABOVE 0.4EV
-	
+
 	VDSC=1.0
 	if EN>0.4:
 		EPR=EN
 		if EN>5.0:
 			EPR=5.0
 		VDSC=(14.4-EPR)/14.0
-	#SUPERELASTIC OF VIBRATION V2 ISOTROPIC  BELOW 100EV 
+	#SUPERELASTIC OF VIBRATION V2 ISOTROPIC  BELOW 100EV
 	QIN[0][i]=0.0
 	PEQIN[0][i]=0.5
 	if EN>0.0:
@@ -565,7 +566,7 @@ for i in range(0,NSTEP):
 		QIN[0][i]=QIN[0][i]*APOPV2*1.0e-16/DEGV2
 		if EN>100.0:
 			PEQIN[0][i]=PQ[2]
-	
+
 	#VIBRATION V2 ISOTROPIC BELOW 100EV
 	QIN[1][i]=0.0
 	PEQIN[1][i]=0.5
@@ -577,19 +578,19 @@ for i in range(0,NSTEP):
 			PEQIN[1][i]=PQ[2]
 
 
-	#SUPERELASTIC OF VIBRATION V4 ISOTROPIC BELOW 100EV   
+	#SUPERELASTIC OF VIBRATION V4 ISOTROPIC BELOW 100EV
 	QIN[2][i]=0.0
 	PEQIN[2][i]=0.5
 	if EN>0.0:
 		if EN-EIN[2]<=XVBV4[NVBV4-1]:
 			j=0
-			for j in range(1,NVBV4):	
+			for j in range(1,NVBV4):
 				if EN-EIN[2] <= XVBV4[j]:
 					break
-			
+
 			A=(YVBV4[j]-YVBV4[j-1])/(XVBV4[j]-XVBV4[j-1])
   			B=(XVBV4[j-1]*YVBV4[j]-XVBV4[j]*YVBV4[j-1])/(XVBV4[j-1]-XVBV4[j])
-      			QIN[2][i]=(EN-EIN[2])*(A*(EN-EIN[2])+B)/EN		
+      			QIN[2][i]=(EN-EIN[2])*(A*(EN-EIN[2])+B)/EN
 		else:
 			QIN[2][i]=YVBV4[NVBV4-1]*(XVBV4[NVBV4-1]/(EN*(EN-EIN[2]))**2)
 		EFAC=math.sqrt(1.0-(EIN[2]/EN))
@@ -597,14 +598,14 @@ for i in range(0,NSTEP):
 		QIN[2][i]=QIN[2][i]*APOPV4*1.0e-16/DEGV4
 		if EN>100.0:
 			PEQIN[2][i]=PQ[2]
-	
+
 	#VIBRATION V4 ANISOTROPIC
 	QIN[3][i]=0.0
 	PEQIN[3][i]=0.5
 	if EN>=EIN[3]:
 		if EN<=XVBV4[NVBV4-1]:
 			j=0
-			for j in range(1,NVBV4):	
+			for j in range(1,NVBV4):
 				if EN<= XVBV4[j]:
 					break
 			A=(YVBV4[j]-YVBV4[j-1])/(XVBV4[j]-XVBV4[j-1])
@@ -625,19 +626,19 @@ for i in range(0,NSTEP):
 		else:
 			PEQIN[3][i]=PQ[2]
 
-	
+
 	#SUPERELASTIC OF VIBRATION V1 ISOTROPIC BELOW 100EV
 	QIN[4][i]=0.0
 	PEQIN[4][i]=0.5
 	if EN>0.0:
 		if EN-EIN[4]<=XVBV1[NVBV1-1]:
 			j=0
-			for j in range(1,NVBV1):	
+			for j in range(1,NVBV1):
 				if EN-EIN[4]<= XVBV1[j]:
 					break
 			A=(YVBV1[j]-YVBV1[j-1])/(XVBV1[j]-XVBV1[j-1])
   			B=(XVBV1[j-1]*YVBV1[j]-XVBV1[j]*YVBV1[j-1])/(XVBV1[j-1]-XVBV1[j])
-      			QIN[4][i]=(EN-EIN[4])*(A*(EN-EIN[4])+B)/EN	
+      			QIN[4][i]=(EN-EIN[4])*(A*(EN-EIN[4])+B)/EN
 		else:
 			QIN[4][i]=YVBV1[NVBV1-1]*(XVBV1[NVBV1-1]/(EN*(EN-EIN[4]))**2)
 		EFAC=math.sqrt(1.0-(EIN[4]/EN))
@@ -645,7 +646,7 @@ for i in range(0,NSTEP):
 		QIN[4][i]=QIN[4][i]*APOPV1*1.0e-16/DEGV1
 		if EN>100.0:
 			PEQIN[4][i]=PQ[2]
-	
+
 
 	#VIBRATION V1  ISOTROPIC BELOW 100EV
 	QIN[5][i]=0.0
@@ -653,7 +654,7 @@ for i in range(0,NSTEP):
 	if EN>EIN[5]:
 		if EN<=XVBV1[NVBV1-1]:
 			j=0
-			for j in range(1,NVBV1):	
+			for j in range(1,NVBV1):
 				if EN<= XVBV1[j]:
 					break
 			A=(YVBV1[j]-YVBV1[j-1])/(XVBV1[j]-XVBV1[j-1])
@@ -666,19 +667,19 @@ for i in range(0,NSTEP):
 		QIN[5][i]=QIN[5][i]*APOPGS*1.0e-16
 		if EN>100.0:
 			PEQIN[5][i]=PQ[2]
-	
+
 	#SUPERELASTIC OF VIBRATION V3 ISOTROPIC BELOW 100EV
 	QIN[6][i]=0.0
 	PEQIN[6][i]=0.5
 	if EN>0.0:
 		if EN-EIN[6]<=XVBV3[NVBV3-1]:
 			j=0
-			for j in range(1,NVBV3):	
+			for j in range(1,NVBV3):
 				if EN-EIN[6]<= XVBV3[j]:
 					break
 			A=(YVBV3[j]-YVBV3[j-1])/(XVBV3[j]-XVBV3[j-1])
   			B=(XVBV3[j-1]*YVBV3[j]-XVBV3[j]*YVBV3[j-1])/(XVBV3[j-1]-XVBV3[j])
-      			QIN[6][i]=(EN-EIN[6])*(A*(EN-EIN[6])+B)/EN	
+      			QIN[6][i]=(EN-EIN[6])*(A*(EN-EIN[6])+B)/EN
 		else:
 			QIN[6][i]=YVBV3[NVBV3-1]*(XVBV3[NVBV3-1]/(EN*(EN-EIN[6]))**2)
 		EFAC=math.sqrt(1.0-(EIN[6]/EN))
@@ -692,7 +693,7 @@ for i in range(0,NSTEP):
 	if EN>=EIN[7]:
 		if EN<=XVBV3[NVBV3-1]:
 			j=0
-			for j in range(1,NVBV3):	
+			for j in range(1,NVBV3):
 				if EN<= XVBV3[j]:
 					break
 			A=(YVBV3[j]-YVBV3[j-1])/(XVBV3[j]-XVBV3[j-1])
@@ -705,21 +706,21 @@ for i in range(0,NSTEP):
 		ELF=EN-EIN[7]
 		FWD=np.log2((EN+ELF)/(EN+ELF-2.0*math.sqrt(EN*ELF)))
 		BCK=np.log2((EN+ELF-2.0*math.sqrt(EN*ELF))/(EN+ELF))
-		# ASSUME RATIO MOM T./ TOT X-SECT FOR RESONANCE PART = RAT 
+		# ASSUME RATIO MOM T./ TOT X-SECT FOR RESONANCE PART = RAT
 		XMT=((1.5-FWD/(FWD+BCK))*ADIP+RAT*QIN[7][i])*APOPGS*1.0e-16
 		QIN[7][i]=(QIN[7][i]+ADIP)*APOPGS*1.0e-16
 		if EN<=100:
 			PEQIN[7][i]=0.5+(QIN[7][i]-XMT)/QIN[7][i]
 		else:
 			PEQIN[7][i]=PQ[2]
-	
+
 	#VIBRATION HARMONIC 2V3
 	QIN[8][i]=0.0
 	PEQION[8][i]=0.5
 	if EN>=EIN[8]:
 		if EN<=XVIB5[NVIB5-1]:
 			j=0
-			for j in range(1,NVIB5):	
+			for j in range(1,NVIB5):
 				if EN<= XVIB5[j]:
 					break
 			A=(YVIB5[j]-YVIB5[j-1])/(XVIB5[j]-XVIB5[j-1])
@@ -738,7 +739,7 @@ for i in range(0,NSTEP):
 	if EN>=EIN[9]:
 		if EN<=XVIB6[NVIB6-1]:
 			j=0
-			for j in range(1,NVIB6):	
+			for j in range(1,NVIB6):
 				if EN<= XVIB6[j]:
 					break
 			A=(YVIB6[j]-YVIB6[j-1])/(XVIB6[j]-XVIB6[j-1])
@@ -758,7 +759,7 @@ for i in range(0,NSTEP):
 	if EN>=EIN[10]:
 		if EN<=XTR1[NTR1-1]:
 			j=0
-			for j in range(1,NTR1):	
+			for j in range(1,NTR1):
 				if EN<= XTR1[j]:
 					break
 			A=(YTR1[j]-YTR1[j-1])/(XTR1[j]-XTR1[j-1])
@@ -768,7 +769,7 @@ for i in range(0,NSTEP):
 			QIN[10][i]=YTR1[NTR1-1]*(XTR1[NTR1-1]/EN)**2*1.0e-16
 		if EN>3*EIN[10]:
 			print(i-IOFFN[10])
-			PEQIN[10][i]=PEQEL[1][i-IOFFN[10]]
+			PEQIN[10][i]=PEQEL[1][(i-IOFFN[10])]
 	#SINGLET NEUTRAL DISSOCIATION  ELOSS=11.63 EV     F=0.0001893
 	QIN[11][i]=0.0
 	PEQIN[11][i]=0.0
@@ -778,8 +779,8 @@ for i in range(0,NSTEP):
 		QIN[11][i]=0
 	if EN>3*EIN[11]:
 		PEQIN[11][i]=PEQEL[1][i-IOFFN[11]]
-	
-	
+
+
 	#SINGLET NEUTRAL DISSOCIATION   ELOSS=11.88 EV     F=0.001085
 	QIN[12][i]=0.0
 	PEQIN[12][i]=0.0
@@ -789,7 +790,7 @@ for i in range(0,NSTEP):
 		QIN[12][i]=0
 	if EN>3*EIN[12]:
 		PEQIN[12][i]=PEQEL[1][i-IOFFN[12]]
-	
+
 	#SINGLET NEUTRAL DISSOCIATION   ELOSS=11.88 EV     F=0.004807
 	QIN[13][i]=0.0
 	PEQIN[13][i]=0.0
@@ -809,14 +810,14 @@ for i in range(0,NSTEP):
 		QIN[14][i]=0
 	if EN>3*EIN[14]:
 		PEQIN[14][i]=PEQEL[1][i-IOFFN[14]]
-	
+
 	#TRIPLET NEUTRAL DISSOCIATION ELOSS=12.5 EV
 	QIN[15][i]=0.0
 	PEQIN[15][i]=0.0
 	if EN>=EIN[15]:
 		if EN<=XTR2[NTR2-1]:
 			j=0
-			for j in range(1,NTR2):	
+			for j in range(1,NTR2):
 				if EN<= XTR2[j]:
 					break
 			A=(YTR2[j]-YTR2[j-1])/(XTR2[j]-XTR2[j-1])
@@ -858,7 +859,7 @@ for i in range(0,NSTEP):
 		PEQIN[18][i]=PEQEL[1][i-IOFFN[18]]
 
 
-	#SINGLET NEUTRAL DISSOCIATION   ELOSS=13.38 EV     F=0.09553 
+	#SINGLET NEUTRAL DISSOCIATION   ELOSS=13.38 EV     F=0.09553
 	QIN[19][i]=0.0
 	PEQIN[19][i]=0.0
 	if EN>=EIN[19]:
@@ -868,7 +869,7 @@ for i in range(0,NSTEP):
 	if EN>3*EIN[19]:
 		PEQIN[19][i]=PEQEL[1][i-IOFFN[19]]
 
-	#SINGLET NEUTRAL DISSOCIATION   ELOSS=13.63 EV     F=0.11193 
+	#SINGLET NEUTRAL DISSOCIATION   ELOSS=13.63 EV     F=0.11193
 	QIN[20][i]=0.0
 	PEQIN[20][i]=0.0
 	if EN>=EIN[20]:
@@ -878,7 +879,7 @@ for i in range(0,NSTEP):
 	if EN>3*EIN[20]:
 		PEQIN[20][i]=PEQEL[1][i-IOFFN[20]]
 
-	#SINGLET NEUTRAL DISSOCIATION    ELOSS=13.88 EV     F=0.10103 
+	#SINGLET NEUTRAL DISSOCIATION    ELOSS=13.88 EV     F=0.10103
 	QIN[21][i]=0.0
 	PEQIN[21][i]=0.0
 	if EN>=EIN[21]:
@@ -894,7 +895,7 @@ for i in range(0,NSTEP):
 	if EN>=EIN[22]:
 		if EN<=XTR3[NTR3-1]:
 			j=0
-			for j in range(1,NTR3):	
+			for j in range(1,NTR3):
 				if EN<= XTR3[j]:
 					break
 			A=(YTR3[j]-YTR3[j-1])/(XTR3[j]-XTR3[j-1])
@@ -1162,7 +1163,7 @@ for i in range(0,NSTEP):
 		QIN[45][i]=0
 	if EN>3*EIN[45]:
 		PEQIN[45][i]=PEQEL[1][i-IOFFN[45]]
-	
+
 	QIONSUM=0.0
 	for J in range(0,12):
 		QIONSUM=QIONSUM+QION[J][i]
@@ -1171,16 +1172,16 @@ for i in range(0,NSTEP):
 		if J==10 or J==15 or J==22:
 			break
 		QSNGLSUM=QSNGLSUM+QIN[J][i]
-	
+
 	QTRIPSUM=QIN[10][i]+QIN[15][i]+QIN[22][i]
-	
+
 	VSUM=0.0
 	for J in range(0,10):
 		VSUM=VSUM+QIN[J][i]
 	QIONG=QIONSUM
 	for J in range(5,12):
 		QIONG=QIONG+QION[J][i]
-	
+
 	DISTOT = QSNGLSUM+QTRIPSUM+QIONSUM
 	Q[0][i]=Q[1][i]+Q[3][i]+VSUM+DISTOT
 for J in range(10,46):
