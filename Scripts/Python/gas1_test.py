@@ -610,7 +610,7 @@ for i in range(0,NSTEP):
   #VIBRATION V4 ANISOTROPIC
   QIN[3][i]=0.0
   PEQIN[3][i]=0.5
-  if EN>=EIN[3]:
+  if EN>EIN[3]:
     if EN<=XVBV4[NVBV4-1]:
       j=0
       for j in range(1,NVBV4):
@@ -698,7 +698,7 @@ for i in range(0,NSTEP):
   #VIBRATION V4 ANISOTROPIC
   QIN[7][i]=0.0
   PEQIN[7][i]=0.5
-  if EN>=EIN[7]:
+  if EN>EIN[7]:
     if EN<=XVBV3[NVBV3-1]:
       j=0
       for j in range(1,NVBV3):
@@ -725,7 +725,7 @@ for i in range(0,NSTEP):
   #VIBRATION HARMONIC 2V3
   QIN[8][i]=0.0
   PEQION[8][i]=0.5
-  if EN>=EIN[8]:
+  if EN>EIN[8]:
     if EN<=XVIB5[NVIB5-1]:
       j=0
       for j in range(1,NVIB5):
@@ -744,7 +744,7 @@ for i in range(0,NSTEP):
   #VIBRATION HARMONIC 3V3
   QIN[9][i]=0.0
   PEQION[9][i]=0.5
-  if EN>=EIN[9]:
+  if EN>EIN[9]:
     if EN<=XVIB6[NVIB6-1]:
       j=0
       for j in range(1,NVIB6):
@@ -764,7 +764,7 @@ for i in range(0,NSTEP):
   #TRIPLET NEUTRAL DISSOCIATION ELOSS=11.5 EV
   QIN[10][i]=0.0
   PEQIN[10][i]=0.0
-  if EN>=EIN[10]:
+  if EN>EIN[10]:
     if EN<=XTR1[NTR1-1]:
       j=0
       for j in range(1,NTR1):
@@ -780,7 +780,7 @@ for i in range(0,NSTEP):
   #SINGLET NEUTRAL DISSOCIATION  ELOSS=11.63 EV     F=0.0001893
   QIN[11][i]=0.0
   PEQIN[11][i]=0.0
-  if EN>=EIN[11]:
+  if EN>EIN[11]:
     QIN[11][i]=0.0001893/(EIN[11]*BETA2)*(np.log2(BETA2*GAMMA2*EMASS2/(4.0*EIN[11]))-BETA2-DEN[i]/2.0)*BBCONST*EN/(EN+EIN[11]+E[2])*1.0107
   if QIN[11][i]<0.0:
     QIN[11][i]=0
@@ -791,7 +791,7 @@ for i in range(0,NSTEP):
   #SINGLET NEUTRAL DISSOCIATION   ELOSS=11.88 EV     F=0.001085
   QIN[12][i]=0.0
   PEQIN[12][i]=0.0
-  if EN>=EIN[12]:
+  if EN>EIN[12]:
     QIN[12][i]=0.001085/(EIN[12]*BETA2)*(np.log2(BETA2*GAMMA2*EMASS2/(4.0*EIN[12]))-BETA2-DEN[i]/2.0)*BBCONST*EN/(EN+EIN[12]+E[2])*1.0105
   if QIN[12][i]<0.0:
     QIN[12][i]=0
@@ -801,7 +801,7 @@ for i in range(0,NSTEP):
   #SINGLET NEUTRAL DISSOCIATION   ELOSS=11.88 EV     F=0.004807
   QIN[13][i]=0.0
   PEQIN[13][i]=0.0
-  if EN>=EIN[13]:
+  if EN>EIN[13]:
     QIN[13][i]=0.004807/(EIN[13]*BETA2)*(np.log2(BETA2*GAMMA2*EMASS2/(4.0*EIN[13]))-BETA2-DEN[i]/2.0)*BBCONST*EN/(EN+EIN[13]+E[2])*1.0103
   if QIN[13][i]<0.0:
     QIN[13][i]=0
@@ -811,7 +811,7 @@ for i in range(0,NSTEP):
   #SINGLET NEUTRAL DISSOCIATION   ELOSS=12.38 EV     F=0.008819
   QIN[14][i]=0.0
   PEQIN[14][i]=0.0
-  if EN>=EIN[14]:
+  if EN>EIN[14]:
     QIN[14][i]=0.008819/(EIN[14]*BETA2)*(np.log2(BETA2*GAMMA2*EMASS2/(4.0*EIN[14]))-BETA2-DEN[i]/2.0)*BBCONST*EN/(EN+EIN[14]+E[2])*1.0101
   if QIN[14][i]<0.0:
     QIN[14][i]=0
@@ -821,7 +821,7 @@ for i in range(0,NSTEP):
   #TRIPLET NEUTRAL DISSOCIATION ELOSS=12.5 EV
   QIN[15][i]=0.0
   PEQIN[15][i]=0.0
-  if EN>=EIN[15]:
+  if EN>EIN[15]:
     if EN<=XTR2[NTR2-1]:
       j=0
       for j in range(1,NTR2):
@@ -838,7 +838,7 @@ for i in range(0,NSTEP):
   #SINGLET NEUTRAL DISSOCIATION   ELOSS=12.63 EV     F=0.008918
   QIN[16][i]=0.0
   PEQIN[16][i]=0.0
-  if EN>=EIN[16]:
+  if EN>EIN[16]:
     QIN[16][i]=0.008918/(EIN[16]*BETA2)*(np.log2(BETA2*GAMMA2*EMASS2/(4.0*EIN[16]))-BETA2-DEN[i]/2.0)*BBCONST*EN/(EN+EIN[16]+E[2])*1.0099
   if QIN[16][i]<0.0:
     QIN[16][i]=0
@@ -848,7 +848,7 @@ for i in range(0,NSTEP):
   # SINGLET NEUTRAL DISSOCIATION   ELOSS=12.88 EV     F=0.008420
   QIN[17][i]=0.0
   PEQIN[17][i]=0.0
-  if EN>=EIN[17]:
+  if EN>EIN[17]:
     QIN[17][i]=0.008420/(EIN[17]*BETA2)*(np.log2(BETA2*GAMMA2*EMASS2/(4.0*EIN[17]))-BETA2-DEN[i]/2.0)*BBCONST*EN/(EN+EIN[17]+E[2])*1.0097
   if QIN[17][i]<0.0:
     QIN[17][i]=0
@@ -858,7 +858,7 @@ for i in range(0,NSTEP):
   # SINGLET NEUTRAL DISSOCIATION   ELOSS=13.13 EV     F=0.02531
   QIN[18][i]=0.0
   PEQIN[18][i]=0.0
-  if EN>=EIN[18]:
+  if EN>EIN[18]:
     QIN[18][i]=0.02531/(EIN[18]*BETA2)*(np.log2(BETA2*GAMMA2*EMASS2/(4.0*EIN[18]))-BETA2-DEN[i]/2.0)*BBCONST*EN/(EN+EIN[18]+E[2])*1.0095
   if QIN[18][i]<0.0:
     QIN[18][i]=0
@@ -869,7 +869,7 @@ for i in range(0,NSTEP):
   #SINGLET NEUTRAL DISSOCIATION   ELOSS=13.38 EV     F=0.09553
   QIN[19][i]=0.0
   PEQIN[19][i]=0.0
-  if EN>=EIN[19]:
+  if EN>EIN[19]:
     QIN[19][i]=0.09553/(EIN[19]*BETA2)*(np.log2(BETA2*GAMMA2*EMASS2/(4.0*EIN[19]))-BETA2-DEN[i]/2.0)*BBCONST*EN/(EN+EIN[19]+E[2])*1.0093
   if QIN[19][i]<0.0:
     QIN[19][i]=0
@@ -879,7 +879,7 @@ for i in range(0,NSTEP):
   #SINGLET NEUTRAL DISSOCIATION   ELOSS=13.63 EV     F=0.11193
   QIN[20][i]=0.0
   PEQIN[20][i]=0.0
-  if EN>=EIN[20]:
+  if EN>EIN[20]:
     QIN[20][i]=0.11193/(EIN[20]*BETA2)*(np.log2(BETA2*GAMMA2*EMASS2/(4.0*EIN[20]))-BETA2-DEN[i]/2.0)*BBCONST*EN/(EN+EIN[20]+E[2])*1.0092
   if QIN[20][i]<0.0:
     QIN[20][i]=0
@@ -889,7 +889,7 @@ for i in range(0,NSTEP):
   #SINGLET NEUTRAL DISSOCIATION    ELOSS=13.88 EV     F=0.10103
   QIN[21][i]=0.0
   PEQIN[21][i]=0.0
-  if EN>=EIN[21]:
+  if EN>EIN[21]:
     QIN[21][i]=0.10103/(EIN[21]*BETA2)*(np.log2(BETA2*GAMMA2*EMASS2/(4.0*EIN[21]))-BETA2-DEN[i]/2.0)*BBCONST*EN/(EN+EIN[21]+E[2])*1.0090
   if QIN[21][i]<0.0:
     QIN[21][i]=0
@@ -899,7 +899,7 @@ for i in range(0,NSTEP):
   #TRIPLET NEUTRAL DISSOCIATION ELOSS=14.0 EV
   QIN[22][i]=0.0
   PEQIN[22][i]=0.0
-  if EN>=EIN[22]:
+  if EN>EIN[22]:
     if EN<=XTR3[NTR3-1]:
       j=0
       for j in range(1,NTR3):
@@ -917,7 +917,7 @@ for i in range(0,NSTEP):
   #SINGLET NEUTRAL DISSOCIATION   ELOSS=14.13 EV     F=0.06902
   QIN[23][i]=0.0
   PEQIN[23][i]=0.0
-  if EN>=EIN[23]:
+  if EN>EIN[23]:
     QIN[23][i]=0.06902/(EIN[23]*BETA2)*(np.log2(BETA2*GAMMA2*EMASS2/(4.0*EIN[23]))-BETA2-DEN[i]/2.0)*BBCONST*EN/(EN+EIN[23]+E[2])*1.0088
   if QIN[23][i]<0.0:
     QIN[23][i]=0
@@ -927,7 +927,7 @@ for i in range(0,NSTEP):
   #SINGLET NEUTRAL DISSOCIATION   ELOSS=14.38 EV     F=0.03968
   QIN[24][i]=0.0
   PEQIN[24][i]=0.0
-  if EN>=EIN[24]:
+  if EN>EIN[24]:
     QIN[24][i]=0.03968/(EIN[24]*BETA2)*(np.log2(BETA2*GAMMA2*EMASS2/(4.0*EIN[24]))-BETA2-DEN[i]/2.0)*BBCONST*EN/(EN+EIN[24]+E[2])*1.0087
   if QIN[24][i]<0.0:
     QIN[24][i]=0
@@ -937,7 +937,7 @@ for i in range(0,NSTEP):
   #SINGLET NEUTRAL DISSOCIATION   ELOSS=14.63 EV     F=0.02584
   QIN[25][i]=0.0
   PEQIN[25][i]=0.0
-  if EN>=EIN[25]:
+  if EN>EIN[25]:
     QIN[25][i]=0.02584/(EIN[25]*BETA2)*(np.log2(BETA2*GAMMA2*EMASS2/(4.0*EIN[25]))-BETA2-DEN[i]/2.0)*BBCONST*EN/(EN+EIN[25]+E[2])*1.0085
   if QIN[25][i]<0.0:
     QIN[25][i]=0
@@ -947,7 +947,7 @@ for i in range(0,NSTEP):
   #SINGLET NEUTRAL DISSOCIATION   ELOSS=14.88 EV     F=0.02071
   QIN[26][i]=0.0
   PEQIN[26][i]=0.0
-  if EN>=EIN[26]:
+  if EN>EIN[26]:
     QIN[26][i]=0.02071/(EIN[26]*BETA2)*(np.log2(BETA2*GAMMA2*EMASS2/(4.0*EIN[26]))-BETA2-DEN[i]/2.0)*BBCONST*EN/(EN+EIN[26]+E[2])*1.0084
   if QIN[26][i]<0.0:
     QIN[26][i]=0
@@ -957,7 +957,7 @@ for i in range(0,NSTEP):
   #SINGLET NEUTRAL DISSOCIATION   ELOSS=15.13 EV     F=0.03122
   QIN[27][i]=0.0
   PEQIN[27][i]=0.0
-  if EN>=EIN[27]:
+  if EN>EIN[27]:
     QIN[27][i]=0.03122/(EIN[27]*BETA2)*(np.log2(BETA2*GAMMA2*EMASS2/(4.0*EIN[27]))-BETA2-DEN[i]/2.0)*BBCONST*EN/(EN+EIN[27]+E[2])*1.0083
   if QIN[27][i]<0.0:
     QIN[27][i]=0
@@ -967,7 +967,7 @@ for i in range(0,NSTEP):
   #SINGLET NEUTRAL DISSOCIATION   ELOSS=15.38 EV     F=0.05580
   QIN[28][i]=0.0
   PEQIN[28][i]=0.0
-  if EN>=EIN[28]:
+  if EN>EIN[28]:
     QIN[28][i]=0.05580/(EIN[28]*BETA2)*(np.log2(BETA2*GAMMA2*EMASS2/(4.0*EIN[28]))-BETA2-DEN[i]/2.0)*BBCONST*EN/(EN+EIN[28]+E[2])*1.0081
   if QIN[28][i]<0.0:
     QIN[28][i]=0
@@ -978,7 +978,7 @@ for i in range(0,NSTEP):
   #SINGLET NEUTRAL DISSOCIATION   ELOSS=15.63 EV     F=0.10187
   QIN[29][i]=0.0
   PEQIN[29][i]=0.0
-  if EN>=EIN[29]:
+  if EN>EIN[29]:
     QIN[29][i]=0.10187/(EIN[29]*BETA2)*(np.log2(BETA2*GAMMA2*EMASS2/(4.0*EIN[29]))-BETA2-DEN[i]/2.0)*BBCONST*EN/(EN+EIN[29]+E[2])*1.0080
   if QIN[29][i]<0.0:
     QIN[29][i]=0
@@ -988,7 +988,7 @@ for i in range(0,NSTEP):
   #SINGLET NEUTRAL DISSOCIATION   ELOSS=15.88 EV     F=0.09427
   QIN[30][i]=0.0
   PEQIN[30][i]=0.0
-  if EN>=EIN[30]:
+  if EN>EIN[30]:
     QIN[30][i]=0.09427/(EIN[30]*BETA2)*(np.log2(BETA2*GAMMA2*EMASS2/(4.0*EIN[30]))-BETA2-DEN[i]/2.0)*BBCONST*EN/(EN+EIN[30]+E[2])*1.0079
   if QIN[30][i]<0.0:
     QIN[30][i]=0
@@ -999,7 +999,7 @@ for i in range(0,NSTEP):
   #SINGLET NEUTRAL DISSOCIATION   ELOSS=16.13 EV     F=0.05853
   QIN[31][i]=0.0
   PEQIN[31][i]=0.0
-  if EN>=EIN[31]:
+  if EN>EIN[31]:
     QIN[31][i]=0.05853/(EIN[31]*BETA2)*(np.log2(BETA2*GAMMA2*EMASS2/(4.0*EIN[31]))-BETA2-DEN[i]/2.0)*BBCONST*EN/(EN+EIN[31]+E[2])*1.0077
   if QIN[31][i]<0.0:
     QIN[31][i]=0
@@ -1010,7 +1010,7 @@ for i in range(0,NSTEP):
   #SINGLET NEUTRAL DISSOCIATION   ELOSS=16.38 EV     F=0.06002
   QIN[32][i]=0.0
   PEQIN[32][i]=0.0
-  if EN>=EIN[32]:
+  if EN>EIN[32]:
     QIN[32][i]=0.06002/(EIN[32]*BETA2)*(np.log2(BETA2*GAMMA2*EMASS2/(4.0*EIN[32]))-BETA2-DEN[i]/2.0)*BBCONST*EN/(EN+EIN[32]+E[2])*1.0076
   if QIN[32][i]<0.0:
     QIN[32][i]=0
@@ -1021,7 +1021,7 @@ for i in range(0,NSTEP):
   #SINGLET NEUTRAL DISSOCIATION   ELOSS=16.63 EV     F=0.05647
   QIN[33][i]=0.0
   PEQIN[33][i]=0.0
-  if EN>=EIN[33]:
+  if EN>EIN[33]:
     QIN[33][i]=0.05647/(EIN[33]*BETA2)*(np.log2(BETA2*GAMMA2*EMASS2/(4.0*EIN[33]))-BETA2-DEN[i]/2.0)*BBCONST*EN/(EN+EIN[33]+E[2])*1.0075
   if QIN[33][i]<0.0:
     QIN[33][i]=0
@@ -1032,7 +1032,7 @@ for i in range(0,NSTEP):
   #SINGLET NEUTRAL DISSOCIATION   ELOSS=16.88 EV     F=0.04885
   QIN[34][i]=0.0
   PEQIN[34][i]=0.0
-  if EN>=EIN[34]:
+  if EN>EIN[34]:
     QIN[34][i]=0.04885/(EIN[34]*BETA2)*(np.log2(BETA2*GAMMA2*EMASS2/(4.0*EIN[34]))-BETA2-DEN[i]/2.0)*BBCONST*EN/(EN+EIN[34]+E[2])*1.0074
   if QIN[34][i]<0.0:
     QIN[34][i]=0
@@ -1043,7 +1043,7 @@ for i in range(0,NSTEP):
   #SINGLET NEUTRAL DISSOCIATION   ELOSS=17.13 EV     F=0.04036
   QIN[35][i]=0.0
   PEQIN[35][i]=0.0
-  if EN>=EIN[35]:
+  if EN>EIN[35]:
     QIN[35][i]=0.04036/(EIN[35]*BETA2)*(np.log2(BETA2*GAMMA2*EMASS2/(4.0*EIN[35]))-BETA2-DEN[i]/2.0)*BBCONST*EN/(EN+EIN[35]+E[2])*1.0073
   if QIN[35][i]<0.0:
     QIN[35][i]=0
@@ -1054,7 +1054,7 @@ for i in range(0,NSTEP):
   #SINGLET NEUTRAL DISSOCIATION   ELOSS=17.38 EV     F=0.03298
   QIN[36][i]=0.0
   PEQIN[36][i]=0.0
-  if EN>=EIN[36]:
+  if EN>EIN[36]:
     QIN[36][i]=0.03298/(EIN[36]*BETA2)*(np.log2(BETA2*GAMMA2*EMASS2/(4.0*EIN[36]))-BETA2-DEN[i]/2.0)*BBCONST*EN/(EN+EIN[36]+E[2])*1.0072
   if QIN[36][i]<0.0:
     QIN[36][i]=0
@@ -1066,7 +1066,7 @@ for i in range(0,NSTEP):
   #SINGLET NEUTRAL DISSOCIATION   ELOSS=17.63 EV     F=0.02593
   QIN[37][i]=0.0
   PEQIN[37][i]=0.0
-  if EN>=EIN[37]:
+  if EN>EIN[37]:
     QIN[37][i]=0.02593/(EIN[37]*BETA2)*(np.log2(BETA2*GAMMA2*EMASS2/(4.0*EIN[37]))-BETA2-DEN[i]/2.0)*BBCONST*EN/(EN+EIN[37]+E[2])*1.0071
   if QIN[37][i]<0.0:
     QIN[37][i]=0
@@ -1078,7 +1078,7 @@ for i in range(0,NSTEP):
   #SINGLET NEUTRAL DISSOCIATION   ELOSS=17.88 EV     F=0.01802
   QIN[38][i]=0.0
   PEQIN[38][i]=0.0
-  if EN>=EIN[38]:
+  if EN>EIN[38]:
     QIN[38][i]=0.01802/(EIN[38]*BETA2)*(np.log2(BETA2*GAMMA2*EMASS2/(4.0*EIN[38]))-BETA2-DEN[i]/2.0)*BBCONST*EN/(EN+EIN[38]+E[2])*1.0070
   if QIN[38][i]<0.0:
     QIN[38][i]=0
@@ -1091,7 +1091,7 @@ for i in range(0,NSTEP):
   #SINGLET NEUTRAL DISSOCIATION   ELOSS=18.13 EV     F=0.01287
   QIN[39][i]=0.0
   PEQIN[39][i]=0.0
-  if EN>=EIN[39]:
+  if EN>EIN[39]:
     QIN[39][i]=0.01287/(EIN[39]*BETA2)*(np.log2(BETA2*GAMMA2*EMASS2/(4.0*EIN[39]))-BETA2-DEN[i]/2.0)*BBCONST*EN/(EN+EIN[39]+E[2])*1.0069
   if QIN[39][i]<0.0:
     QIN[39][i]=0
@@ -1103,7 +1103,7 @@ for i in range(0,NSTEP):
   #SINGLET NEUTRAL DISSOCIATION   ELOSS=18.38 EV     F=0.00830
   QIN[40][i]=0.0
   PEQIN[40][i]=0.0
-  if EN>=EIN[40]:
+  if EN>EIN[40]:
     QIN[40][i]=0.00830/(EIN[40]*BETA2)*(np.log2(BETA2*GAMMA2*EMASS2/(4.0*EIN[40]))-BETA2-DEN[i]/2.0)*BBCONST*EN/(EN+EIN[40]+E[2])*1.0068
   if QIN[40][i]<0.0:
     QIN[40][i]=0
@@ -1114,7 +1114,7 @@ for i in range(0,NSTEP):
   #SINGLET NEUTRAL DISSOCIATION   ELOSS=18.63 EV     F=0.00698
   QIN[41][i]=0.0
   PEQIN[41][i]=0.0
-  if EN>=EIN[41]:
+  if EN>EIN[41]:
     QIN[41][i]=0.00698/(EIN[41]*BETA2)*(np.log2(BETA2*GAMMA2*EMASS2/(4.0*EIN[41]))-BETA2-DEN[i]/2.0)*BBCONST*EN/(EN+EIN[41]+E[2])*1.0067
   if QIN[41][i]<0.0:
     QIN[41][i]=0
@@ -1125,7 +1125,7 @@ for i in range(0,NSTEP):
   #SINGLET NEUTRAL DISSOCIATION   ELOSS=18.88 EV     F=0.00581
   QIN[42][i]=0.0
   PEQIN[42][i]=0.0
-  if EN>=EIN[42]:
+  if EN>EIN[42]:
     QIN[42][i]=0.00581/(EIN[42]*BETA2)*(np.log2(BETA2*GAMMA2*EMASS2/(4.0*EIN[42]))-BETA2-DEN[i]/2.0)*BBCONST*EN/(EN+EIN[42]+E[2])*1.0066
   if QIN[42][i]<0.0:
     QIN[42][i]=0
@@ -1137,7 +1137,7 @@ for i in range(0,NSTEP):
   #SINGLET NEUTRAL DISSOCIATION   ELOSS=19.13 EV     F=0.00502
   QIN[43][i]=0.0
   PEQIN[43][i]=0.0
-  if EN>=EIN[43]:
+  if EN>EIN[43]:
     QIN[43][i]=0.00502/(EIN[43]*BETA2)*(np.log2(BETA2*GAMMA2*EMASS2/(4.0*EIN[43]))-BETA2-DEN[i]/2.0)*BBCONST*EN/(EN+EIN[43]+E[2])*1.0065
   if QIN[43][i]<0.0:
     QIN[43][i]=0
@@ -1150,7 +1150,7 @@ for i in range(0,NSTEP):
   #SINGLET NEUTRAL DISSOCIATION   ELOSS=19.38 EV     F=0.00398
   QIN[44][i]=0.0
   PEQIN[44][i]=0.0
-  if EN>=EIN[44]:
+  if EN>EIN[44]:
     QIN[44][i]=0.00398/(EIN[44]*BETA2)*(np.log2(BETA2*GAMMA2*EMASS2/(4.0*EIN[44]))-BETA2-DEN[i]/2.0)*BBCONST*EN/(EN+EIN[44]+E[2])*1.0064
   if QIN[44][i]<0.0:
     QIN[44][i]=0
@@ -1165,7 +1165,7 @@ for i in range(0,NSTEP):
   QIN[45][i]=0.0
   PEQIN[45][i]=0.0
   if EN>=EIN[45]:
-#magboltz code is 0.00198 while the pattern means that it shoud be 0.00189
+#magboltz code is 0.00198 while the pattern should go to 0.00189
     QIN[45][i]=0.00198/(EIN[45]*BETA2)*(np.log2(BETA2*GAMMA2*EMASS2/(4.0*EIN[45]))-BETA2-DEN[i]/2.0)*BBCONST*EN/(EN+EIN[45]+E[2])*1.0064
   if QIN[45][i]<0.0:
     QIN[45][i]=0
@@ -1177,8 +1177,7 @@ for i in range(0,NSTEP):
     QIONSUM=QIONSUM+QION[J][i]
   QSNGLSUM=0.0
   for J in range(10,46):
-    if J==10 or J==15 or J==22:
-      break
+    if J!=10 and J!=15 and J!=22:
     QSNGLSUM=QSNGLSUM+QIN[J][i]
 
   QTRIPSUM=QIN[10][i]+QIN[15][i]+QIN[22][i]
