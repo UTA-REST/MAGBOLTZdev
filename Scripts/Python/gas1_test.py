@@ -15,9 +15,8 @@ EIN= gd['gas1/EIN']
 #EIN=[0 for x in range(250)]#<=== input to this function
 EMASS=9.10938291e-31
 AMU=1.660538921e-27
-E = [0 for x in range(6)]
-#E=[0.0,1.0,15.9,0.0,0.0,0.0]
-E[1]=E[1]*2.0*EMASS/(88.0043*AMU)
+E=[0.0,1.0,15.9,0.0,0.0,0.0]
+E[1]=2.0*EMASS/(88.0043*AMU)
 EOBY=[]
 PEQEL= np.zeros((6,4000))
 PEQIN= np.zeros((250,4000))
@@ -40,8 +39,8 @@ NG1=[0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,1,2]
 EG1=[0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,253.0,625.2]
 NG2=[0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,1,1]
 EG2=[0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,5.0,5.0]
-ESTEP=1.25e-4#<===input to this function
-EG=[6.25e-5+i*ESTEP for i in range(0,4000)]#<==== Input to this function
+ESTEP=1.767766952663691e-4#<===input to this function
+EG=[6.25e-5+i*(1.25e-4) for i in range(0,4000)]#<==== Input to this function
 # should be a hardcoded value in the main program
 NANISO=2
 IOFFION=[0 for x in range(12)]
@@ -56,6 +55,7 @@ BBCONST=16.0*API*A0*A0*RY*RY/EMASS2
 
 #BORN BETHE VALUES FOR IONISATION
 CONST=1.873884e-20
+AM2 = 9.5
 C=100.9
 
 #number of array elements
@@ -134,9 +134,9 @@ for L in range(0,3):
 #PENNING TRANSFER FRACTION FOR LEVEL 11
 PENFRA[0][45]=0.0
 #PENNING TRANSFER DISTANCE IN MICRONS
-PENFRA[0][45]=1.0
+PENFRA[1][45]=1.0
 #PENNING TRANSFER TIME IN PICOSECONDS
-PENFRA[0][45]=1.0
+PENFRA[2][45]=1.0
 
 #PRINT
 
@@ -176,8 +176,8 @@ XCF3F=gd['gas1/XCF3F']
 YCF3F=gd['gas1/YCF3F']
 XCF2F=gd['gas1/XCF2F']
 YCF2F=gd['gas1/YCF2F']
-XCF0=gd['gas1/XC0F']
-YCF0=gd['gas1/YC0F']
+XCF0=gd['gas1/XCF0']
+YCF0=gd['gas1/YCF0']
 XCF32=gd['gas1/XCF32']
 YCF32=gd['gas1/YCF32']
 XCF22=gd['gas1/XCF22']
@@ -219,7 +219,8 @@ for i in range(0,NSTEP):
   EN=EN+ESTEP
   GAMMA1=(EMASS2+2.0*EN)/EMASS2
   GAMMA2=GAMMA1*GAMMA1
-  BETA2=1.00-1.00/GAMMA2
+  BETA = math.sqrt(1.00-1.00/GAMMA2)
+  BETA2= BETA *BETA
 
   j=0
   for j in range(1,NDATA):
@@ -232,14 +233,13 @@ for i in range(0,NSTEP):
 
   A=(YELT[j]-YELT[j-1])/(XEN[j]-XEN[j-1])
   B=(XEN[j-1]*YELT[j]-XEN[j]*YELT[j-1])/(XEN[j-1]-XEN[j])
-  QELA=(A*EN+B)*1e16
+  QELA=(A*EN+B)*1e-16
 
   A=(YEPS[j]-YEPS[j-1])/(XEN[j]-XEN[j-1])
   B=(XEN[j-1]*YEPS[j]-XEN[j]*YEPS[j-1])/(XEN[j-1]-XEN[j])
-  PQ=[0,1 - (A*EN+B),0.5+(QELA-QMOM)/QELA]
+  PQ=[0.5,0.5+(QELA-QMOM)/QELA,1 - (A*EN+B)]
   #^^^^^^EPS CORRECTED FOR 1-EPS^^^^^^^^
   PEQEL[1][i] = PQ[NANISO]
-  print(QELA)
   Q[1][i] = QELA
   #DISSOCIATIVE IONISATION
   #ION  =  CF3 +
@@ -439,8 +439,8 @@ for i in range(0,NSTEP):
 
   #DOUBLE CHARGED ION  CF2 ++
   #ADD INTO CF3 ++
-  if EN>=XCF22[0]:
-    if EN <=XCF32[NCF32-1]:
+  if EN>XCF22[0]:
+    if EN <=XCF22[NCF22-1]:
       j=0
       for j in range(1,NCF22):
         if EN <= XCF22[j]:
@@ -524,7 +524,7 @@ for i in range(0,NSTEP):
     if EN > 2*EION[10]:
       PEQION[10][i]=PEQEL[1][(i-IOFFION[10])]
 
-  #CARBON K-SHELL IONISATION
+  #Fluorine K-SHELL IONISATION
   QION[11][i]=0.0
   PEQION[11][i]=0.5
 
@@ -547,6 +547,7 @@ for i in range(0,NSTEP):
   Q[3][i]=0.0
   if EN>XATT[0]:
     if EN<=XATT[NATT1-1]:
+      j=0
       for j in range(1,NATT1):
         if EN <= XATT[j]:
           break
@@ -572,7 +573,7 @@ for i in range(0,NSTEP):
     QIN[0][i]=0.007*np.log2((EFAC+1.0)/(EFAC-1.0))/EN
     QIN[0][i]=QIN[0][i]*APOPV2*1.0e-16/DEGV2
     if EN>100.0:
-      PEQIN[0][i]=PQ[2]
+      PEQIN[0][i]=PQ[1]
 
   #VIBRATION V2 ISOTROPIC BELOW 100EV
   QIN[1][i]=0.0
@@ -582,7 +583,7 @@ for i in range(0,NSTEP):
     QIN[1][i]=0.007*np.log2((EFAC+1.0)/(1.0-EFAC))/EN
     QIN[1][i]=QIN[1][i]*APOPGS*1.0e-16
     if EN>100.0:
-      PEQIN[1][i]=PQ[2]
+      PEQIN[1][i]=PQ[1]
 
 
   #SUPERELASTIC OF VIBRATION V4 ISOTROPIC BELOW 100EV
@@ -604,7 +605,7 @@ for i in range(0,NSTEP):
     QIN[2][i]=QIN[2][i]+0.05*np.log2((EFAC+1.0)/(EFAC-1.0))/EN
     QIN[2][i]=QIN[2][i]*APOPV4*1.0e-16/DEGV4
     if EN>100.0:
-      PEQIN[2][i]=PQ[2]
+      PEQIN[2][i]=PQ[1]
 
   #VIBRATION V4 ANISOTROPIC
   QIN[3][i]=0.0
@@ -624,14 +625,14 @@ for i in range(0,NSTEP):
     ADIP=0.05*np.log2((EFAC+1.0)/(1.0-EFAC))/EN
     ELF=EN-EIN[3]
     FWD=np.log2((EN+ELF)/(EN+ELF-2.0*math.sqrt(EN*ELF)))
-    BCK=np.log2((EN+ELF-2.0*math.sqrt(EN*ELF))/(EN+ELF))
+    BCK=np.log2((EN+ELF+2.0*math.sqrt(EN*ELF))/(EN+ELF))
     #RATIO OF MT TO TOTAL X-SECT FOR RESONANCE PART = RAT
     XMT=((1.5-FWD/(FWD+BCK))*ADIP+RAT*QIN[3][i])*APOPGS*1.0e-16
     QIN[3][i]=(QIN[3][i]+ADIP)*APOPGS*1.0e-16
     if EN<=100:
       PEQIN[3][i]=0.5+(QIN[3][i]-XMT)/QIN[3][i]
     else:
-      PEQIN[3][i]=PQ[2]
+      PEQIN[3][i]=PQ[1]
 
 
   #SUPERELASTIC OF VIBRATION V1 ISOTROPIC BELOW 100EV
@@ -652,7 +653,7 @@ for i in range(0,NSTEP):
     QIN[4][i]=QIN[4][i]+0.0224*np.log2((EFAC+1.0)/(EFAC-1.0))/EN
     QIN[4][i]=QIN[4][i]*APOPV1*1.0e-16/DEGV1
     if EN>100.0:
-      PEQIN[4][i]=PQ[2]
+      PEQIN[4][i]=PQ[1]
 
 
   #VIBRATION V1  ISOTROPIC BELOW 100EV
@@ -673,7 +674,7 @@ for i in range(0,NSTEP):
     QIN[5][i]=QIN[5][i]+0.0224*np.log2((EFAC+1.0)/(1.0-EFAC))/EN
     QIN[5][i]=QIN[5][i]*APOPGS*1.0e-16
     if EN>100.0:
-      PEQIN[5][i]=PQ[2]
+      PEQIN[5][i]=PQ[1]
 
   #SUPERELASTIC OF VIBRATION V3 ISOTROPIC BELOW 100EV
   QIN[6][i]=0.0
@@ -693,7 +694,7 @@ for i in range(0,NSTEP):
     QIN[6][i]=QIN[6][i]+VDSC*1.610*np.log2((EFAC+1.0)/(EFAC-1.0))/EN
     QIN[6][i]=QIN[6][i]*APOPV3*1.0e-16/DEGV3
     if EN>100.0:
-      PEQIN[6][i]=PQ[2]
+      PEQIN[6][i]=PQ[1]
   #VIBRATION V4 ANISOTROPIC
   QIN[7][i]=0.0
   PEQIN[7][i]=0.5
@@ -712,14 +713,14 @@ for i in range(0,NSTEP):
     ADIP=VDSC*1.610*np.log2((EFAC+1.0)/(1.0-EFAC))/EN
     ELF=EN-EIN[7]
     FWD=np.log2((EN+ELF)/(EN+ELF-2.0*math.sqrt(EN*ELF)))
-    BCK=np.log2((EN+ELF-2.0*math.sqrt(EN*ELF))/(EN+ELF))
+    BCK=np.log2((EN+ELF+2.0*math.sqrt(EN*ELF))/(EN+ELF))
     # ASSUME RATIO MOM T./ TOT X-SECT FOR RESONANCE PART = RAT
     XMT=((1.5-FWD/(FWD+BCK))*ADIP+RAT*QIN[7][i])*APOPGS*1.0e-16
     QIN[7][i]=(QIN[7][i]+ADIP)*APOPGS*1.0e-16
     if EN<=100:
       PEQIN[7][i]=0.5+(QIN[7][i]-XMT)/QIN[7][i]
     else:
-      PEQIN[7][i]=PQ[2]
+      PEQIN[7][i]=PQ[1]
 
   #VIBRATION HARMONIC 2V3
   QIN[8][i]=0.0
@@ -739,8 +740,8 @@ for i in range(0,NSTEP):
     if EN<=100:
       PEQIN[8][i]=0.5+(1.0-RAT)
     else:
-      PEQIN[8][i]=PQ[2]
-  #VIBRATION HARMONIC 2V3
+      PEQIN[8][i]=PQ[1]
+  #VIBRATION HARMONIC 3V3
   QIN[9][i]=0.0
   PEQION[9][i]=0.5
   if EN>=EIN[9]:
@@ -758,7 +759,7 @@ for i in range(0,NSTEP):
     if EN<=100:
       PEQIN[9][i]=0.5+(1.0-RAT)
     else:
-      PEQIN[9][i]=PQ[2]
+      PEQIN[9][i]=PQ[1]
 
   #TRIPLET NEUTRAL DISSOCIATION ELOSS=11.5 EV
   QIN[10][i]=0.0
@@ -775,7 +776,6 @@ for i in range(0,NSTEP):
     else:
       QIN[10][i]=YTR1[NTR1-1]*(XTR1[NTR1-1]/EN)**2*1.0e-16
     if EN>3*EIN[10]:
-      print(i-IOFFN[10])
       PEQIN[10][i]=PEQEL[1][(i-IOFFN[10])]
   #SINGLET NEUTRAL DISSOCIATION  ELOSS=11.63 EV     F=0.0001893
   QIN[11][i]=0.0
@@ -1165,7 +1165,8 @@ for i in range(0,NSTEP):
   QIN[45][i]=0.0
   PEQIN[45][i]=0.0
   if EN>=EIN[45]:
-    QIN[45][i]=0.00189/(EIN[45]*BETA2)*(np.log2(BETA2*GAMMA2*EMASS2/(4.0*EIN[45]))-BETA2-DEN[i]/2.0)*BBCONST*EN/(EN+EIN[45]+E[2])*1.0064
+#magboltz code is 0.00198 while the pattern means that it shoud be 0.00189
+    QIN[45][i]=0.00198/(EIN[45]*BETA2)*(np.log2(BETA2*GAMMA2*EMASS2/(4.0*EIN[45]))-BETA2-DEN[i]/2.0)*BBCONST*EN/(EN+EIN[45]+E[2])*1.0064
   if QIN[45][i]<0.0:
     QIN[45][i]=0
   if EN>3*EIN[45]:
@@ -1196,3 +1197,4 @@ for J in range(10,46):
     NIN=J-1
 print("DONE")
 print(Q)
+gd.close()
