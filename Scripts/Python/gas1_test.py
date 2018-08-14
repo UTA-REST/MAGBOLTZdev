@@ -1178,7 +1178,7 @@ for i in range(0,NSTEP):
   QSNGLSUM=0.0
   for J in range(10,46):
     if J!=10 and J!=15 and J!=22:
-    QSNGLSUM=QSNGLSUM+QIN[J][i]
+        QSNGLSUM=QSNGLSUM+QIN[J][i]
 
   QTRIPSUM=QIN[10][i]+QIN[15][i]+QIN[22][i]
 
