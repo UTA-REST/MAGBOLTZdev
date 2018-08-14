@@ -213,10 +213,10 @@ YTR3=gd['gas1/YTR3']
 #EQUAL X-SEC TO THE GROUND STATE TRANSITIONS)
 APOPGS=1.0
 
-EN=-ESTEP/2.0  #ESTEP is function input
+#EN=-ESTEP/2.0  #ESTEP is function input
 for i in range(0,NSTEP):
   EN=EG[i]
-  EN=EN+ESTEP
+ # EN=EN+ESTEP
   GAMMA1=(EMASS2+2.0*EN)/EMASS2
   GAMMA2=GAMMA1*GAMMA1
   BETA = math.sqrt(1.00-1.00/GAMMA2)
