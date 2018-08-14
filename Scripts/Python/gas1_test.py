@@ -17,8 +17,8 @@ AMU=1.660538921e-27
 E=[0.0,1.0,15.9,0.0,0.0,0.0]
 E[1]=2.0*EMASS/(88.0043*AMU)
 EOBY=[]
-PEQEL= np.zeros((6,4000))
-PEQIN= np.zeros((250,4000))
+PEQEL= [[0 for x in range(4000)] for y in range(6)]
+PEQIN=[[0 for x in range(4000)] for y in range(250)]
 PENFRA=[]
 KEL=[]
 KIN=[]
@@ -115,6 +115,7 @@ for j in range(0,NION):
   for i in range(0,NASIZE):
     if(EG[i]>EION[j]):
       IOFFION[j]=i-1
+      break
 
 #OFFSET ENERGY FOR DISSOCIATION ANGULAR DISTRIBUTION
 
@@ -122,6 +123,7 @@ for NL in range(10,46):
   for i in range(0,NASIZE):
     if EG[i]>abs(EIN[NL]):
       IOFFN[NL]=i-1
+      break
 
 #ENTER PENNING TRANSFER FRACTION FOR EACH LEVEL
 #ONLY DISSOCIATION X-SECTION (LEVEL 11) HAS ENOUGH ENERGY TO GIVE
@@ -552,7 +554,7 @@ for i in range(0,NSTEP):
           break
       A=(YATT[j]-YATT[j-1])/(XATT[j]-XATT[j-1])
       B=(XATT[j-1]*YATT[j]-XATT[j]*YATT[j-1])/(XATT[j-1]-XATT[j])
-      Q[3][i]=(A*EN+B)*1e-16
+      Q[3][i]=(A*EN+B)*1d-16
       QATT[0][i]=Q[3][i]
   Q[4][i]=0.0
   Q[5][i]=0.0
@@ -1163,7 +1165,7 @@ for i in range(0,NSTEP):
   #SINGLET NEUTRAL DISSOCIATION   ELOSS=19.63 EV     F=0.00189
   QIN[45][i]=0.0
   PEQIN[45][i]=0.0
-  if EN>=EIN[45]:
+  if EN>EIN[45]:
 #magboltz code is 0.00198 while the pattern should go to 0.00189
     QIN[45][i]=0.00198/(EIN[45]*BETA2)*(np.log2(BETA2*GAMMA2*EMASS2/(4.0*EIN[45]))-BETA2-DEN[i]/2.0)*BBCONST*EN/(EN+EIN[45]+E[2])*1.0064
   if QIN[45][i]<0.0:
@@ -1193,6 +1195,7 @@ for i in range(0,NSTEP):
 for J in range(10,46):
   if EFINAL <= EIN[J]:
     NIN=J-1
+    break
 print("DONE")
 print(Q)
 gd.close()
