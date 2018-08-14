@@ -1,0 +1,397 @@
+## COMPRESSE()
+Stores event for input to thermalisation
+
+### Arguments
+
+| Argument | Description |
+|----------|-------------|
+| ETOT     |             |
+|          |             |
+
+```python
+def COMPRESSE(ETOT):
+	# IMPLICIT #real*8 (A-H,O-Z)
+	# IMPLICIT #integer*8 (I-N)
+	# COMMON/INPT/NGAS,NSTEP,NANISO,EFINAL,ESTEP,AKT,ARY,TEMPC,TORR,IPEN
+	# COMMON/RESE/IONSM(10),IFLSM(10),ESTOR(10,28),EPHOT(10,28),X(10,28),Y(10,28),Z[10,28],DRX0(10,28),DRY0(10,28),DRZ0(10,28),T00(10,28)
+	# COMMON/GENE1/IONF1(10),ESTF1(10,28),X1(10,28),Y1(10,28),Z1(10,28),DRX1(10,28),DRY1(10,28),DRZ1(10,28),T01(10,28)
+	# COMMON/GENE2/IONF2(10),ESTF2(10,28),X2(10,28),Y2(10,28),Z2(10,28),DRX2(10,28),DRY2(10,28),DRZ2(10,28),T02(10,28)
+	# COMMON/GENE3/IONF3(10),ESTF3(10,15),X3(10,15),Y3(10,15),Z3(10,15),DRX3(10,15),DRY3(10,15),DRZ3(10,15),T03(10,15)
+	# COMMON/GENE4/IONF4(10),ESTF4(10,12),X4(10,12),Y4(10,12),Z4(10,12),DRX4(10,12),DRY4(10,12),DRZ4(10,12),T04(10,12)
+	# COMMON/GENE5/IONF5(10),ESTF5(10,5),X5(10,5),Y5(10,5),Z5(10,5),DRX5(10,5),DRY5(10,5),DRZ5(10,5),T05(10,5)   
+	# COMMON/INTHRMB2/NPTPE,ET(10,50),XT(10,50),YT(10,50),ZT(10,50),TT(10,50),DRX(10,50),DRY(10,50),DRZ[10,50],NJFLR(10,50),IEVENTL(10) 
+	# COMMON/PPSTRB/NPTP,EPPST[2],XPP[2],YPP[2],ZPP[2],DRXPP[2],DRYPP[2],DRZPP[2]
+	#COMMON/INPT/
+	global NGAS,NSTEP,NANISO,EFINAL,ESTEP,AKT,ARY,TEMPC,TORR,IPEN
+	#COMMON/RESE/
+	global IONSM#(10)
+	global IFLSM#(10)
+	global ESTOR#(10,28)
+	global EPHOT#(10,28)
+	global X#(10,28)
+	global Y#(10,28)
+	global Z#(10,28)
+	global DRX0#(10,28)
+	global DRY0#(10,28)
+	global DRZ0#(10,28)
+	global T00#(10,28)
+	#COMMON/GENE1/
+	global IONF1#(10)
+	global ESTF1#(10,28)
+	global X1#(10,28)
+	global Y1#(10,28)
+	global Z1#(10,28)
+	global DRX1#(10,28)
+	global DRY1#(10,28)
+	global DRZ1#(10,28)
+	global T01#(10,28)
+	#COMMON/GENE2/
+	global IONF2#(10)
+	global ESTF2#(10,28)
+	global X2#(10,28)
+	global Y2#(10,28)
+	global Z2#(10,28)
+	global DRX2#(10,28)
+	global DRY2#(10,28)
+	global DRZ2#(10,28)
+	global T02#(10,28)
+	#COMMON/GENE3/
+	global IONF3#(10)
+	global ESTF3#(10,15)
+	global X3#(10,15)
+	global Y3#(10,15)
+	global Z3#(10,15)
+	global DRX3#(10,15)
+	global DRY3#(10,15)
+	global DRZ3#(10,15)
+	global T03#(10,15)
+	#COMMON/GENE4/
+	global IONF4#(10)
+	global ESTF4#(10,12)
+	global X4#(10,12)
+	global Y4#(10,12)
+	global Z4#(10,12)
+	global DRX4#(10,12)
+	global DRY4#(10,12)
+	global DRZ4#(10,12)
+	global T04#(10,12)
+	#COMMON/GENE5/
+	global IONF5#(10)
+	global ESTF5#(10,5)
+	global X5#(10,5)
+	global Y5#(10,5)
+	global Z5#(10,5)
+	global DRX5#(10,5)
+	global DRY5#(10,5)
+	global DRZ5#(10,5)
+	global T05#(10,5)   
+	#COMMON/INTHRMB2/
+	global NPTPE
+	global ET#(10,50)
+	global XT#(10,50)
+	global YT#(10,50)
+	global ZT#(10,50)
+	global TT#(10,50)
+	global DRX#(10,50)
+	global DRY#(10,50)
+	global DRZ#(10,50)
+	global NJFLR#(10,50)
+	global IEVENTL#(10) 
+	#COMMON/PPSTRB/
+	global NPTP
+	global EPPST#(2)
+	global XPP#(2)
+	global YPP#(2)
+	global ZPP#(2)
+	global DRXPP#(2)
+	global DRYPP#(2)
+	global DRZPP#(2)
+
+	#DIMENSION 
+	ESTOT=[0 for x in range(10)] 
+	NPTPE=1
+	IVAC=1
+	#      
+	#  
+	#STORE CASCADE:
+
+	for K in range(1,IVAC):
+		ESTOT[K]=0.0
+		ITOT=IONSM[K]+IONF1[K]+IONF2[K]+IONF3[K]+IONF4[K]+IONF5[K]
+		IEVENTL[K]=ITOT
+		if(ITOT > 50):
+			print(' NEVENT=',J,' ITOT OVERFLOW IN OUTPUTBC')
+			sys.exit()       
+		# endif
+		# STORE EVENT FOR INPUT TO THERMALISATION
+		for M in range(1,IONSM[K]):
+			ET[K][M]=ESTOR[K][M]
+			XT[K][M]=X[K][M]
+
+		TT[K][M]=T00[K][M]
+		DRX[K][M]=DRX0[K][M]
+		DRY[K][M]=DRY0[K][M]
+		DRZ[K,M]=DRZ0[K][M]
+		ESTOT[K]=ESTOT[K]+ESTOR[K][M]
+		NJFLR[K][M]=0
+	if(IONF1[K]== 0):
+		pass
+	else:
+		for M in range(1,IONF1[K]):
+			M1=M+IONSM[K]
+			ET[K][M1]=ESTF1[K][M]   
+			XT[K][M1]=X1[K][M]
+			YT[K][M1]=Y1[K][M]
+			ZT[K][M1]=Z1[K][M]
+			TT[K][M]=T01[K][M]
+			DRX[K][M1]=DRX1[K][M]
+			DRY[K][M1]=DRY1[K][M]
+			DRZ[K,M1]=DRZ1[K][M]
+			ESTOT[K]=ESTOT[K]+ESTF1[K][M]
+			NJFLR[K][M1]=1
+	# 17 
+	if(IONF2[K] == 0):
+		pass
+	else:
+		for M in range(1,IONF2[K]):
+			M2=M+IONSM[K]+IONF1[K]
+			ET[K][M2]=ESTF2[K][M]
+			XT[K][M2]=X2[K][M]
+			YT[K][M2]=Y2[K][M]
+			ZT[K][M2]=Z2[K][M]
+			TT[K][M2]=T02[K][M]
+			DRX[K][M2]=DRX2[K][M]
+			DRY[K][M2]=DRY2[K][M]
+			DRZ[K,M2]=DRZ2[K][M]
+			ESTOT[K]=ESTOT[K]+ESTF2[K][M]
+			NJFLR[K][M2]=2
+	#18 
+	if(IONF3[K] == 0):
+		pass
+	else:
+		for M in range(1,IONF3[K]):
+			M3=M+IONSM[K]+IONF1[K]+IONF2[K]
+			ET[K][M3]=ESTF3[K][M]
+			XT[K][M3]=X3[K][M]
+			YT[K][M3]=Y3[K][M]
+			ZT[K][M3]=Z3[K][M]
+			TT[K][M3]=T03[K][M]
+			DRX[K][M3]=DRX3[K][M]
+			DRY[K][M3]=DRY3[K][M]
+			DRZ[K,M3]=DRZ3[K][M]
+			ESTOT[K]=ESTOT[K]+ESTF3[K][M]
+			NJFLR[K][M3]=3
+	#19 
+	if(IONF4[K] == 0):
+		pass
+	else:
+		for M in range(1,IONF4[K]):
+			M4=M+IONSM[K]+IONF1[K]+IONF2[K]+IONF3[K]
+			ET[K][M4]=ESTF4[K][M]
+			XT[K][M4]=X4[K][M]
+			YT[K][M4]=Y4[K][M]
+			ZT[K][M4]=Z4[K][M]
+			TT[K][M4]=T04[K][M]
+			DRX[K][M4]=DRX4[K][M]
+			DRY[K][M4]=DRY4[K][M]
+			DRZ[K,M4]=DRZ4[K][M]
+			ESTOT[K]=ESTOT[K]+ESTF4[K][M]
+			NJFLR[K][M4]=4
+			
+	if(IONF5[K] == 0):
+		pass
+	else:
+		for M in range(1,IONF5[K]):
+			M5=M+IONSM[K]+IONF1[K]+IONF2[K]+IONF3[K]+IONF4[K]
+			ET[K][M5]=ESTF5[K][M]
+			XT[K][M5]=X5[K][M]
+			YT[K][M5]=Y5[K][M]
+			ZT[K][M5]=Z5[K][M]
+			TT[K][M5]=T05[K][M]
+			DRX[K][M5]=DRX5[K][M]
+			DRY[K][M5]=DRY5[K][M]
+			DRZ[K,M5]=DRZ5[K][M]
+			ESTOT[K]=ESTOT[K]+ESTF5[K][M]
+			NJFLR[K][M5]=5
+			
+	# PRINT SOME RAW DATA
+		#     IF(J <= 525) :
+		#     EDUM=0.0
+		#     DO 666 JJ=1,IEVENTL[J]
+		# 666 EDUM=EDUM+ET(JJ,J)
+		#     WRITE(6,232) J
+		#     WRITE(6,2321) EDUM
+		#2321 print(' TOT ENERGY=','%.3f' %)
+		# 232 print(' DATA FOR EVENT=',I3)
+		#     DO 234 M=1,IEVENTL[J]
+		#     WRITE(6,233) ET(M,J),XT(M,J),YT(M,J),ZT(M,J),TH(M,J),PH(M,J)
+		# 233 print(' E=','%.3f' %,' X=','%.3f' %,' Y=','%.3f' %,' Z=','%.3f' %,' THETA=',
+		#    /'%.3f' %,' PHI=','%.3f' %)
+		# 234 CONTINUE
+		#     # endIF
+		EDUM=0.0
+	for K in range(1,IVAC):
+		EDUM=EDUM+ESTOT[K]
+	ETOT=EDUM
+	if(EDUM > (EFINAL+0.1)) :
+		print(' ETOT =','%.5f' % EDUM,'EV.    BAD EVENT IN COMPRESSE\n')
+		IBAD=1
+		sys.exit()
+	# endif
+	return     
+	# end         
+```
+
+```fortran
+      SUBROUTINE COMPRESSE(ETOT)
+      IMPLICIT REAL*8 (A-H,O-Z)
+      IMPLICIT INTEGER*8 (I-N)
+      COMMON/INPT/NGAS,NSTEP,NANISO,EFINAL,ESTEP,AKT,ARY,TEMPC,TORR,IPEN
+      COMMON/RESE/IONSM(10),IFLSM(10),ESTOR(10,28),EPHOT(10,28),
+     /X(10,28),Y(10,28),Z(10,28),DRX0(10,28),DRY0(10,28),DRZ0(10,28),
+     /T00(10,28)
+      COMMON/GENE1/IONF1(10),ESTF1(10,28),X1(10,28),Y1(10,28),Z1(10,28),
+     /DRX1(10,28),DRY1(10,28),DRZ1(10,28),T01(10,28)
+      COMMON/GENE2/IONF2(10),ESTF2(10,28),X2(10,28),Y2(10,28),Z2(10,28),
+     /DRX2(10,28),DRY2(10,28),DRZ2(10,28),T02(10,28)
+      COMMON/GENE3/IONF3(10),ESTF3(10,15),X3(10,15),Y3(10,15),Z3(10,15),
+     /DRX3(10,15),DRY3(10,15),DRZ3(10,15),T03(10,15)
+      COMMON/GENE4/IONF4(10),ESTF4(10,12),X4(10,12),Y4(10,12),Z4(10,12),
+     /DRX4(10,12),DRY4(10,12),DRZ4(10,12),T04(10,12)
+      COMMON/GENE5/IONF5(10),ESTF5(10,5),X5(10,5),Y5(10,5),Z5(10,5),
+     /DRX5(10,5),DRY5(10,5),DRZ5(10,5),T05(10,5)   
+      COMMON/INTHRMB2/NPTPE,ET(10,50),XT(10,50),
+     /YT(10,50),ZT(10,50),TT(10,50),DRX(10,50),DRY(10,50),DRZ(10,50),
+     /NJFLR(10,50),IEVENTL(10) 
+      COMMON/PPSTRB/NPTP,EPPST(2),XPP(2),YPP(2),ZPP(2),
+     /DRXPP(2),DRYPP(2),DRZPP(2)
+      DIMENSION ESTOT(10) 
+      NPTPE=1
+      IVAC=1
+C      
+C  STORE CASCADE DATA INTO COMMON/INTHRMB2/
+      DO 12 K=1,IVAC
+      ESTOT(K)=0.0
+      ITOT=IONSM(K)+IONF1(K)+IONF2(K)+IONF3(K)+IONF4(K)+IONF5(K)
+      IEVENTL(K)=ITOT
+      IF(ITOT.GT.50) THEN 
+       WRITE(6,811) J
+  811 FORMAT(' NEVENT=',I5,' ITOT OVERFLOW IN OUTPUTBC')
+       STOP       
+      ENDIF
+C STORE EVENT FOR INPUT TO THERMALISATION
+      DO 6 M=1,IONSM(K)
+      ET(K,M)=ESTOR(K,M)
+      XT(K,M)=X(K,M)
+      YT(K,M)=Y(K,M)
+      ZT(K,M)=Z(K,M)
+      TT(K,M)=T00(K,M)
+      DRX(K,M)=DRX0(K,M)
+      DRY(K,M)=DRY0(K,M)
+      DRZ(K,M)=DRZ0(K,M)
+      ESTOT(K)=ESTOT(K)+ESTOR(K,M)
+      NJFLR(K,M)=0
+    6 CONTINUE
+      IF(IONF1(K).EQ.0) GO TO 17
+      DO 7 M=1,IONF1(K)
+      M1=M+IONSM(K)
+      ET(K,M1)=ESTF1(K,M)   
+      XT(K,M1)=X1(K,M)
+      YT(K,M1)=Y1(K,M)
+      ZT(K,M1)=Z1(K,M)
+      TT(K,M)=T01(K,M)
+      DRX(K,M1)=DRX1(K,M)
+      DRY(K,M1)=DRY1(K,M)
+      DRZ(K,M1)=DRZ1(K,M)
+      ESTOT(K)=ESTOT(K)+ESTF1(K,M)
+      NJFLR(K,M1)=1
+    7 CONTINUE
+   17 IF(IONF2(K).EQ.0) GO TO 18
+      DO 8 M=1,IONF2(K)
+      M2=M+IONSM(K)+IONF1(K)
+      ET(K,M2)=ESTF2(K,M)
+      XT(K,M2)=X2(K,M)
+      YT(K,M2)=Y2(K,M)
+      ZT(K,M2)=Z2(K,M)
+      TT(K,M2)=T02(K,M)
+      DRX(K,M2)=DRX2(K,M)
+      DRY(K,M2)=DRY2(K,M)
+      DRZ(K,M2)=DRZ2(K,M)
+      ESTOT(K)=ESTOT(K)+ESTF2(K,M)
+      NJFLR(K,M2)=2
+    8 CONTINUE
+   18 IF(IONF3(K).EQ.0) GO TO 19
+      DO 9 M=1,IONF3(K)
+      M3=M+IONSM(K)+IONF1(K)+IONF2(K)
+      ET(K,M3)=ESTF3(K,M)
+      XT(K,M3)=X3(K,M)
+      YT(K,M3)=Y3(K,M)
+      ZT(K,M3)=Z3(K,M)
+      TT(K,M3)=T03(K,M)
+      DRX(K,M3)=DRX3(K,M)
+      DRY(K,M3)=DRY3(K,M)
+      DRZ(K,M3)=DRZ3(K,M)
+      ESTOT(K)=ESTOT(K)+ESTF3(K,M)
+      NJFLR(K,M3)=3
+    9 CONTINUE
+   19 IF(IONF4(K).EQ.0) GO TO 20
+      DO 10 M=1,IONF4(K)
+      M4=M+IONSM(K)+IONF1(K)+IONF2(K)+IONF3(K)
+      ET(K,M4)=ESTF4(K,M)
+      XT(K,M4)=X4(K,M)
+      YT(K,M4)=Y4(K,M)
+      ZT(K,M4)=Z4(K,M)
+      TT(K,M4)=T04(K,M)
+      DRX(K,M4)=DRX4(K,M)
+      DRY(K,M4)=DRY4(K,M)
+      DRZ(K,M4)=DRZ4(K,M)
+      ESTOT(K)=ESTOT(K)+ESTF4(K,M)
+      NJFLR(K,M4)=4
+   10 CONTINUE
+   20 IF(IONF5(K).EQ.0) GO TO 21
+      DO 11 M=1,IONF5(K)
+      M5=M+IONSM(K)+IONF1(K)+IONF2(K)+IONF3(K)+IONF4(K)
+      ET(K,M5)=ESTF5(K,M)
+      XT(K,M5)=X5(K,M)
+      YT(K,M5)=Y5(K,M)
+      ZT(K,M5)=Z5(K,M)
+      TT(K,M5)=T05(K,M)
+      DRX(K,M5)=DRX5(K,M)
+      DRY(K,M5)=DRY5(K,M)
+      DRZ(K,M5)=DRZ5(K,M)
+      ESTOT(K)=ESTOT(K)+ESTF5(K,M)
+      NJFLR(K,M5)=5
+   11 CONTINUE
+   21 CONTINUE
+C PRINT SOME RAW DATA
+C     IF(J.LE.525) THEN
+C     EDUM=0.0
+C     DO 666 JJ=1,IEVENTL(J)
+C 666 EDUM=EDUM+ET(JJ,J)
+C     WRITE(6,232) J
+C     WRITE(6,2321) EDUM
+C2321 FORMAT(' TOT ENERGY=',D12.3)
+C 232 FORMAT(' DATA FOR EVENT=',I3)
+C     DO 234 M=1,IEVENTL(J)
+C     WRITE(6,233) ET(M,J),XT(M,J),YT(M,J),ZT(M,J),TH(M,J),PH(M,J)
+C 233 FORMAT(' E=',D12.3,' X=',D12.3,' Y=',D12.3,' Z=',D12.3,' THETA=',
+C    /D12.3,' PHI=',D12.3)
+C 234 CONTINUE
+C     ENDIF
+      EDUM=0.0
+   12 CONTINUE
+      DO 30 K=1,IVAC
+      EDUM=EDUM+ESTOT(K)
+   30 CONTINUE
+      ETOT=EDUM
+      IF(EDUM.GT.(EFINAL+0.1)) THEN
+       WRITE(6,999) EDUM
+  999 FORMAT(' ETOT =',D12.5,'EV.    BAD EVENT IN COMPRESSE',/)
+       IBAD=1
+       STOP
+      ENDIF
+      RETURN     
+      END         
+```
+
+

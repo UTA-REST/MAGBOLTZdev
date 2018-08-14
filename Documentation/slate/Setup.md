@@ -1,5 +1,4 @@
 ## SETUP()
-
 ```fortran
       SUBROUTINE SETUP(LAST)                                            
       IMPLICIT REAL*8 (A-H,O-Z) 
@@ -849,8 +848,7 @@ def SETUP(LAST):
 	# end                                                               
 ```
 
-The SETUP() function handles the gas inputs
-
+The SETUP() function does something
 
 ### Arguments
 

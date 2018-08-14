@@ -11,8 +11,8 @@ toc_footers:
   - <a href='#'>Sign Up for a Developer Key</a>
   - <a href='https://github.com/lord/slate'>Documentation Powered by Slate</a>
 
-includes:
-  - errors
+<!-- includes:
+  - errors -->
 
 search: true
 ---
@@ -28,6 +28,41 @@ There is at the moment no facility to allow the density effect, which may change
 We have language bindings in Shell, Fortran, and Python! You can view code in the dark area to the right, and you can switch the programming language of the examples with the tabs in the top right.
 
 This documentation page was created with [Slate](https://github.com/lord/slate). 
+
+# Progress Report
+
+## Tasks Completed
+* Converted all fortran code into python except functions listed in TO-DO
+* Distributed all subroutines into apt modules
+* Create an easy to use UI for input(both FORTRAN and python)
+* Hosted a prelimenary documentation of the python code. 
+* Implemented module wise documentation in slate framework
+* One successful run of Degrad (using a few wrappers)
+* A preliminary script to translate FORTRAN code
+
+## TO-DO
+* Translate MONTEFX,MONTEFA and GASn (except n=1,2,12) into python.
+* Integrate UI for options to plot the data retrieved.
+* Create a more detailed documentation.
+* Create more rigrous tests for all functions to facilitate development.
+
+## How to Use
+* The instructions are provided [here](https://fireballpoint1.github.io/GasSimulator/?shell#using)
+
+## Code
+* [Link to Degrad modules](https://github.com/UTA-REST/MAGBOLTZdev/tree/master/Scripts/Python/degrad)
+* [Link to Documentation](https://github.com/UTA-REST/MAGBOLTZdev/tree/master/Documentation)
+* [Link to UI](https://github.com/UTA-REST/MAGBOLTZdev/tree/master/UI)
+* [Translation Script](https://github.com/fireballpoint1/GasSimulator/blob/master/change.py)
+
+## History 
+* [Link to my daily commits](https://github.com/fireballpoint1/GasSimulator/commits/master)
+* [PR1 to main repo](https://github.com/UTA-REST/MAGBOLTZdev/pull/3)
+
+## Documentation
+* The code documentation is available further in this page itself
+
+* [Link to translation methodology](https://github.com/fireballpoint1/MAGBOLTZdev/wiki/Translation-Methodology)
 
 # Using
 

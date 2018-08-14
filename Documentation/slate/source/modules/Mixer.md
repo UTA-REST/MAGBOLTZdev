@@ -1,14 +1,27 @@
 ## MIXER()
 * The function fills arrays of collision frequency
 * Store counting ionisation X-Section in array CMINIXSC[6] at minimum ionising energy
+* Set angle cuts on angular distribution and renormalize forward scattering probability.
+* Can have a mixture of upto 6 gases.
+
+
+### Arguments
+
+| Argument | Description |
+|----------|-------------|
+| NONE     | -           |
+|          |             |
+
+### Pseudo Code
+
 * Initialisations 
+* Store couting ionisation X-Section in array `CMINIXSC` at minimum ionising energy.
 * Calculate and store energy grid(X-Ray,Beta or Particles)
-* If EFINAL <=20000
-* If EFINAL in range(20000,140000)
-* Else
+* Calls the Gasmix function which in turn calls the Gasn functions which are the characteristic functions for each gas to calculate gas cross-sections
+
 
 ```fortran
-        SUBROUTINE MIXER                                                  
+        SUBROUTINE MIXER
         IMPLICIT REAL*8 (A-H,O-Z)
         IMPLICIT INTEGER*8 (I-N)                                         
         CHARACTER*25 NAMEG,NAME1,NAME2,NAME3,NAME4,NAME5,NAME6
