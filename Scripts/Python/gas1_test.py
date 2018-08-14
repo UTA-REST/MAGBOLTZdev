@@ -9,7 +9,6 @@ DEN=np.ones(4000)
 EFINAL = 0.5
 Q=[[0 for x in range(4000)] for y in range(6)]
 QIN=[[0 for x in range(4000)] for y in range(250)]
-NIN=[]
 EIN= gd['gas1/EIN']
 
 #EIN=[0 for x in range(250)]#<=== input to this function
@@ -39,7 +38,7 @@ NG1=[0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,1,2]
 EG1=[0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,253.0,625.2]
 NG2=[0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,1,1]
 EG2=[0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,5.0,5.0]
-ESTEP=1.767766952663691e-4#<===input to this function
+ESTEP=1.25e-4#<===input to this function
 EG=[6.25e-5+i*(1.25e-4) for i in range(0,4000)]#<==== Input to this function
 # should be a hardcoded value in the main program
 NANISO=2
