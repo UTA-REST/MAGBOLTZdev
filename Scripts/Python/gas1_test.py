@@ -220,7 +220,7 @@ for i in range(0,NSTEP):
  # EN=EN+ESTEP
   GAMMA1=(EMASS2+2.0*EN)/EMASS2
   GAMMA2=GAMMA1*GAMMA1
-  BETA = math.sqrt(1.00-1.00/GAMMA2)
+  BETA = np.sqrt(1.00-1.00/GAMMA2)
   BETA2= BETA *BETA
 
   j=0
@@ -264,7 +264,7 @@ for i in range(0,NSTEP):
     else:
       # USE BORN BETHE X-SECTION ABOVE XCF3([NCF3] EV
       X2=1/BETA2
-      X1=X2*np.log2(BETA2/(1-BETA2))-1
+      X1=X2*np.log(BETA2/(1-BETA2))-1
       QION[0][i]=CONST*(AM2*(X1-DEN[i]/2)+C*X2)*0.7344
     if EN > 2*EION[0]:
       PEQION[0][i]=PEQEL[1][(i-IOFFION[0])]
@@ -288,7 +288,7 @@ for i in range(0,NSTEP):
     else:
       # USE BORN BETHE X-SECTION ABOVE XCF2[NCF2] EV
       X2=1/BETA2
-      X1=X2*np.log2(BETA2/(1-BETA2))-1
+      X1=X2*np.log(BETA2/(1-BETA2))-1
       QION[1][i]=CONST*(AM2*(X1-DEN[i]/2)+C*X2)*0.0534
     if EN > 2*EION[1]:
       PEQION[1][i]=PEQEL[1][(i-IOFFION[1])]
@@ -312,7 +312,7 @@ for i in range(0,NSTEP):
     else:
       # USE BORN BETHE X-SECTION ABOVE XCF1[NCF1] EV
       X2=1/BETA2
-      X1=X2*np.log2(BETA2/(1-BETA2))-1
+      X1=X2*np.log(BETA2/(1-BETA2))-1
       QION[2][i]=CONST*(AM2*(X1-DEN[i]/2)+C*X2)*0.0386
     if EN > 2*EION[2]:
       PEQION[2][i]=PEQEL[1][(i-IOFFION[2])]
@@ -336,7 +336,7 @@ for i in range(0,NSTEP):
     else:
       # USE BORN BETHE X-SECTION ABOVE XC0F[NC0F] EV
       X2=1/BETA2
-      X1=X2*np.log2(BETA2/(1-BETA2))-1
+      X1=X2*np.log(BETA2/(1-BETA2))-1
       QION[3][i]=CONST*(AM2*(X1-DEN[i]/2)+C*X2)*0.0799
     if EN > 2*EION[3]:
       PEQION[3][i]=PEQEL[1][(i-IOFFION[3])]
@@ -360,7 +360,7 @@ for i in range(0,NSTEP):
     else:
       # USE BORN BETHE X-SECTION ABOVE XCF0[NCF0] EV
       X2=1/BETA2
-      X1=X2*np.log2(BETA2/(1-BETA2))-1
+      X1=X2*np.log(BETA2/(1-BETA2))-1
       QION[4][i]=CONST*(AM2*(X1-DEN[i]/2)+C*X2)*0.0422
     if EN > 2*EION[4]:
       PEQION[4][i]=PEQEL[1][(i-IOFFION[4])]
@@ -384,7 +384,7 @@ for i in range(0,NSTEP):
     else:
       # USE BORN BETHE X-SECTION ABOVE XCF3F[NCF3F] EV
       X2=1/BETA2
-      X1=X2*np.log2(BETA2/(1-BETA2))-1
+      X1=X2*np.log(BETA2/(1-BETA2))-1
       QION[5][i]=CONST*(AM2*(X1-DEN[i]/2)+C*X2)*0.0058
     if EN > 2*EION[5]:
       PEQION[5][i]=PEQEL[1][(i-IOFFION[5])]
@@ -407,7 +407,7 @@ for i in range(0,NSTEP):
     else:
       # USE BORN BETHE X-SECTION ABOVE XCF2F[NCF2F] EV
       X2=1/BETA2
-      X1=X2*np.log2(BETA2/(1-BETA2))-1
+      X1=X2*np.log(BETA2/(1-BETA2))-1
       QION[6][i]=CONST*(AM2*(X1-DEN[i]/2)+C*X2)*0.0073
     if EN > 2*EION[6]:
       PEQION[6][i]=PEQEL[1][(i-IOFFION[6])]
@@ -431,7 +431,7 @@ for i in range(0,NSTEP):
     else:
       # USE BORN BETHE X-SECTION ABOVE XCF32[NCF32] EV
       X2=1/BETA2
-      X1=X2*np.log2(BETA2/(1-BETA2))-1
+      X1=X2*np.log(BETA2/(1-BETA2))-1
       QION[7][i]=CONST*(AM2*(X1-DEN[i]/2)+C*X2)*0.0031
     if EN > 2*EION[7]:
       PEQION[7][i]=PEQEL[1][(i-IOFFION[7])]
@@ -452,7 +452,7 @@ for i in range(0,NSTEP):
     else:
       # USE BORN BETHE X-SECTION ABOVE XCF22[NCF22] EV
       X2=1/BETA2
-      X1=X2*np.log2(BETA2/(1-BETA2))-1
+      X1=X2*np.log(BETA2/(1-BETA2))-1
       QION[7][i]=QION[7][i]+CONST*(AM2*(X1-DEN[i]/2)+C*X2)*0.0077
 
 
@@ -475,7 +475,7 @@ for i in range(0,NSTEP):
     else:
       # USE BORN BETHE X-SECTION ABOVE XCFF[NCFF] EV
       X2=1/BETA2
-      X1=X2*np.log2(BETA2/(1-BETA2))-1
+      X1=X2*np.log(BETA2/(1-BETA2))-1
       QION[8][i]=CONST*(AM2*(X1-DEN[i]/2)+C*X2)*0.0189
     if EN > 2*EION[8]:
       PEQION[8][i]=PEQEL[1][(i-IOFFION[8])]
@@ -500,7 +500,7 @@ for i in range(0,NSTEP):
     else:
       # USE BORN BETHE X-SECTION ABOVE XCF[NCF] EV
       X2=1/BETA2
-      X1=X2*np.log2(BETA2/(1-BETA2))-1
+      X1=X2*np.log(BETA2/(1-BETA2))-1
       QION[9][i]=CONST*(AM2*(X1-DEN[i]/2)+C*X2)*0.0087
     if EN > 2*EION[9]:
       PEQION[9][i]=PEQEL[1][(i-IOFFION[9])]
@@ -545,10 +545,10 @@ for i in range(0,NSTEP):
       PEQION[11][i]=PEQEL[1][(i-IOFFION[11])]
 
   #ATTACHMENT
+  j=0
   Q[3][i]=0.0
   if EN>XATT[0]:
     if EN<=XATT[NATT1-1]:
-      j=0
       for j in range(1,NATT1):
         if EN <= XATT[j]:
           break
@@ -558,6 +558,8 @@ for i in range(0,NSTEP):
       QATT[0][i]=Q[3][i]
   Q[4][i]=0.0
   Q[5][i]=0.0
+  if i==0:
+      print(j)
   #SCALE FACTOR FOR VIBRATIONAL DIPOLE V3 ABOVE 0.4EV
 
   VDSC=1.0
@@ -570,8 +572,8 @@ for i in range(0,NSTEP):
   QIN[0][i]=0.0
   PEQIN[0][i]=0.5
   if EN>0.0:
-    EFAC=math.sqrt(1.0-(EIN[0]/EN))
-    QIN[0][i]=0.007*np.log2((EFAC+1.0)/(EFAC-1.0))/EN
+    EFAC=np.sqrt(1.0-(EIN[0]/EN))
+    QIN[0][i]=0.007*np.log((EFAC+1.0)/(EFAC-1.0))/EN
     QIN[0][i]=QIN[0][i]*APOPV2*1.0e-16/DEGV2
     if EN>100.0:
       PEQIN[0][i]=PQ[1]
@@ -580,8 +582,8 @@ for i in range(0,NSTEP):
   QIN[1][i]=0.0
   PEQIN[1][i]=0.5
   if EN>EIN[1]:
-    EFAC=math.sqrt(1.0-(EIN[1]/EN))
-    QIN[1][i]=0.007*np.log2((1.0+EFAC)/(1.0-EFAC))/EN
+    EFAC=np.sqrt(1.0-(EIN[1]/EN))
+    QIN[1][i]=0.007*np.log((1.0+EFAC)/(1.0-EFAC))/EN
     QIN[1][i]=QIN[1][i]*APOPGS*1.0e-16
     if EN>100.0:
       PEQIN[1][i]=PQ[1]
@@ -592,15 +594,17 @@ for i in range(0,NSTEP):
   PEQIN[2][i]=0.5
   if EN>0.0:
     if EN-EIN[2]<=XVBV4[NVBV4-1]:
-      if(EN-EN[2]>XVBV4[j])
-        j=NVBV4-1
+      j=0
+      for j in range(1,NVBV4):
+          if EN-EIN[2] <= XVBV4[j]:
+              break
       A=(YVBV4[j]-YVBV4[j-1])/(XVBV4[j]-XVBV4[j-1])
       B=(XVBV4[j-1]*YVBV4[j]-XVBV4[j]*YVBV4[j-1])/(XVBV4[j-1]-XVBV4[j])
       QIN[2][i]=(EN-EIN[2])*(A*(EN-EIN[2])+B)/EN
     else:
       QIN[2][i]=YVBV4[NVBV4-1]*(XVBV4[NVBV4-1]/(EN*(EN-EIN[2]))**2)
-    EFAC=math.sqrt(1.0-(EIN[2]/EN))
-    QIN[2][i]=QIN[2][i]+0.05*np.log2((EFAC+1.0)/(EFAC-1.0))/EN
+    EFAC=np.sqrt(1.0-(EIN[2]/EN))
+    QIN[2][i]=QIN[2][i]+0.05*np.log((EFAC+1.0)/(EFAC-1.0))/EN
     QIN[2][i]=QIN[2][i]*APOPV4*1.0e-16/DEGV4
     if EN>100.0:
       PEQIN[2][i]=PQ[1]
@@ -619,11 +623,11 @@ for i in range(0,NSTEP):
       QIN[3][i]=A*EN+B
     else:
       QIN[3][i]=YVBV4[NVBV4-1]*(XVBV4[NVBV4-1]/EN)**3
-    EFAC=math.sqrt(1.0-(EIN[3]/EN))
-    ADIP=0.05*np.log2((1.0+EFAC)/(1.0-EFAC))/EN
+    EFAC=np.sqrt(1.0-(EIN[3]/EN))
+    ADIP=0.05*np.log((1.0+EFAC)/(1.0-EFAC))/EN
     ELF=EN-EIN[3]
-    FWD=np.log2((EN+ELF)/(EN+ELF-2.0*math.sqrt(EN*ELF)))
-    BCK=np.log2((EN+ELF+2.0*math.sqrt(EN*ELF))/(EN+ELF))
+    FWD=np.log((EN+ELF)/(EN+ELF-2.0*np.sqrt(EN*ELF)))
+    BCK=np.log((EN+ELF+2.0*np.sqrt(EN*ELF))/(EN+ELF))
     #RATIO OF MT TO TOTAL X-SECT FOR RESONANCE PART = RAT
     XMT=((1.5-FWD/(FWD+BCK))*ADIP+RAT*QIN[3][i])*APOPGS*1.0e-16
     QIN[3][i]=(QIN[3][i]+ADIP)*APOPGS*1.0e-16
@@ -647,8 +651,8 @@ for i in range(0,NSTEP):
       QIN[4][i]=(EN-EIN[4])*(A*(EN-EIN[4])+B)/EN
     else:
       QIN[4][i]=YVBV1[NVBV1-1]*(XVBV1[NVBV1-1]/(EN*(EN-EIN[4]))**2)
-    EFAC=math.sqrt(1.0-(EIN[4]/EN))
-    QIN[4][i]=QIN[4][i]+0.0224*np.log2((EFAC+1.0)/(EFAC-1.0))/EN
+    EFAC=np.sqrt(1.0-(EIN[4]/EN))
+    QIN[4][i]=QIN[4][i]+0.0224*np.log((EFAC+1.0)/(EFAC-1.0))/EN
     QIN[4][i]=QIN[4][i]*APOPV1*1.0e-16/DEGV1
     if EN>100.0:
       PEQIN[4][i]=PQ[1]
@@ -668,8 +672,8 @@ for i in range(0,NSTEP):
       QIN[5][i]=A*EN+B
     else:
       QIN[5][i]=YVBV1[NVBV1-1]*(XVBV1[NVBV1-1]/EN)**3
-    EFAC=math.sqrt(1.0-(EIN[5]/EN))
-    QIN[5][i]=QIN[5][i]+0.0224*np.log2((EFAC+1.0)/(1.0-EFAC))/EN
+    EFAC=np.sqrt(1.0-(EIN[5]/EN))
+    QIN[5][i]=QIN[5][i]+0.0224*np.log((EFAC+1.0)/(1.0-EFAC))/EN
     QIN[5][i]=QIN[5][i]*APOPGS*1.0e-16
     if EN>100.0:
       PEQIN[5][i]=PQ[1]
@@ -688,8 +692,8 @@ for i in range(0,NSTEP):
       QIN[6][i]=(EN-EIN[6])*(A*(EN-EIN[6])+B)/EN
     else:
       QIN[6][i]=YVBV3[NVBV3-1]*(XVBV3[NVBV3-1]/(EN*(EN-EIN[6]))**2)
-    EFAC=math.sqrt(1.0-(EIN[6]/EN))
-    QIN[6][i]=QIN[6][i]+VDSC*1.610*np.log2((EFAC+1.0)/(EFAC-1.0))/EN
+    EFAC=np.sqrt(1.0-(EIN[6]/EN))
+    QIN[6][i]=QIN[6][i]+VDSC*1.610*np.log((EFAC+1.0)/(EFAC-1.0))/EN
     QIN[6][i]=QIN[6][i]*APOPV3*1.0e-16/DEGV3
     if EN>100.0:
       PEQIN[6][i]=PQ[1]
@@ -707,11 +711,11 @@ for i in range(0,NSTEP):
       QIN[7][i]=A*EN+B
     else:
       QIN[7][i]=YVBV3[NVBV3-1]*(XVBV3[NVBV3-1]/EN)**3
-    EFAC=math.sqrt(1.0-(EIN[7]/EN))
-    ADIP=VDSC*1.610*np.log2((EFAC+1.0)/(1.0-EFAC))/EN
+    EFAC=np.sqrt(1.0-(EIN[7]/EN))
+    ADIP=VDSC*1.610*np.log((EFAC+1.0)/(1.0-EFAC))/EN
     ELF=EN-EIN[7]
-    FWD=np.log2((EN+ELF)/(EN+ELF-2.0*math.sqrt(EN*ELF)))
-    BCK=np.log2((EN+ELF+2.0*math.sqrt(EN*ELF))/(EN+ELF))
+    FWD=np.log((EN+ELF)/(EN+ELF-2.0*np.sqrt(EN*ELF)))
+    BCK=np.log((EN+ELF+2.0*np.sqrt(EN*ELF))/(EN+ELF))
     # ASSUME RATIO MOM T./ TOT X-SECT FOR RESONANCE PART = RAT
     XMT=((1.5-FWD/(FWD+BCK))*ADIP+RAT*QIN[7][i])*APOPGS*1.0e-16
     QIN[7][i]=(QIN[7][i]+ADIP)*APOPGS*1.0e-16
@@ -779,7 +783,7 @@ for i in range(0,NSTEP):
   QIN[11][i]=0.0
   PEQIN[11][i]=0.0
   if EN>EIN[11]:
-    QIN[11][i]=0.0001893/(EIN[11]*BETA2)*(np.log2(BETA2*GAMMA2*EMASS2/(4.0
+    QIN[11][i]=0.0001893/(EIN[11]*BETA2)*(np.log(BETA2*GAMMA2*EMASS2/(4.0
     *EIN[11]))-BETA2-DEN[i]/2.0)*BBCONST*EN/(EN+EIN[11]+E[2])*1.0107
   if QIN[11][i]<0.0:
     QIN[11][i]=0
@@ -791,7 +795,7 @@ for i in range(0,NSTEP):
   QIN[12][i]=0.0
   PEQIN[12][i]=0.0
   if EN>EIN[12]:
-    QIN[12][i]=0.001085/(EIN[12]*BETA2)*(np.log2(BETA2*GAMMA2*EMASS2/(4.0
+    QIN[12][i]=0.001085/(EIN[12]*BETA2)*(np.log(BETA2*GAMMA2*EMASS2/(4.0
     *EIN[12]))-BETA2-DEN[i]/2.0)*BBCONST*EN/(EN+EIN[12]+E[2])*1.0105
   if QIN[12][i]<0.0:
     QIN[12][i]=0
@@ -802,7 +806,7 @@ for i in range(0,NSTEP):
   QIN[13][i]=0.0
   PEQIN[13][i]=0.0
   if EN>EIN[13]:
-    QIN[13][i]=0.004807/(EIN[13]*BETA2)*(np.log2(BETA2*GAMMA2*EMASS2/(4.0*
+    QIN[13][i]=0.004807/(EIN[13]*BETA2)*(np.log(BETA2*GAMMA2*EMASS2/(4.0*
     EIN[13]))-BETA2-DEN[i]/2.0)*BBCONST*EN/(EN+EIN[13]+E[2])*1.0103
   if QIN[13][i]<0.0:
     QIN[13][i]=0
@@ -813,7 +817,7 @@ for i in range(0,NSTEP):
   QIN[14][i]=0.0
   PEQIN[14][i]=0.0
   if EN>EIN[14]:
-    QIN[14][i]=0.008819/(EIN[14]*BETA2)*(np.log2(BETA2*GAMMA2*EMASS2/(4.0*
+    QIN[14][i]=0.008819/(EIN[14]*BETA2)*(np.log(BETA2*GAMMA2*EMASS2/(4.0*
     EIN[14]))-BETA2-DEN[i]/2.0)*BBCONST*EN/(EN+EIN[14]+E[2])*1.0101
   if QIN[14][i]<0.0:
     QIN[14][i]=0
@@ -841,7 +845,7 @@ for i in range(0,NSTEP):
   QIN[16][i]=0.0
   PEQIN[16][i]=0.0
   if EN>EIN[16]:
-    QIN[16][i]=0.008918/(EIN[16]*BETA2)*(np.log2(BETA2*GAMMA2*EMASS2/(4.0*
+    QIN[16][i]=0.008918/(EIN[16]*BETA2)*(np.log(BETA2*GAMMA2*EMASS2/(4.0*
     EIN[16]))-BETA2-DEN[i]/2.0)*BBCONST*EN/(EN+EIN[16]+E[2])*1.0099
   if QIN[16][i]<0.0:
     QIN[16][i]=0
@@ -852,7 +856,7 @@ for i in range(0,NSTEP):
   QIN[17][i]=0.0
   PEQIN[17][i]=0.0
   if EN>EIN[17]:
-    QIN[17][i]=0.008420/(EIN[17]*BETA2)*(np.log2(BETA2*GAMMA2*EMASS2/(4.0*
+    QIN[17][i]=0.008420/(EIN[17]*BETA2)*(np.log(BETA2*GAMMA2*EMASS2/(4.0*
     EIN[17]))-BETA2-DEN[i]/2.0)*BBCONST*EN/(EN+EIN[17]+E[2])*1.0097
   if QIN[17][i]<0.0:
     QIN[17][i]=0
@@ -863,7 +867,7 @@ for i in range(0,NSTEP):
   QIN[18][i]=0.0
   PEQIN[18][i]=0.0
   if EN>EIN[18]:
-    QIN[18][i]=0.02531/(EIN[18]*BETA2)*(np.log2(BETA2*GAMMA2*EMASS2/(4.0*
+    QIN[18][i]=0.02531/(EIN[18]*BETA2)*(np.log(BETA2*GAMMA2*EMASS2/(4.0*
     EIN[18]))-BETA2-DEN[i]/2.0)*BBCONST*EN/(EN+EIN[18]+E[2])*1.0095
   if QIN[18][i]<0.0:
     QIN[18][i]=0
@@ -875,7 +879,7 @@ for i in range(0,NSTEP):
   QIN[19][i]=0.0
   PEQIN[19][i]=0.0
   if EN>EIN[19]:
-    QIN[19][i]=0.09553/(EIN[19]*BETA2)*(np.log2(BETA2*GAMMA2*EMASS2/(4.0*
+    QIN[19][i]=0.09553/(EIN[19]*BETA2)*(np.log(BETA2*GAMMA2*EMASS2/(4.0*
     EIN[19]))-BETA2-DEN[i]/2.0)*BBCONST*EN/(EN+EIN[19]+E[2])*1.0093
   if QIN[19][i]<0.0:
     QIN[19][i]=0
@@ -886,7 +890,7 @@ for i in range(0,NSTEP):
   QIN[20][i]=0.0
   PEQIN[20][i]=0.0
   if EN>EIN[20]:
-    QIN[20][i]=0.11193/(EIN[20]*BETA2)*(np.log2(BETA2*GAMMA2*EMASS2/(4.0*
+    QIN[20][i]=0.11193/(EIN[20]*BETA2)*(np.log(BETA2*GAMMA2*EMASS2/(4.0*
     EIN[20]))-BETA2-DEN[i]/2.0)*BBCONST*EN/(EN+EIN[20]+E[2])*1.0092
   if QIN[20][i]<0.0:
     QIN[20][i]=0
@@ -897,7 +901,7 @@ for i in range(0,NSTEP):
   QIN[21][i]=0.0
   PEQIN[21][i]=0.0
   if EN>EIN[21]:
-    QIN[21][i]=0.10103/(EIN[21]*BETA2)*(np.log2(BETA2*GAMMA2*EMASS2/(4.0*
+    QIN[21][i]=0.10103/(EIN[21]*BETA2)*(np.log(BETA2*GAMMA2*EMASS2/(4.0*
     EIN[21]))-BETA2-DEN[i]/2.0)*BBCONST*EN/(EN+EIN[21]+E[2])*1.0090
   if QIN[21][i]<0.0:
     QIN[21][i]=0
@@ -926,7 +930,7 @@ for i in range(0,NSTEP):
   QIN[23][i]=0.0
   PEQIN[23][i]=0.0
   if EN>EIN[23]:
-    QIN[23][i]=0.06902/(EIN[23]*BETA2)*(np.log2(BETA2*GAMMA2*EMASS2/(4.0*
+    QIN[23][i]=0.06902/(EIN[23]*BETA2)*(np.log(BETA2*GAMMA2*EMASS2/(4.0*
     EIN[23]))-BETA2-DEN[i]/2.0)*BBCONST*EN/(EN+EIN[23]+E[2])*1.0088
   if QIN[23][i]<0.0:
     QIN[23][i]=0
@@ -937,7 +941,7 @@ for i in range(0,NSTEP):
   QIN[24][i]=0.0
   PEQIN[24][i]=0.0
   if EN>EIN[24]:
-    QIN[24][i]=0.03968/(EIN[24]*BETA2)*(np.log2(BETA2*GAMMA2*EMASS2/(4.0*
+    QIN[24][i]=0.03968/(EIN[24]*BETA2)*(np.log(BETA2*GAMMA2*EMASS2/(4.0*
     EIN[24]))-BETA2-DEN[i]/2.0)*BBCONST*EN/(EN+EIN[24]+E[2])*1.0087
   if QIN[24][i]<0.0:
     QIN[24][i]=0
@@ -948,7 +952,7 @@ for i in range(0,NSTEP):
   QIN[25][i]=0.0
   PEQIN[25][i]=0.0
   if EN>EIN[25]:
-    QIN[25][i]=0.02584/(EIN[25]*BETA2)*(np.log2(BETA2*GAMMA2*EMASS2/(4.0*
+    QIN[25][i]=0.02584/(EIN[25]*BETA2)*(np.log(BETA2*GAMMA2*EMASS2/(4.0*
     EIN[25]))-BETA2-DEN[i]/2.0)*BBCONST*EN/(EN+EIN[25]+E[2])*1.0085
   if QIN[25][i]<0.0:
     QIN[25][i]=0
@@ -959,7 +963,7 @@ for i in range(0,NSTEP):
   QIN[26][i]=0.0
   PEQIN[26][i]=0.0
   if EN>EIN[26]:
-    QIN[26][i]=0.02071/(EIN[26]*BETA2)*(np.log2(BETA2*GAMMA2*EMASS2/(4.0*
+    QIN[26][i]=0.02071/(EIN[26]*BETA2)*(np.log(BETA2*GAMMA2*EMASS2/(4.0*
     EIN[26]))-BETA2-DEN[i]/2.0)*BBCONST*EN/(EN+EIN[26]+E[2])*1.0084
   if QIN[26][i]<0.0:
     QIN[26][i]=0
@@ -970,7 +974,7 @@ for i in range(0,NSTEP):
   QIN[27][i]=0.0
   PEQIN[27][i]=0.0
   if EN>EIN[27]:
-    QIN[27][i]=0.03122/(EIN[27]*BETA2)*(np.log2(BETA2*GAMMA2*EMASS2/(4.0*
+    QIN[27][i]=0.03122/(EIN[27]*BETA2)*(np.log(BETA2*GAMMA2*EMASS2/(4.0*
     EIN[27]))-BETA2-DEN[i]/2.0)*BBCONST*EN/(EN+EIN[27]+E[2])*1.0083
   if QIN[27][i]<0.0:
     QIN[27][i]=0
@@ -981,7 +985,7 @@ for i in range(0,NSTEP):
   QIN[28][i]=0.0
   PEQIN[28][i]=0.0
   if EN>EIN[28]:
-    QIN[28][i]=0.05580/(EIN[28]*BETA2)*(np.log2(BETA2*GAMMA2*EMASS2/(4.0*
+    QIN[28][i]=0.05580/(EIN[28]*BETA2)*(np.log(BETA2*GAMMA2*EMASS2/(4.0*
     EIN[28]))-BETA2-DEN[i]/2.0)*BBCONST*EN/(EN+EIN[28]+E[2])*1.0081
   if QIN[28][i]<0.0:
     QIN[28][i]=0
@@ -993,7 +997,7 @@ for i in range(0,NSTEP):
   QIN[29][i]=0.0
   PEQIN[29][i]=0.0
   if EN>EIN[29]:
-    QIN[29][i]=0.10187/(EIN[29]*BETA2)*(np.log2(BETA2*GAMMA2*EMASS2/(4.0*
+    QIN[29][i]=0.10187/(EIN[29]*BETA2)*(np.log(BETA2*GAMMA2*EMASS2/(4.0*
     EIN[29]))-BETA2-DEN[i]/2.0)*BBCONST*EN/(EN+EIN[29]+E[2])*1.0080
   if QIN[29][i]<0.0:
     QIN[29][i]=0
@@ -1004,7 +1008,7 @@ for i in range(0,NSTEP):
   QIN[30][i]=0.0
   PEQIN[30][i]=0.0
   if EN>EIN[30]:
-    QIN[30][i]=0.09427/(EIN[30]*BETA2)*(np.log2(BETA2*GAMMA2*EMASS2/(4.0*
+    QIN[30][i]=0.09427/(EIN[30]*BETA2)*(np.log(BETA2*GAMMA2*EMASS2/(4.0*
     EIN[30]))-BETA2-DEN[i]/2.0)*BBCONST*EN/(EN+EIN[30]+E[2])*1.0079
   if QIN[30][i]<0.0:
     QIN[30][i]=0
@@ -1016,7 +1020,7 @@ for i in range(0,NSTEP):
   QIN[31][i]=0.0
   PEQIN[31][i]=0.0
   if EN>EIN[31]:
-    QIN[31][i]=0.05853/(EIN[31]*BETA2)*(np.log2(BETA2*GAMMA2*EMASS2/(4.0*
+    QIN[31][i]=0.05853/(EIN[31]*BETA2)*(np.log(BETA2*GAMMA2*EMASS2/(4.0*
     EIN[31]))-BETA2-DEN[i]/2.0)*BBCONST*EN/(EN+EIN[31]+E[2])*1.0077
   if QIN[31][i]<0.0:
     QIN[31][i]=0
@@ -1028,7 +1032,7 @@ for i in range(0,NSTEP):
   QIN[32][i]=0.0
   PEQIN[32][i]=0.0
   if EN>EIN[32]:
-    QIN[32][i]=0.06002/(EIN[32]*BETA2)*(np.log2(BETA2*GAMMA2*EMASS2/(4.0*
+    QIN[32][i]=0.06002/(EIN[32]*BETA2)*(np.log(BETA2*GAMMA2*EMASS2/(4.0*
     EIN[32]))-BETA2-DEN[i]/2.0)*BBCONST*EN/(EN+EIN[32]+E[2])*1.0076
   if QIN[32][i]<0.0:
     QIN[32][i]=0
@@ -1040,7 +1044,7 @@ for i in range(0,NSTEP):
   QIN[33][i]=0.0
   PEQIN[33][i]=0.0
   if EN>EIN[33]:
-    QIN[33][i]=0.05647/(EIN[33]*BETA2)*(np.log2(BETA2*GAMMA2*EMASS2/(4.0*
+    QIN[33][i]=0.05647/(EIN[33]*BETA2)*(np.log(BETA2*GAMMA2*EMASS2/(4.0*
     EIN[33]))-BETA2-DEN[i]/2.0)*BBCONST*EN/(EN+EIN[33]+E[2])*1.0075
   if QIN[33][i]<0.0:
     QIN[33][i]=0
@@ -1052,7 +1056,7 @@ for i in range(0,NSTEP):
   QIN[34][i]=0.0
   PEQIN[34][i]=0.0
   if EN>EIN[34]:
-    QIN[34][i]=0.04885/(EIN[34]*BETA2)*(np.log2(BETA2*GAMMA2*EMASS2/(4.0*
+    QIN[34][i]=0.04885/(EIN[34]*BETA2)*(np.log(BETA2*GAMMA2*EMASS2/(4.0*
     EIN[34]))-BETA2-DEN[i]/2.0)*BBCONST*EN/(EN+EIN[34]+E[2])*1.0074
   if QIN[34][i]<0.0:
     QIN[34][i]=0
@@ -1064,7 +1068,7 @@ for i in range(0,NSTEP):
   QIN[35][i]=0.0
   PEQIN[35][i]=0.0
   if EN>EIN[35]:
-    QIN[35][i]=0.04036/(EIN[35]*BETA2)*(np.log2(BETA2*GAMMA2*EMASS2/(4.0*
+    QIN[35][i]=0.04036/(EIN[35]*BETA2)*(np.log(BETA2*GAMMA2*EMASS2/(4.0*
     EIN[35]))-BETA2-DEN[i]/2.0)*BBCONST*EN/(EN+EIN[35]+E[2])*1.0073
   if QIN[35][i]<0.0:
     QIN[35][i]=0
@@ -1076,7 +1080,7 @@ for i in range(0,NSTEP):
   QIN[36][i]=0.0
   PEQIN[36][i]=0.0
   if EN>EIN[36]:
-    QIN[36][i]=0.03298/(EIN[36]*BETA2)*(np.log2(BETA2*GAMMA2*EMASS2/(4.0*
+    QIN[36][i]=0.03298/(EIN[36]*BETA2)*(np.log(BETA2*GAMMA2*EMASS2/(4.0*
     EIN[36]))-BETA2-DEN[i]/2.0)*BBCONST*EN/(EN+EIN[36]+E[2])*1.0072
   if QIN[36][i]<0.0:
     QIN[36][i]=0
@@ -1089,7 +1093,7 @@ for i in range(0,NSTEP):
   QIN[37][i]=0.0
   PEQIN[37][i]=0.0
   if EN>EIN[37]:
-    QIN[37][i]=0.02593/(EIN[37]*BETA2)*(np.log2(BETA2*GAMMA2*EMASS2/(4.0*
+    QIN[37][i]=0.02593/(EIN[37]*BETA2)*(np.log(BETA2*GAMMA2*EMASS2/(4.0*
     EIN[37]))-BETA2-DEN[i]/2.0)*BBCONST*EN/(EN+EIN[37]+E[2])*1.0071
   if QIN[37][i]<0.0:
     QIN[37][i]=0
@@ -1102,7 +1106,7 @@ for i in range(0,NSTEP):
   QIN[38][i]=0.0
   PEQIN[38][i]=0.0
   if EN>EIN[38]:
-    QIN[38][i]=0.01802/(EIN[38]*BETA2)*(np.log2(BETA2*GAMMA2*EMASS2/(4.0*
+    QIN[38][i]=0.01802/(EIN[38]*BETA2)*(np.log(BETA2*GAMMA2*EMASS2/(4.0*
     EIN[38]))-BETA2-DEN[i]/2.0)*BBCONST*EN/(EN+EIN[38]+E[2])*1.0070
   if QIN[38][i]<0.0:
     QIN[38][i]=0
@@ -1116,7 +1120,7 @@ for i in range(0,NSTEP):
   QIN[39][i]=0.0
   PEQIN[39][i]=0.0
   if EN>EIN[39]:
-    QIN[39][i]=0.01287/(EIN[39]*BETA2)*(np.log2(BETA2*GAMMA2*EMASS2/(4.0*
+    QIN[39][i]=0.01287/(EIN[39]*BETA2)*(np.log(BETA2*GAMMA2*EMASS2/(4.0*
     EIN[39]))-BETA2-DEN[i]/2.0)*BBCONST*EN/(EN+EIN[39]+E[2])*1.0069
   if QIN[39][i]<0.0:
     QIN[39][i]=0
@@ -1129,7 +1133,7 @@ for i in range(0,NSTEP):
   QIN[40][i]=0.0
   PEQIN[40][i]=0.0
   if EN>EIN[40]:
-    QIN[40][i]=0.00830/(EIN[40]*BETA2)*(np.log2(BETA2*GAMMA2*EMASS2/(4.0*
+    QIN[40][i]=0.00830/(EIN[40]*BETA2)*(np.log(BETA2*GAMMA2*EMASS2/(4.0*
     EIN[40]))-BETA2-DEN[i]/2.0)*BBCONST*EN/(EN+EIN[40]+E[2])*1.0068
   if QIN[40][i]<0.0:
     QIN[40][i]=0
@@ -1141,7 +1145,7 @@ for i in range(0,NSTEP):
   QIN[41][i]=0.0
   PEQIN[41][i]=0.0
   if EN>EIN[41]:
-    QIN[41][i]=0.00698/(EIN[41]*BETA2)*(np.log2(BETA2*GAMMA2*EMASS2/(4.0*
+    QIN[41][i]=0.00698/(EIN[41]*BETA2)*(np.log(BETA2*GAMMA2*EMASS2/(4.0*
     EIN[41]))-BETA2-DEN[i]/2.0)*BBCONST*EN/(EN+EIN[41]+E[2])*1.0067
   if QIN[41][i]<0.0:
     QIN[41][i]=0
@@ -1153,7 +1157,7 @@ for i in range(0,NSTEP):
   QIN[42][i]=0.0
   PEQIN[42][i]=0.0
   if EN>EIN[42]:
-    QIN[42][i]=0.00581/(EIN[42]*BETA2)*(np.log2(BETA2*GAMMA2*EMASS2/(4.0*
+    QIN[42][i]=0.00581/(EIN[42]*BETA2)*(np.log(BETA2*GAMMA2*EMASS2/(4.0*
     EIN[42]))-BETA2-DEN[i]/2.0)*BBCONST*EN/(EN+EIN[42]+E[2])*1.0066
   if QIN[42][i]<0.0:
     QIN[42][i]=0
@@ -1166,7 +1170,7 @@ for i in range(0,NSTEP):
   QIN[43][i]=0.0
   PEQIN[43][i]=0.0
   if EN>EIN[43]:
-    QIN[43][i]=0.00502/(EIN[43]*BETA2)*(np.log2(BETA2*GAMMA2*EMASS2/(4.0*
+    QIN[43][i]=0.00502/(EIN[43]*BETA2)*(np.log(BETA2*GAMMA2*EMASS2/(4.0*
     EIN[43]))-BETA2-DEN[i]/2.0)*BBCONST*EN/(EN+EIN[43]+E[2])*1.0065
   if QIN[43][i]<0.0:
     QIN[43][i]=0
@@ -1180,7 +1184,7 @@ for i in range(0,NSTEP):
   QIN[44][i]=0.0
   PEQIN[44][i]=0.0
   if EN>EIN[44]:
-    QIN[44][i]=0.00398/(EIN[44]*BETA2)*(np.log2(BETA2*GAMMA2*EMASS2/(4.0*
+    QIN[44][i]=0.00398/(EIN[44]*BETA2)*(np.log(BETA2*GAMMA2*EMASS2/(4.0*
     EIN[44]))-BETA2-DEN[i]/2.0)*BBCONST*EN/(EN+EIN[44]+E[2])*1.0064
   if QIN[44][i]<0.0:
     QIN[44][i]=0
@@ -1196,7 +1200,7 @@ for i in range(0,NSTEP):
   PEQIN[45][i]=0.0
   if EN>EIN[45]:
 #magboltz code is 0.00198 while the pattern should go to 0.00189
-    QIN[45][i]=0.00198/(EIN[45]*BETA2)*(np.log2(BETA2*GAMMA2*EMASS2/(4.0*
+    QIN[45][i]=0.00198/(EIN[45]*BETA2)*(np.log(BETA2*GAMMA2*EMASS2/(4.0*
     EIN[45]))-BETA2-DEN[i]/2.0)*BBCONST*EN/(EN+EIN[45]+E[2])*1.0064
   if QIN[45][i]<0.0:
     QIN[45][i]=0
@@ -1216,6 +1220,8 @@ for i in range(0,NSTEP):
   VSUM=0.0
   for J in range(0,10):
     VSUM=VSUM+QIN[J][i]
+    if i==0:
+     print("QIN["+str(J)+"][0] =" +str(QIN[J][i]))
   QIONG=QIONSUM
   for J in range(5,12):
     QIONG=QIONG+QION[J][i]
@@ -1223,11 +1229,10 @@ for i in range(0,NSTEP):
   DISTOT = QSNGLSUM+QTRIPSUM+QIONSUM
   Q[0][i]=Q[1][i]+Q[3][i]+VSUM+DISTOT
 
-  print(Q[0][0])
 for J in range(10,46):
   if EFINAL <= EIN[J]:
     NIN=J-1
     break
 print("DONE")
-
+print(Q)
 gd.close()
