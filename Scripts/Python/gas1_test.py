@@ -581,7 +581,7 @@ for i in range(0,NSTEP):
   PEQIN[1][i]=0.5
   if EN>EIN[1]:
     EFAC=math.sqrt(1.0-(EIN[1]/EN))
-    QIN[1][i]=0.007*np.log2((EFAC+1.0)/(1.0-EFAC))/EN
+    QIN[1][i]=0.007*np.log2((1.0+EFAC)/(1.0-EFAC))/EN
     QIN[1][i]=QIN[1][i]*APOPGS*1.0e-16
     if EN>100.0:
       PEQIN[1][i]=PQ[1]
@@ -592,11 +592,8 @@ for i in range(0,NSTEP):
   PEQIN[2][i]=0.5
   if EN>0.0:
     if EN-EIN[2]<=XVBV4[NVBV4-1]:
-      j=0
-      for j in range(1,NVBV4):
-        if EN-EIN[2] <= XVBV4[j]:
-          break
-
+      if(EN-EN[2]>XVBV4[j])
+        j=NVBV4-1
       A=(YVBV4[j]-YVBV4[j-1])/(XVBV4[j]-XVBV4[j-1])
       B=(XVBV4[j-1]*YVBV4[j]-XVBV4[j]*YVBV4[j-1])/(XVBV4[j-1]-XVBV4[j])
       QIN[2][i]=(EN-EIN[2])*(A*(EN-EIN[2])+B)/EN
@@ -623,7 +620,7 @@ for i in range(0,NSTEP):
     else:
       QIN[3][i]=YVBV4[NVBV4-1]*(XVBV4[NVBV4-1]/EN)**3
     EFAC=math.sqrt(1.0-(EIN[3]/EN))
-    ADIP=0.05*np.log2((EFAC+1.0)/(1.0-EFAC))/EN
+    ADIP=0.05*np.log2((1.0+EFAC)/(1.0-EFAC))/EN
     ELF=EN-EIN[3]
     FWD=np.log2((EN+ELF)/(EN+ELF-2.0*math.sqrt(EN*ELF)))
     BCK=np.log2((EN+ELF+2.0*math.sqrt(EN*ELF))/(EN+ELF))
