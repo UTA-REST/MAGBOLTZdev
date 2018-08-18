@@ -1,3 +1,5 @@
+import numpy
+import conf
 def PRINTER():
 	# IMPLICIT #real*8 (A-H,O-Z) 
 	# IMPLICIT #integer*8 (I-N)   
@@ -16,7 +18,7 @@ def PRINTER():
 	#COMMON/SETP/
 	global TMAX,SMALL,API,ESTART,THETA,PHI
 	global TCFMAX#(10),
-	global TCFMAX1,RSTART,EFIELD,ETHRM,ECUT,NDELTA,IMIP,IWRITE                      
+	global TCFMAX1,RSTART,EFIELD,ETHRM,ECUT,NEVENT,IMIP,IWRITE                      
 	#COMMON/BFLD/
 	global EOVB,WB,BTHETA,BMAG  
 	#COMMON/IONC/
@@ -45,7 +47,98 @@ def PRINTER():
 	global LEGAS#(512),
 	global IESHELL#(512),
 	global IECASC  
-	NAMEG=numpy.zeros(25+1,dtype=str)
+	NGAS=conf.NGAS
+	NSTEP=conf.NSTEP
+	NANISO=conf.NANISO
+	EFINAL=conf.EFINAL
+	ESTEP=conf.ESTEP
+	AKT=conf.AKT
+	ARY=conf.ARY
+	TEMPC=conf.TEMPC
+	TORR=conf.TORR
+	IPEN=conf.IPEN
+	KGAS=conf.KGAS
+	LGAS=conf.LGAS
+	DETEFF=conf.DETEFF
+	EXCWGHT=conf.EXCWGHT
+	NDVEC=conf.NDVEC
+	LCMP=conf.LCMP
+	LCFLG=conf.LCFLG
+	LRAY=conf.LRAY
+	LRFLG=conf.LRFLG
+	LPAP=conf.LPAP
+	LPFLG=conf.LPFLG
+	LBRM=conf.LBRM
+	LBFLG=conf.LBFLG
+	LPEFLG =conf.LPEFLG 
+	AN1=conf.AN1
+	AN2=conf.AN2
+	AN3=conf.AN3
+	AN4=conf.AN4
+	AN5=conf.AN5
+	AN6=conf.AN6
+	AN=conf.AN
+	FRAC=conf.FRAC
+	TMAX=conf.TMAX
+	SMALL=conf.SMALL
+	API=conf.API
+	ESTART=conf.ESTART
+	THETA=conf.THETA
+	PHI=conf.PHI
+	TCFMAX=conf.TCFMAX
+
+	TCFMAX1=conf.TCFMAX1
+	RSTART=conf.RSTART
+	EFIELD=conf.EFIELD
+	ETHRM=conf.ETHRM
+	ECUT=conf.ECUT
+	NEVENT=conf.NEVENT
+	IMIP=conf.IMIP
+	IWRITE=conf.IWRITE
+	EOVB=conf.EOVB
+	WB=conf.WB
+	BTHETA=conf.BTHETA
+	BMAG  =conf.BMAG  
+	DOUBLE=conf.DOUBLE
+
+	CMINIXSC=conf.CMINIXSC
+
+	CMINEXSC=conf.CMINEXSC
+
+	ECLOSS=conf.ECLOSS
+
+	WPLN=conf.WPLN
+
+	ICOUNT=conf.ICOUNT
+	AVPFRAC=conf.AVPFRAC
+	CF=conf.CF
+
+	EIN=conf.EIN
+
+	TCF=conf.TCF
+
+	IARRY=conf.IARRY
+
+	RGAS=conf.RGAS
+
+	IPN=conf.IPN
+
+	WPL=conf.WPL
+
+	IZBR=conf.IZBR
+
+	IPLAST=conf.IPLAST
+	PENFRA=conf.PENFRA
+	NAMEG=conf.NAMEG
+	NSEED =conf.NSEED 
+	NEGAS=conf.NEGAS
+
+	LEGAS=conf.LEGAS
+
+	IESHELL=conf.IESHELL
+
+	IECASC  =conf.IECASC  
+	# NAMEG=numpy.zeros(25+1,dtype=str)
 	# WRITE(6,1)     
 	print('\n           DEGRAD VERSION 3.3  \n','      -----------------------------\n\n')      
 	if(IMIP == 1):
@@ -110,10 +203,12 @@ def PRINTER():
 		# WRITE(6,35)
 		print(' USE GROSS IONISATION X-SECTIONS')
 	# endif
-	# WRITE(6,91) ESTART,NDELTA,ETHRM 
-	print(1*'\n','  INITIAL ELECTRON OR X-RAY ENERGY =','%.1f' % ESTART,' EV.','\n',9*' ','NUMBER OF EVENTS =',NDELTA,'\n',4*' ','THERMALISATION ENERGY =','%.2f' % ETHRM,' EV.','\n')
+	# WRITE(6,91) ESTART,NEVENT,ETHRM 
+	# print(NEVENT,conf.NEVENT)
+	print(1*'\n','  INITIAL ELECTRON OR X-RAY ENERGY =','%.1f' % ESTART,' EV.','\n',9*' ','NUMBER OF EVENTS =',NEVENT,'\n',4*' ','THERMALISATION ENERGY =','%.2f' % ETHRM,' EV.','\n')
 	# WRITE(6,911) DETEFF,EXCWGHT
 	print(' PHOTON DETECTION EFFICIENCY USED IN FANO CALCULATION =','%.3f' % DETEFF,' %','\n',7*' ','WEIGHT GIVEN TO EXCITATION IN FANO CALCULATION =','%.3f' % EXCWGHT,'\n') 
+	# print(IMIP)
 	if(IMIP == 4 or IMIP == 5):
 		if(KGAS <= 0 or KGAS > NGAS):
 			# WRITE(6,990) KGAS
@@ -122,7 +217,7 @@ def PRINTER():
 		# endif
 		if(LGAS <= 0 or LGAS > 3):
 			# WRITE(6,991) LGAS
-			print(' ERROR IN INPUT: BETA DECAY IDENTifIER LGAS=',LGAS,'  PROGRAM STOPPED:')
+			print(' ERROR IN INPUT: BETA DECAY IDENTIFIER LGAS=',LGAS,'  PROGRAM STOPPED:')
 			sys.exit() 
 		# endif
 		# WRITE(6,88) KGAS,LGAS
@@ -147,12 +242,106 @@ def PRINTER():
 			# WRITE(6,94)
 			print('  E-BEAM,BETA OR X-RAY ALONG Z-AXIS OPPOSITE TO E-FIELD DIRECTION')     
 	# 95  WRITE(6,96) TCFMAX1 
-	print('\n','  ','NULL COLLISION FREQUENCY =','%.3f' % TCFMAX1 ,' *(10**12/SEC)','\n')
+
+	print("TCFMAX1",TCFMAX1,type(TCFMAX1))
+	print('\n NULL COLLISION FREQUENCY = %.4f *(10**12/SEC)\n'%(TCFMAX1))
 	# WRITE(6,111)  (TCF(L),L=500,9500,1000)
+	print('  ','REAL COLLISION FREQUENCY AT 10 EQUALLY SPACED ENERGY INTERVALS (*10**12/SEC)','\n')
 	for L in range(500,9500+1,1000):
-		print('  ','#real COLLISION FREQUENCY AT 10 EQUALLY SPACED ENERGY INTERVALS (*10**12/SEC)','\n')
-		print(3*' ','%.3f' % TCF[L],'\t')
+		print(3*' ','%.3f' % TCF[L],'\t', end='')
 		if L==4500:
 			print('\n')
+	print('\n')
+
+	conf.NGAS=NGAS
+	conf.NSTEP=NSTEP
+	conf.NANISO=NANISO
+	conf.EFINAL=EFINAL
+	conf.ESTEP=ESTEP
+	conf.AKT=AKT
+	conf.ARY=ARY
+	conf.TEMPC=TEMPC
+	conf.TORR=TORR
+	conf.IPEN=IPEN
+	conf.KGAS=KGAS
+	conf.LGAS=LGAS
+	conf.DETEFF=DETEFF
+	conf.EXCWGHT=EXCWGHT
+	conf.NDVEC=NDVEC
+	conf.LCMP=LCMP
+	conf.LCFLG=LCFLG
+	conf.LRAY=LRAY
+	conf.LRFLG=LRFLG
+	conf.LPAP=LPAP
+	conf.LPFLG=LPFLG
+	conf.LBRM=LBRM
+	conf.LBFLG=LBFLG
+	conf.LPEFLG =LPEFLG 
+	conf.AN1=AN1
+	conf.AN2=AN2
+	conf.AN3=AN3
+	conf.AN4=AN4
+	conf.AN5=AN5
+	conf.AN6=AN6
+	conf.AN=AN
+	conf.FRAC=FRAC
+	conf.TMAX=TMAX
+	conf.SMALL=SMALL
+	conf.API=API
+	conf.ESTART=ESTART
+	conf.THETA=THETA
+	conf.PHI=PHI
+	conf.TCFMAX=TCFMAX
+
+	conf.TCFMAX1=TCFMAX1
+	conf.RSTART=RSTART
+	conf.EFIELD=EFIELD
+	conf.ETHRM=ETHRM
+	conf.ECUT=ECUT
+	conf.NEVENT=NEVENT
+	conf.IMIP=IMIP
+	conf.IWRITE=IWRITE                      
+	conf.EOVB=EOVB
+	conf.WB=WB
+	conf.BTHETA=BTHETA
+	conf.BMAG  =BMAG  
+	conf.DOUBLE=DOUBLE
+
+	conf.CMINIXSC=CMINIXSC
+
+	conf.CMINEXSC=CMINEXSC
+
+	conf.ECLOSS=ECLOSS
+
+	conf.WPLN=WPLN
+
+	conf.ICOUNT=ICOUNT
+	conf.AVPFRAC=AVPFRAC
+	conf.CF=CF
+
+	conf.EIN=EIN
+
+	conf.TCF=TCF
+
+	conf.IARRY=IARRY
+
+	conf.RGAS=RGAS
+
+	conf.IPN=IPN
+
+	conf.WPL=WPL
+
+	conf.IZBR=IZBR
+
+	conf.IPLAST=IPLAST
+	conf.PENFRA=PENFRA
+	conf.NSEED =NSEED 
+	conf.NEGAS=NEGAS
+
+	conf.LEGAS=LEGAS
+
+	conf.IESHELL=IESHELL
+
+	conf.IECASC  =IECASC  
 	return                                                            
 	# end                                                               

@@ -4,64 +4,64 @@ def CGAS1(PRSH,PRSHBT,ESH,AUG,RAD,XPE,YPE,XCP,YRY,YCP,YPP,FFAR,FFAC,IZ,AMZ,INIOC
 	# IMPLICIT #real*8 (A-H,O-Z)
 	# IMPLICIT #integer*8 (I-N)
 	#DIMENSION 
-	PRSH=[[[0 for x in range(3)]for y in range(17)] for z in range(17)]
-	PRSHBT=[[0 for x in range(3)] for y in range(17)]
-	ESH=[[0 for x in range(3)] for y in range(17)]
-	AUG=[[[[0 for x in range(3)] for y in range(17)] for z in range(17)] for a in range(17)]
-	RAD=[[[0 for x in range(3)]for y in range(17)] for z in range(17)]
-	XPE=[[[0 for x in range(3)]for y in range(17)] for z in range(60)]
-	YPE=[[[0 for x in range(3)]for y in range(17)] for z in range(60)]
-	XCP=[[0 for x in range(3)] for y in range(54)]
-	YRY=[[0 for x in range(3)] for y in range(54)]
-	YCP=[[0 for x in range(3)] for y in range(54)]
-	YPP=[[0 for x in range(3)] for y in range(54)]
-	FFAR=[[0 for x in range(3)] for y in range(45)]
-	FFAC=[[0 for x in range(3)] for y in range(45)]
-	IZ=[0 for x in range(3)]
-	AMZ=[0 for x in range(3)]
-	INIOCC=[[0 for x in range(3)] for y in range(17)]
+	PRSH=[[[0 for x in range(3+1)]for y in range(17+1)] for z in range(17+1)]
+	PRSHBT=[[0 for x in range(3+1)] for y in range(17+1)]
+	ESH=[[0 for x in range(3+1)] for y in range(17+1)]
+	AUG=[[[[0 for x in range(3+1)] for y in range(17+1)] for z in range(17+1)] for a in range(17+1)]
+	RAD=[[[0 for x in range(3+1)]for y in range(17+1)] for z in range(17+1)]
+	XPE=[[[0 for x in range(3+1)]for y in range(17+1)] for z in range(60+1)]
+	YPE=[[[0 for x in range(3+1)]for y in range(17+1)] for z in range(60+1)]
+	XCP=[[0 for x in range(3+1)] for y in range(54+1)]
+	YRY=[[0 for x in range(3+1)] for y in range(54+1)]
+	YCP=[[0 for x in range(3+1)] for y in range(54+1)]
+	YPP=[[0 for x in range(3+1)] for y in range(54+1)]
+	FFAR=[[0 for x in range(3+1)] for y in range(45+1)]
+	FFAC=[[0 for x in range(3+1)] for y in range(45+1)]
+	IZ=[0 for x in range(3+1)]
+	AMZ=[0 for x in range(3+1)]
+	INIOCC=[[0 for x in range(3+1)] for y in range(17+1)]
 	#DIMENSION 
 	INIOC=numpy.zeros((17+1))
 	PRBSH=numpy.zeros((17+1,17+1))
 	ES=numpy.zeros((17+1))
 	R=numpy.zeros((17+1,17+1))
-	A=[numpy.zeros((17+1,17+1)) for z in range(17)]
+	A=[numpy.zeros((17+1,17+1)) for z in range(17+1)]
 	PRBSHBT=numpy.zeros((17+1))
 	#DIMENSION 
 	INIOCF=numpy.zeros((17+1))
 	PRBSHF=numpy.zeros((17+1,17+1))
 	ESF=numpy.zeros((17+1))
 	RF=numpy.zeros((17+1,17+1))
-	AF=[numpy.zeros((17+1,17+1)) for z in range(17)]
+	AF=[numpy.zeros((17+1,17+1)) for z in range(17+1)]
 	PRBSHBTF=numpy.zeros((17+1)) 
 	#DIMENSION 
-	XPEK=[0 for x in range(49)]
-	YPEK=[0 for x in range(49)]
-	XPEL1=[0 for x in range(54)]
-	YPEL1=[0 for x in range(54)]
-	XPEL2=[0 for x in range(54)]
-	YPEL2=[0 for x in range(54)]
-	XCOMC=[0 for x in range(54)]
-	YRAYC=[0 for x in range(54)]
-	YCOMC=[0 for x in range(54)]
-	YPAPC=[0 for x in range(54)]
-	FFRC=[0 for x in range(45)]
-	FFCC=[0 for x in range(45)]
+	XPEK=[0 for x in range(49+1)]
+	YPEK=[0 for x in range(49+1)]
+	XPEL1=[0 for x in range(54+1)]
+	YPEL1=[0 for x in range(54+1)]
+	XPEL2=[0 for x in range(54+1)]
+	YPEL2=[0 for x in range(54+1)]
+	XCOMC=[0 for x in range(54+1)]
+	YRAYC=[0 for x in range(54+1)]
+	YCOMC=[0 for x in range(54+1)]
+	YPAPC=[0 for x in range(54+1)]
+	FFRC=[0 for x in range(45+1)]
+	FFCC=[0 for x in range(45+1)]
 	#DIMENSION 
-	XPEKF=[0 for x in range(45)]
-	YPEKF=[0 for x in range(45)]
-	XPEL1F=[0 for x in range(53)]
-	YPEL1F=[0 for x in range(53)]
-	XPEL2F=[0 for x in range(55)]
-	YPEL2F=[0 for x in range(55)]
-	XPEL3F=[0 for x in range(55)]
-	YPEL3F=[0 for x in range(55)]
-	XCOMF=[0 for x in range(54)]
-	YRAYF=[0 for x in range(54)]
-	YCOMF=[0 for x in range(54)]
-	YPAPF=[0 for x in range(54)]
-	FFRF=[0 for x in range(45)]
-	FFCF=[0 for x in range(45)]
+	XPEKF=[0 for x in range(45+1)]
+	YPEKF=[0 for x in range(45+1)]
+	XPEL1F=[0 for x in range(53+1)]
+	YPEL1F=[0 for x in range(53+1)]
+	XPEL2F=[0 for x in range(55+1)]
+	YPEL2F=[0 for x in range(55+1)]
+	XPEL3F=[0 for x in range(55+1)]
+	YPEL3F=[0 for x in range(55+1)]
+	XCOMF=[0 for x in range(54+1)]
+	YRAYF=[0 for x in range(54+1)]
+	YCOMF=[0 for x in range(54+1)]
+	YPAPF=[0 for x in range(54+1)]
+	FFRF=[0 for x in range(45+1)]
+	FFCF=[0 for x in range(45+1)]
 	
 	# 
 	# CF4 FOR CASCADE CALCULATIONS
@@ -307,7 +307,7 @@ def CGAS2(PRSH,PRSHBT,ESH,AUG,RAD,XPE,YPE,XCP,YRY,YCP,YPP,FFAR,FFAC,IZ,AMZ,INIOC
 	# IMPLICIT #integer*8 (I-N)
 	#DIMENSION 
 	PRSH=numpy.zeros((3+1,17+1,17+1))
-	PRSHBT=numpy.zeros((3+1,17+1))#[[0 for x in range(3)]for y in range(17)]
+	PRSHBT=numpy.zeros((3+1,17+1))#[[0 for x in range(3+1)]for y in range(17+1)]
 	ESH=numpy.zeros((3+1,17+1))
 	AUG=numpy.zeros((3+1,17+1,17+1,17+1))
 	RAD=numpy.zeros((3+1,17+1,17+1))

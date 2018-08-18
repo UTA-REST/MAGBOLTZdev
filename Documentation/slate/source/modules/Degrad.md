@@ -76,7 +76,7 @@ gfortran degrad3.3.f
 ./a.out
 
 # to run python
-python3 degrad1.py 
+python3 test_degrad.py 
 
 # With shell, you can just run the input interface if you have python3 and qt5 installed on your machine
 cd UI/

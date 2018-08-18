@@ -424,6 +424,7 @@ def SETUP(LAST):
 	#      READ IN OUTPUT CONTROL AND INTEGRATION DATA                      
 	#                
 	conf.NGAS,conf.NEVENT,conf.IMIP,conf.NDVEC,conf.NSEED,conf.ESTART,conf.ETHRM,conf.ECUT=2,100,5,1,0,1.0,1.5,2.0
+
 	# NGAS,NEVENT,IMIP,NDVEC,NSEED,ESTART,ETHRM,ECUT=input("Input Card 1 ").split()
 	conf.NGAS=int(conf.NGAS)#input('NGAS'))
 	conf.NEVENT=int(conf.NEVENT)#input('NEVENT'))
@@ -434,6 +435,7 @@ def SETUP(LAST):
 	conf.ETHRM=float(conf.ETHRM)#input('ETHRM'))
 	conf.ECUT=float(conf.ECUT)#input('ECUT'))
 	conf.ICOUNT=0
+
 	if(conf.IMIP == 1):
 		conf.ICOUNT=1 
 	if(conf.NGAS == 0):
@@ -475,12 +477,12 @@ def SETUP(LAST):
 	#                                                  
 	#      FIELD VALUES                                                    
 	#   
-	conf.EFIELD,conf.BMAG,conf.BTHETA,conf.IMIP,conf.IPEN=2.000,3.000,30.000,0,0
+	conf.EFIELD,conf.BMAG,conf.BTHETA,conf.IWRITE,conf.IPEN=2.000,3.000,30.000,0,0
 	# EFIELD,BMAG,BTHETA,IWRITE,IPEN=input("Input Card 4 ").split()                                                                    
 	conf.EFIELD=round(float(conf.EFIELD),3)  			#print(3'%.3f' % ,2I5)
 	conf.BMAG=round(float(conf.BMAG),3)			#print(3'%.3f' % ,2I5)
 	conf.BTHETA=round(float(conf.BTHETA),3)			#print(3'%.3f' % ,2I5)
-	conf.IMIP=int(conf.IMIP)			#print(3'%.3f' % ,2I5)
+	conf.IWRITE=int(conf.IWRITE)			#print(3'%.3f' % ,2I5)
 	conf.IPEN=int(conf.IPEN)                    			#print(3'%.3f' % ,2I5)     
 	
 	conf.DETEFF,conf.EXCWGHT,conf.KGAS,conf.LGAS,conf.ICMP,conf.IRAY,conf.IPAP,conf.IBRM,conf.IECASC=50.0,0.55,2,1,1,1,1,1,1
@@ -727,6 +729,7 @@ def SETUP(LAST):
 	#  RADIANS PER PICOSECOND                                        
 	conf.WB=AWB*conf.BMAG*1.0*(10**-12 )
 	#   METRES PER PICOSECOND
+
 	if(conf.BMAG == 0.00):
 		return LAST
 	conf.EOVB=conf.EFIELD*1*(10**-9)/conf.BMAG

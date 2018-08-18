@@ -1,59 +1,6 @@
 import numpy
-global NGAS,NSTEP,NANISO,EFINAL,ESTEP,AKT,ARY,TEMPC,TORR,IPEN
-#/SETP/
-global TMAX,SMALL,API,ESTART,THETA,PHI
-global TCFMAX#(10)
-global TCFMAX1,RSTART,EFIELD,ETHRM,ECUT,NEVENT,IMIP,IWRITE  
-#/SET2/
-global DRXINIT,DRYINIT,DRZINIT
-#/LARGE/
-global CF#(20000,512)
-global EIN#(512)
-global TCF#(20000)
-global IARRY#(512)
-global RGAS#(512)
-global IPN#(512)
-global WPL#(512)
-global IZBR#(512)
-global IPLAST
-global PENFRA#[3][512]
-#/ANIS/
-global PSCT#(20000,512)
-global ANGCT#(20000,512)
-global INDEX#(512)
-global NISO
-#/RLTVY/
-global BET#[2000]
-global GAM#(20000)
-global VC,EMS
-#/MIPCLC/
-global ANPRELA,ANPRATT,ANPREXC,ANPRION,ANPREXCI,ANPRBRM
-#/DEDX/
-global ELOSS,ELOSEX,ELOSION,ESUM,BETAGAM,TCFHIGH,VELC,EMAXDEL,ELOSIONC,CUTIONFRC,ELOSEXI,ELOSBREM,NREJECT
-#/COMP/
-global LCMP,LCFLG,LRAY,LRFLG,LPAP,LPFLG,LBRM,LBFLG,LPEFLG
-#/MIPOUT/
-global ENM#(100000,20)
-global XS#(100000,20)
-global YS#(100000,20)
-global ZS#(100000,20)
-global DIRX#(100000,20)
-global DIRY#(100000,20)
-global DIRZ#[100000,20]
-global TS#(100000,20)
-global IEVENT#(100000)
-#/IONFL/
-global NC0#(512)
-global EC0#(512)
-global NG1#(512)
-global EG1#(512)
-global NG2#(512)
-global EG2#(512)
-global WKLM#(512)
-global DSTFL#(512)
-#/IONMOD/
-global ESPLIT#(512,20)
-global IONMODEL#(512) 
+import conf
+import sys
 def MIPCALC():
 	# IMPLICIT #real*8 (A-H,O-Z)
 	# IMPLICIT #integer*8 (I-N)                                         
@@ -113,6 +60,195 @@ def MIPCALC():
 	#/IONMOD/
 	global ESPLIT#(512,20)
 	global IONMODEL#(512) 
+	def get_globals():
+		NGAS=conf.NGAS
+		NSTEP=conf.NSTEP
+		NANISO=conf.NANISO
+		EFINAL=conf.EFINAL
+		ESTEP=conf.ESTEP
+		AKT=conf.AKT
+		ARY=conf.ARY
+		TEMPC=conf.TEMPC
+		TORR=conf.TORR
+		IPEN=conf.IPEN
+		TMAX=conf.TMAX
+		SMALL=conf.SMALL
+		API=conf.API
+		ESTART=conf.ESTART
+		THETA=conf.THETA
+		PHI=conf.PHI
+		TCFMAX=conf.TCFMAX
+		TCFMAX1=conf.TCFMAX1
+		RSTART=conf.RSTART
+		EFIELD=conf.EFIELD
+		ETHRM=conf.ETHRM
+		ECUT=conf.ECUT
+		NEVENT=conf.NEVENT
+		IMIP=conf.IMIP
+		IWRITE  =conf.IWRITE  
+		DRXINIT=conf.DRXINIT
+		DRYINIT=conf.DRYINIT
+		DRZINIT=conf.DRZINIT
+		CF=conf.CF
+		EIN=conf.EIN
+		TCF=conf.TCF
+		IARRY=conf.IARRY
+		RGAS=conf.RGAS
+		IPN=conf.IPN
+		WPL=conf.WPL
+		IZBR=conf.IZBR
+		IPLAST=conf.IPLAST
+		PENFRA=conf.PENFRA
+		PSCT=conf.PSCT
+		ANGCT=conf.ANGCT
+		INDEX=conf.INDEX
+		NISO=conf.NISO
+		BET=conf.BET
+		GAM=conf.GAM
+		VC=conf.VC
+		EMS=conf.EMS
+		ANPRELA=conf.ANPRELA
+		ANPRATT=conf.ANPRATT
+		ANPREXC=conf.ANPREXC
+		ANPRION=conf.ANPRION
+		ANPREXCI=conf.ANPREXCI
+		ANPRBRM=conf.ANPRBRM
+		ELOSS=conf.ELOSS
+		ELOSEX=conf.ELOSEX
+		ELOSION=conf.ELOSION
+		ESUM=conf.ESUM
+		BETAGAM=conf.BETAGAM
+		TCFHIGH=conf.TCFHIGH
+		VELC=conf.VELC
+		EMAXDEL=conf.EMAXDEL
+		ELOSIONC=conf.ELOSIONC
+		CUTIONFRC=conf.CUTIONFRC
+		ELOSEXI=conf.ELOSEXI
+		ELOSBREM=conf.ELOSBREM
+		NREJECT=conf.NREJECT
+		LCMP=conf.LCMP
+		LCFLG=conf.LCFLG
+		LRAY=conf.LRAY
+		LRFLG=conf.LRFLG
+		LPAP=conf.LPAP
+		LPFLG=conf.LPFLG
+		LBRM=conf.LBRM
+		LBFLG=conf.LBFLG
+		LPEFLG=conf.LPEFLG
+		ENM=conf.ENM
+		XS=conf.XS
+		YS=conf.YS
+		ZS=conf.ZS
+		DIRX=conf.DIRX
+		DIRY=conf.DIRY
+		DIRZ=conf.DIRZ
+		TS=conf.TS
+		IEVENT=conf.IEVENT
+		NC0=conf.NC0
+		EC0=conf.EC0
+		NG1=conf.NG1
+		EG1=conf.EG1
+		NG2=conf.NG2
+		EG2=conf.EG2
+		WKLM=conf.WKLM
+		DSTFL=conf.DSTFL
+		ESPLIT=conf.ESPLIT
+		IONMODEL=conf.IONMODEL
+	get_globals()
+	def update_globals():
+		conf.NGAS=NGAS
+		conf.NSTEP=NSTEP
+		conf.NANISO=NANISO
+		conf.EFINAL=EFINAL
+		conf.ESTEP=ESTEP
+		conf.AKT=AKT
+		conf.ARY=ARY
+		conf.TEMPC=TEMPC
+		conf.TORR=TORR
+		conf.IPEN=IPEN
+		conf.TMAX=TMAX
+		conf.SMALL=SMALL
+		conf.API=API
+		conf.ESTART=ESTART
+		conf.THETA=THETA
+		conf.PHI=PHI
+		conf.TCFMAX=TCFMAX
+		conf.TCFMAX1=TCFMAX1
+		conf.RSTART=RSTART
+		conf.EFIELD=EFIELD
+		conf.ETHRM=ETHRM
+		conf.ECUT=ECUT
+		conf.NEVENT=NEVENT
+		conf.IMIP=IMIP
+		conf.IWRITE  =IWRITE  
+		conf.DRXINIT=DRXINIT
+		conf.DRYINIT=DRYINIT
+		conf.DRZINIT=DRZINIT
+		conf.CF=CF
+		conf.EIN=EIN
+		conf.TCF=TCF
+		conf.IARRY=IARRY
+		conf.RGAS=RGAS
+		conf.IPN=IPN
+		conf.WPL=WPL
+		conf.IZBR=IZBR
+		conf.IPLAST=IPLAST
+		conf.PENFRA=PENFRA
+		conf.PSCT=PSCT
+		conf.ANGCT=ANGCT
+		conf.INDEX=INDEX
+		conf.NISO=NISO
+		conf.BET=BET
+		conf.GAM=GAM
+		conf.VC=VC
+		conf.EMS=EMS
+		conf.ANPRELA=ANPRELA
+		conf.ANPRATT=ANPRATT
+		conf.ANPREXC=ANPREXC
+		conf.ANPRION=ANPRION
+		conf.ANPREXCI=ANPREXCI
+		conf.ANPRBRM=ANPRBRM
+		conf.ELOSS=ELOSS
+		conf.ELOSEX=ELOSEX
+		conf.ELOSION=ELOSION
+		conf.ESUM=ESUM
+		conf.BETAGAM=BETAGAM
+		conf.TCFHIGH=TCFHIGH
+		conf.VELC=VELC
+		conf.EMAXDEL=EMAXDEL
+		conf.ELOSIONC=ELOSIONC
+		conf.CUTIONFRC=CUTIONFRC
+		conf.ELOSEXI=ELOSEXI
+		conf.ELOSBREM=ELOSBREM
+		conf.NREJECT=NREJECT
+		conf.LCMP=LCMP
+		conf.LCFLG=LCFLG
+		conf.LRAY=LRAY
+		conf.LRFLG=LRFLG
+		conf.LPAP=LPAP
+		conf.LPFLG=LPFLG
+		conf.LBRM=LBRM
+		conf.LBFLG=LBFLG
+		conf.LPEFLG=LPEFLG
+		conf.ENM=ENM
+		conf.XS=XS
+		conf.YS=YS
+		conf.ZS=ZS
+		conf.DIRX=DIRX
+		conf.DIRY=DIRY
+		conf.DIRZ=DIRZ
+		conf.TS=TS
+		conf.IEVENT=IEVENT
+		conf.NC0=NC0
+		conf.EC0=EC0
+		conf.NG1=NG1
+		conf.EG1=EG1
+		conf.NG2=NG2
+		conf.EG2=EG2
+		conf.WKLM=WKLM
+		conf.DSTFL=DSTFL
+		conf.ESPLIT=ESPLIT
+		conf.IONMODEL=IONMODEL
 	CFTEMP=numpy.zeros(512+1)#[0 for x in range(512)]
 	PSTEMP=numpy.zeros(512+1)#[0 for x in range(512)]
 	ANTEMP=numpy.zeros(512+1)#[0 for x in range(512)]
@@ -536,5 +672,6 @@ def MIPCALC():
 				GOTO10()
 			# endif
 	print(' NPMAX=',NPMAX)
+	update_globals()
 	return
 	# end
