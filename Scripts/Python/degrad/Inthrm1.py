@@ -1,0 +1,17 @@
+import numpy
+
+NPTPE=numpy.zeros((10000+1))
+ET=numpy.zeros((10+1,50+1,10000+1))
+XT=numpy.zeros((10+1,50+1,10000+1))
+YT=numpy.zeros((10+1,50+1,10000+1))
+ZT=numpy.zeros((10+1,50+1,10000+1))
+DRX=numpy.zeros((10+1,50+1,10000+1))
+DRY=numpy.zeros((10+1,50+1,10000+1))
+DRZ=numpy.zeros((10+1,50+1,10000+1))
+NJFLR=numpy.zeros((10+1,50+1,10000+1))
+IEVENTL=numpy.zeros((10+1,10000+1))
+IBAD=numpy.zeros((10000+1))
+IBADTOT=float(0.0)
+DRXX=numpy.zeros((10+1,50+1,10000+1))
+DRYY=numpy.zeros((10+1,50+1,10000+1))
+DRZZ=numpy.zeros((10+1,50+1,10000+1))

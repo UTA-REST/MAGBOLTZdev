@@ -35,14 +35,11 @@ map_list=[('!','#'),
     ('real','#real'),
     ('allocate','#allocate'),
     ('IF','if'),
-    ('FORMAT','print')
+    ('FORMAT','print'),
+    ('dfloat','float'),
+('stop','sys.exit()'),
+('return','return'),
     ]
-map_list_v2=[
-('IF','if'),
-('DFLOAT','float'),
-('STOP','sys.exit()'),
-('RETURN','return'),
-]
 
 map_list_gas=[
 ('(1)','[1]'),
@@ -121,6 +118,10 @@ math_list=[
     ('dcos','numpy.cos'),
     ('dasin','numpy.arcsin'),
     ('dint','int'),
+    ('dmin1','min'),
+    ('dmin0','min'),
+    ('dmax1','max'),
+    ('dmax0','max'),
     ]
 
 
@@ -344,20 +345,20 @@ def f_to_py(content,map_list,math_list,arrays):
                    e.g. ('.lt.',' < '),('DABS','abs'),
         output - list of python file content strings
     '''
-    #output = replace_statements(content,map_list)
-    #output = replace_math_functions(output,math_list)
-    output = make_arrays(content)
+    output = replace_statements(content,map_list)
+    # output = replace_math_functions(content,math_list)
+    # output = make_arrays(content)
     print("remember to check all float statements for square braces in degrad  ")
-#    output = replace_all_do(output)
-#    output = adjust_all_arrays(output)
-#    output = adjust_functions(output)
-#    output = adjust_ifs(output)
+    # output = replace_all_do(output)
+    # output = adjust_all_arrays(output)
+    # output = adjust_functions(output)
+    # output = adjust_ifs(output)
     return output
 
-fname='Gasn.py'
-foutname='Gasn1.py'
+fname='Montefe.py'
+foutname='Montefe.py'
 arrays=['A','D','V','B','Z']
 content = file2list(fname)
-output = f_to_py(content,map_list_gas,math_list,arrays)
+output = f_to_py(content,map_list,math_list,arrays)
 list2file(foutname, output)
 

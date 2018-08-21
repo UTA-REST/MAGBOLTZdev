@@ -1,0 +1,1123 @@
+## MIPCALC()
+* Calculates dE/dX and distance between primary clusters 
+* Calculates primary electron energy and vacancy for input to thermalisation.
+* Adds excitation clusters with positive Penning fractions.
+* For Bremsstrahlung finds average energy loss over 10,000 events.
+* Calculates average elastic energy loss over `NE` events using anisotropic scattering.
+
+
+### Arguments
+
+| Argument | Description |
+|----------|-------------|
+| NONE     | -           |
+|          |             |
+
+
+
+```fortran
+      SUBROUTINE MIPCALC
+      IMPLICIT REAL*8 (A-H,O-Z)
+      IMPLICIT INTEGER*8 (I-N)                                         
+      COMMON/INPT/NGAS,NSTEP,NANISO,EFINAL,ESTEP,AKT,ARY,TEMPC,TORR,IPEN
+      COMMON/SETP/TMAX,SMALL,API,ESTART,THETA,PHI,TCFMAX(10),TCFMAX1,
+     /RSTART,EFIELD,ETHRM,ECUT,NEVENT,IMIP,IWRITE  
+      COMMON/SET2/DRXINIT,DRYINIT,DRZINIT
+      COMMON/LARGE/CF(20000,512),EIN(512),TCF(20000),IARRY(512),
+     /RGAS(512),IPN(512),WPL(512),IZBR(512),IPLAST,PENFRA(3,512)
+      COMMON/ANIS/PSCT(20000,512),ANGCT(20000,512),INDEX(512),NISO
+      COMMON/RLTVY/BET(20000),GAM(20000),VC,EMS
+      COMMON/MIPCLC/ANPRELA,ANPRATT,ANPREXC,ANPRION,ANPREXCI,ANPRBRM
+      COMMON/DEDX/ELOSS,ELOSEX,ELOSION,ESUM,BETAGAM,TCFHIGH,VELC,
+     /EMAXDEL,ELOSIONC,CUTIONFRC,ELOSEXI,ELOSBREM,NREJECT
+      COMMON/COMP/LCMP,LCFLG,LRAY,LRFLG,LPAP,LPFLG,LBRM,LBFLG,LPEFLG
+      COMMON/MIPOUT/ENM(100000,20),XS(100000,20),YS(100000,20),
+     /ZS(100000,20),DIRX(100000,20),DIRY(100000,20),DIRZ(100000,20),
+     /TS(100000,20),IEVENT(100000)
+      COMMON/IONFL/NC0(512),EC0(512),NG1(512),EG1(512),NG2(512),
+     /EG2(512),WKLM(512),DSTFL(512)
+      COMMON/IONMOD/ESPLIT(512,20),IONMODEL(512) 
+      DIMENSION CFTEMP(512),PSTEMP(512),ANTEMP(512)
+C CALCULATE DE/DX AND DISTANCE BETWEEN PRIMARY CLUSTERS AND ALSO
+C PRIMARY ELECTRON ENERGY AND VACANCY FOR INPUT TO THERMALISATION
+C ALSO ADDS EXCITATION CLUSTERS WHICH HAVE PENNING FRACTIONS GT 0.0
+C
+C USE VELOCITY IN METRES/PICOSECOND
+      VV=2.99792458D-4 
+C MAXIMUM DELTA ELECTRON ENERGY ALLOWED IN EVENT OUTPUT SECTION= EMAXDEL
+C NOTE NO LIMIT ON GLOBAL DE/DX CALCULATION
+C
+      EMAXDEL=ECUT      
+      NREJECT=0
+      NCUT=0
+      NCUTT=0
+C
+      IEVMAX=100000  
+      NPMAX=0    
+      API=DACOS(-1.0D0)
+      TWOPI=2.0D0*API
+      ANPRELA=0.0D0
+      ANPRATT=0.0D0
+      ANPREXC=0.0D0
+      ANPREXCI=0.0D0
+      ANPRION=0.0D0
+      ANPRBRM=0.0D0
+      ELOSS=0.0D0
+      ELOSEX=0.0D0
+      ELOSEXI=0.0D0
+      ELOSION=0.0D0
+      ELOSIONC=0.0D0
+      ELOSBREM=0.0D0
+      DO 1 I=1,IPLAST
+      CFTEMP(I)=CF(20000,I)
+      PSTEMP(I)=PSCT(20000,I)
+      ANTEMP(I)=ANGCT(20000,I)
+      TCFF=TCF(20000)
+      BETA=BET(20000)
+      GAMM=GAM(20000)
+    1 CONTINUE
+      VEL=BETA*VC
+      DO 2 J=1,IPLAST
+      IA=IARRY(J)
+      IF(IA.EQ.4.OR.IA.EQ.5.OR.IA.EQ.9.OR.IA.EQ.10.OR.IA.EQ.14.OR.IA.EQ.
+     /15.OR.IA.EQ.19.OR.IA.EQ.20.OR.IA.EQ.24.OR.IA.EQ.25.OR.IA.EQ.29.OR.
+     /IA.EQ.30) THEN
+C BREMSSTRAHLUNG EXCITATION OR SUPERELASTIC
+       IF(J.NE.1) CFT=TCFF*(CFTEMP(J)-CFTEMP(J-1))
+       IF(J.EQ.1) CFT=TCFF*CFTEMP(J)
+C CHECK IF BREMSSTRAHLUNG
+       IF(LBRM.EQ.1.AND.IZBR(J).NE.0) THEN
+C BREMSSTRAHLUNG
+C FIND AVERAGE BREMSSTRAHLUNG ENERGY LOSS OVER 10000 EVENTS
+        IATOMNO=IZBR(J)
+        E=ESTART
+        ESUMBR=0.0
+        WRITE(6,997) E
+  997   FORMAT(' ENERGY=',D12.4)
+        DO 111 K=1,10000
+       CALL BREMS(IATOMNO,E,DCX2,DCY2,DCZ2,EOUT,EDCX,EDCY,EDCZ,
+     /EGAMMA,GDCX,GDCY,GDCZ)
+        ESUMBR=ESUMBR+EGAMMA
+  111   CONTINUE
+        ELBRM=ESUMBR/10000.0
+        WRITE(6,998) ELBRM
+  998   FORMAT(' ELBRM=',D12.4)
+        ANPRBRM=ANPRBRM+CFT/VEL
+        ELOSBREM=ELOSBREM+CFT*ELBRM/VEL
+       ENDIF
+       IF(LBRM.EQ.1.AND.IZBR(J).NE.0) GO TO 5
+C EXCITATION OR SUPERELASTIC
+        ANPREXC=ANPREXC+CFT/VEL
+        ELOSEX=ELOSEX+CFT*EIN(J)*RGAS(J)/VEL
+        IF(IPEN.EQ.1.AND.PENFRA(1,J).GT.0.0) THEN
+C PENNING TRANSFER OF EXCITATION TO IONISATION
+         ANPREXCI=ANPREXCI+PENFRA(1,J)*CFT/VEL
+         ELOSEXI=ELOSEXI+PENFRA(1,J)*CFT*EIN(J)*RGAS(J)/VEL
+        ENDIF
+    5 CONTINUE
+      ELSE IF(IA.EQ.1.OR.IA.EQ.6.OR.IA.EQ.11.OR.IA.EQ.16.OR.IA.EQ.21.OR.
+     /IA.EQ.26) THEN
+C ELASTIC ENERGY LOSS
+       IF(J.NE.1) CFT=TCFF*(CFTEMP(J)-CFTEMP(J-1))
+       IF(J.EQ.1) CFT=TCFF*CFTEMP(J)
+       ANPRELA=ANPRELA+CFT/VEL
+C CALCULATE ELASTIC ENERGY LOSS AVERAGED OVER NE EVENTS
+C USE ANISOTROPIC SCATTERING
+       NE=10000
+       ELAS=0.0D0
+       RFAC=1.0D0+GAMM*(RGAS(J)-1.0D0)
+       RFAC=(RFAC-1.0D0)/(RFAC*RFAC)
+       DO 66 K=1,NE
+       R3=drand48(RDUM)
+       IF(INDEX(J).EQ.1) THEN
+        R31=drand48(RDUM)
+        F3=1.0D0-R3*ANTEMP(J)
+        IF(R31.GT.PSTEMP(J)) F3=-F3
+       ELSE IF(INDEX(J).EQ.2) THEN
+        EPSI=PSTEMP(J)
+        F3=1.0D0-(2.0D0*R3*(1.0D0-EPSI)/(1.0D0+EPSI*(1.0D0-2.0D0*R3)))
+       ELSE
+C ISOTROPIC SCATTERING
+        F3=1.0D0-2.0D0*R3
+       ENDIF
+       ELAS=ELAS+(1.0D0-F3)
+   66  CONTINUE
+       ELOSS=CFT*2.0D0*RFAC*EFINAL*ELAS/VEL
+       ELOSS=ELOSS/DFLOAT(NE)
+      ELSE IF(IA.EQ.3.OR.IA.EQ.8.OR.IA.EQ.13.OR.IA.EQ.18.OR.IA.EQ.23.OR.
+     /IA.EQ.28) THEN
+C ATTACHMENT
+      ANPRATT=ANPRATT+TCFF*(CFTEMP(J)-CFTEMP(J-1))/VEL
+      ELSE IF(IA.EQ.2.OR.IA.EQ.7.OR.IA.EQ.12.OR.IA.EQ.17.OR.IA.EQ.22.OR.
+     /IA.EQ.27) THEN
+C IONISATION
+      ANPRION=ANPRION+TCFF*(CFTEMP(J)-CFTEMP(J-1))/VEL
+      ELSE 
+       WRITE(6,99)
+   99  FORMAT(' WARNING NO COLLISION TYPE IN SUBROUTINE MIPCALC')    
+      ENDIF
+    2 CONTINUE
+C CALCULATE ENERGY LOSS TO IONISATION AVERAGED OVER NEV EVENTS
+      NEV=10000000
+      ETEMP=0.0
+      ETEMPC=0.0
+      DO 3 J=1,IPLAST
+      IA=IARRY(J)
+      IF(IA.EQ.2.OR.IA.EQ.7.OR.IA.EQ.12.OR.IA.EQ.17.OR.IA.EQ.22.OR.IA.
+     /EQ.27) THEN
+       IF(EFINAL.LT.EIN(J)) GO TO 3
+C  NEV = NO OF IONISATION EVENTS TO AVERAGE
+       DO 4 K=1,NEV
+       IF(IONMODEL(J).GT.0) THEN
+C CALCULATE SECONDARY ENERGY ,ESEC, IN IONISATION COLLISION USING
+C FIVE DIFFERENT POSSIBLE MODELS
+         CALL IONSPLIT(J,ESTART,EIN(J),ETEMP1)
+         GO TO  644
+        ENDIF
+       R9=drand48(RDUM)
+       ETEMP1=WPL(J)*TAN(R9*ATAN((ESTART-EIN(J))/(2.0D0*WPL(J)))) 
+       ETEMP1=WPL(J)*(ETEMP1/WPL(J))**0.9524
+  644  CONTINUE    
+       ETEMP=ETEMP+ETEMP1+EIN(J)*RGAS(J)
+       NCUTT=NCUTT+1
+       IF((ETEMP1+EIN(J)*RGAS(J)).LT.EMAXDEL) THEN
+        ETEMPC=ETEMPC+ETEMP1+EIN(J)*RGAS(J)
+        NCUT=NCUT+1
+       ENDIF
+    4  CONTINUE
+       IF(J.NE.1) CFT=TCFF*(CFTEMP(J)-CFTEMP(J-1))
+       IF(J.EQ.1) CFT=TCFF*CFTEMP(J)
+       ETEMP=CFT*ETEMP/VEL
+       ETEMPC=CFT*ETEMPC/VEL
+       ETEMP=ETEMP/DFLOAT(NEV)
+       ETEMPC=ETEMPC/DFLOAT(NEV)
+       ELOSION=ELOSION+ETEMP
+       ELOSIONC=ELOSIONC+ETEMPC
+       ELSE
+      ENDIF
+    3 CONTINUE
+      BETAGAM=BETA*GAMM
+C CONVERT TO EV/CM
+      ELOSS=ELOSS*1.D10
+      ELOSEX=ELOSEX*1.D10
+      ELOSEXI=ELOSEXI*1.D10
+      ELOSION=ELOSION*1.D10
+      ELOSIONC=ELOSIONC*1.D10
+      ELOSBREM=ELOSBREM*1.D10
+C CONVERT COLLISIONS/CM
+      ANPRELA=ANPRELA*1.D10
+      ANPRATT=ANPRATT*1.D10
+      ANPREXC=ANPREXC*1.D10
+      ANPREXCI=ANPREXCI*1.D10
+      ANPRION=ANPRION*1.D10
+      ANPRBRM=ANPRBRM*1.D10
+      ESUM=ELOSS+ELOSEX+ELOSION+ELOSBREM
+      VELC=VEL*100.
+      TCFHIGH=TCF(20000)*1.D12
+      CUTIONFRC=DFLOAT(NCUT)/DFLOAT(NCUTT)
+C 
+C  LOAD EVENT ARRAYS WITH ELECTRON ENERGY AND DIRECTION COSINES
+C  ADDS ELECTRONS FROM PENNING EXCITATION IF ALLOWED
+      DO 100 K=1,NEVENT 
+      IF(K.GT.IEVMAX) THEN
+      WRITE(6,999) IEVMAX
+  999 FORMAT(' WARNING MAXIMUM NUMBER OF EVENTS=',I6,' PROGRAM STOPPED')
+      ENDIF
+      NP=0
+C
+C DETERMINE COLLISION TYPE   
+C
+   10 R1=drand48(RDUM)
+      I=0
+   11 I=I+1 
+      IF(CFTEMP(I).LT.R1) GO TO 11
+C FIND TYPE OF INTERACTION
+      IA=IARRY(I)
+      IF(IA.EQ.2.OR.IA.EQ.7.OR.IA.EQ.12.OR.IA.EQ.17.OR.IA.EQ.22.OR.IA.
+     /EQ.27) THEN
+C  IONISATION
+C-----------------------------------------------------------------
+   12  R9=drand48(RDUM)
+       ESEC=WPL(I)*TAN(R9*ATAN((ESTART-EIN(I))/(2.0D0*WPL(I)))) 
+       ESEC=WPL(I)*(ESEC/WPL(I))**0.9524
+       IF(ESEC.GT.EMAXDEL) THEN
+        NREJECT=NREJECT+1
+        GO TO 12
+       ENDIF
+C CALCULATE PRIMARY SCATTERING ANGLE 
+C ANISOTROPIC SCATTERING
+       R3=drand48(RDUM)
+       IF(INDEX(I).EQ.1) THEN
+        R31=drand48(RDUM)
+        F3=1.0D0-R3*ANTEMP(I)
+        IF(R31.GT.PSTEMP(I)) F3=-F3
+       ELSE IF(INDEX(I).EQ.2) THEN
+        EPSI=PSTEMP(I) 
+        F3=1.0D0-(2.0D0*R3*(1.0D0-EPSI)/(1.0D0+EPSI*(1.0D0-2.0D0*R3)))
+       ELSE 
+C ISOTROPIC SCATTERING
+        F3=1.0D0-2.0D0*R3
+       ENDIF
+       THETAP=DACOS(F3)
+       F5P=DSIN(THETAP)
+       GAMSEC=(EMS+ESEC)/EMS
+C CALCULATE SECONDARY RECOIL ANGLE FROM FREE KINEMATICS
+       F5S=F5P*DSQRT(ESTART/ESEC)*GAMM/GAMSEC
+       IF(F5S.GT.1.0) F5S=1.0
+       THETAS=DASIN(F5S)
+       R1=drand48(RDUM)
+       PHIS=TWOPI*R1
+C CALCULATE NEW DIRECTION COSINES FROM INITIAL VALUES AND SCAT. ANGLES
+       CALL DRCOS(DRXINIT,DRYINIT,DRZINIT,THETAS,PHIS,DRXX,DRYY,DRZZ)
+C LOAD SECONDARY ELECTRON DATA  
+       NP=NP+1
+       IF(NP.GT.NPMAX) NPMAX=NP
+       IF(NP.GT.20) WRITE(6,991)
+  991  FORMAT(' EVENT WITH N0 OF PRIMARIES GT 20 IN MIPCALC STOPPED PROG
+     /RAM')
+       IF(NP.GT.20) STOP
+       ENM(K,NP)=ESEC
+       DIRX(K,NP)=DRXX 
+       DIRY(K,NP)=DRYY 
+       DIRZ(K,NP)=DRZZ
+       XS(K,NP)=0.0
+       YS(K,NP)=0.0
+       ZS(K,NP)=0.0
+       TS(K,NP)=0.0
+       IEVENT(K)=NP
+C CALCULATE POSSIBLE SHELL EMISSIONS: AUGER OR FLUORESCENCE
+       IFLTST=0
+       IF(WKLM(I).GT.0.0) THEN
+        R9=drand48(RDUM)
+        IF(R9.LT.WKLM(I)) IFLTST=1
+       ENDIF
+       IF(IFLTST.EQ.0) THEN
+C AUGER EMISSION WITHOUT FLUORESCENCE
+        NAUG=NC0(I)
+        EAVAUG=EC0(I)/DFLOAT(NAUG)
+        DO 700 JFL=1,NC0(I)
+        NP=NP+1
+        IF(NP.GT.NPMAX) NPMAX=NP
+        IF(NP.GT.20) WRITE(6,991)
+        IF(NP.GT.20) STOP
+        ENM(K,NP)=EAVAUG
+C RANDOM EMISSION ANGLE
+        R3=drand48(RDUM)
+        F3=1.0D0-2.0D0*R3
+        THETAS=DACOS(F3)
+        F6=DCOS(THETAS)
+        F5=DSIN(THETAS)
+        R4=drand48(RDUM)
+        PHIS=TWOPI*R4
+        F8=DSIN(PHIS)
+        F9=DCOS(PHIS)
+        DIRX(K,NP)=F9*F5
+        DIRY(K,NP)=F8*F5
+        DIRZ(K,NP)=F6
+        XS(K,NP)=0.0
+        YS(K,NP)=0.0
+        ZS(K,NP)=0.0
+        TS(K,NP)=0.0
+  700   CONTINUE
+        IEVENT(K)=NP
+       ELSE 
+C AUGER EMISSION AND FLUORESCENCE
+        IF(NG2(I).EQ.0) GO TO 702
+        NAUG=NG2(I)
+        EAVAUG=EG2(I)/DFLOAT(NAUG)
+        DO 701 JFL=1,NG2(I)
+        NP=NP+1
+        IF(NP.GT.NPMAX) NPMAX=NP
+        IF(NP.GT.20) WRITE(6,991)
+        IF(NP.GT.20) STOP
+        ENM(K,NP)=EAVAUG
+C RANDOM EMISSION ANGLE
+        R3=drand48(RDUM)
+        THETAS=DACOS(1.0-2.0*R3)
+        F6=DCOS(THETAS)
+        F5=DSIN(THETAS)
+        R4=drand48(RDUM)
+        PHIS=TWOPI*R4
+        F8=DSIN(PHIS)
+        F9=DCOS(PHIS)
+        DIRX(K,NP)=F9*F5
+        DIRY(K,NP)=F8*F5
+        DIRZ(K,NP)=F6
+        XS(K,NP)=0.0
+        YS(K,NP)=0.0
+        ZS(K,NP)=0.0
+        TS(K,NP)=0.0
+  701   CONTINUE
+        IEVENT(K)=NP
+  702   IF(NG1(I).EQ.0) GO TO 704
+        NAUG=NG1(I)
+        EAVAUG=EG1(I)/DFLOAT(NAUG)
+        R9=drand48(RDUM)
+C FLUORESCENCE ABSORPTION DISTANCE
+        DFL=-DLOG(R9)*DSTFL(I)
+        DO 703 JFL=1,NG1(I)
+        NP=NP+1
+        IF(NP.GT.NPMAX) NPMAX=NP
+        IF(NP.GT.20) WRITE(6,991)
+        IF(NP.GT.20) STOP
+        ENM(K,NP)=EAVAUG
+C RANDOM EMISSION ANGLE
+        R3=drand48(RDUM)
+        THETAS=DACOS(1.0-2.0*R3)
+        F6=DCOS(THETAS)
+        F5=DSIN(THETAS)
+        R4=drand48(RDUM)
+        PHIS=TWOPI*R4
+        F8=DSIN(PHIS)
+        F9=DCOS(PHIS)
+        DIRX(K,NP)=F9*F5
+        DIRY(K,NP)=F8*F5
+        DIRZ(K,NP)=F6
+        R3=drand48(RDUM)
+        THEFL=DACOS(1.0-2.0*R3) 
+        R4=drand48(RDUM)
+        PHIFL=TWOPI*R4
+        XS(K,NP)=DFL*DSIN(THEFL)*DCOS(PHIFL)
+        YS(K,NP)=DFL*DSIN(THEFL)*DSIN(PHIFL)
+        ZS(K,NP)=DFL*DCOS(THEFL)  
+        TS(K,NP)=DFL/VV
+  703   CONTINUE
+        IEVENT(K)=NP
+  704   CONTINUE   
+       ENDIF
+      ELSE IF(IA.EQ.4.OR.IA.EQ.9.OR.IA.EQ.14.OR.IA.EQ.14.OR.IA.EQ.19.
+     /OR.IA.EQ.24.OR.IA.EQ.29) THEN
+C EXCITATION
+C----------------------------------------------------------------
+       IF(PENFRA(1,I).EQ.0.0.OR.IPEN.EQ.0) GO TO 10
+C POSSIBLE PENNING TRANSFER
+       R9=drand48(RDUM)
+       IF(R9.LT.PENFRA(1,I)) THEN
+C PENNING TRANSFER
+        NP=NP+1
+        IF(NP.GT.NPMAX) NPMAX=NP
+        IF(NP.GT.20) WRITE(6,991)
+        IF(NP.GT.20) STOP
+C FINITE PENNING FIXED ELECTRON ENERGY TO 4.0EV
+        ENM(K,NP)=4.0
+C RANDOM EMISSION ANGLE
+        R3=drand48(RDUM)
+        THETAS=DACOS(1.0-2.0*R3)
+        F6=DCOS(THETAS)
+        F5=DSIN(THETAS)
+        R4=drand48(RDUM)
+        PHIS=TWOPI*R4
+        F8=DSIN(PHIS)
+        F9=DCOS(PHIS)
+        DIRX(K,NP)=F9*F5
+        DIRY(K,NP)=F8*F5
+        DIRZ(K,NP)=F6
+C PENNING TRANSFER DISTANCE
+        ASIGN=1.0D0
+        R1=drand48(RDUM)
+        IF(R1.LT.0.5)ASIGN=-ASIGN
+        R9=drand48(RDUM)
+        XS(K,NP)=-DLOG(R9)*PENFRA(2,I)*1.D-6*ASIGN
+        R1=drand48(RDUM)
+        IF(R1.LT.0.5)ASIGN=-ASIGN
+        R9=drand48(RDUM)
+        YS(K,NP)=-DLOG(R9)*PENFRA(2,I)*1.D-6*ASIGN
+        R1=drand48(RDUM)
+        IF(R1.LT.0.5)ASIGN=-ASIGN
+        R9=drand48(RDUM)
+        ZS(K,NP)=-DLOG(R9)*PENFRA(2,I)*1.D-6*ASIGN
+        R9=drand48(RDUM)
+        TS(K,NP)=-DLOG(R9)*PENFRA(3,I)
+        IEVENT(K)=NP
+       ELSE
+        GO TO 10
+       ENDIF  
+      ELSE
+C ELASTIC
+C-----------------------------------------------------------------
+       GO TO 10
+      ENDIF
+  100 CONTINUE
+      WRITE(6,888) NPMAX
+  888 FORMAT(' NPMAX=',I3)
+      RETURN
+      END
+```
+
+```python
+def MIPCALC():
+	# IMPLICIT #real*8 (A-H,O-Z)
+	# IMPLICIT #integer*8 (I-N)                                         
+	#/INPT/
+	global NGAS,NSTEP,NANISO,EFINAL,ESTEP,AKT,ARY,TEMPC,TORR,IPEN
+	#/SETP/
+	global TMAX,SMALL,API,ESTART,THETA,PHI
+	global TCFMAX#(10)
+	global TCFMAX1,RSTART,EFIELD,ETHRM,ECUT,NEVENT,IMIP,IWRITE  
+	#/SET2/
+	global DRXINIT,DRYINIT,DRZINIT
+	#/LARGE/
+	global CF#(20000,512)
+	global EIN#(512)
+	global TCF#(20000)
+	global IARRY#(512)
+	global RGAS#(512)
+	global IPN#(512)
+	global WPL#(512)
+	global IZBR#(512)
+	global IPLAST
+	global PENFRA#[3][512]
+	#/ANIS/
+	global PSCT#(20000,512)
+	global ANGCT#(20000,512)
+	global INDEX#(512)
+	global NISO
+	#/RLTVY/
+	global BET#[2000]
+	global GAM#(20000)
+	global VC,EMS
+	#/MIPCLC/
+	global ANPRELA,ANPRATT,ANPREXC,ANPRION,ANPREXCI,ANPRBRM
+	#/DEDX/
+	global ELOSS,ELOSEX,ELOSION,ESUM,BETAGAM,TCFHIGH,VELC,EMAXDEL,ELOSIONC,CUTIONFRC,ELOSEXI,ELOSBREM,NREJECT
+	#/COMP/
+	global LCMP,LCFLG,LRAY,LRFLG,LPAP,LPFLG,LBRM,LBFLG,LPEFLG
+	#/MIPOUT/
+	global ENM#(100000,20)
+	global XS#(100000,20)
+	global YS#(100000,20)
+	global ZS#(100000,20)
+	global DIRX#(100000,20)
+	global DIRY#(100000,20)
+	global DIRZ#[100000,20]
+	global TS#(100000,20)
+	global IEVENT#(100000)
+	#/IONFL/
+	global NC0#(512)
+	global EC0#(512)
+	global NG1#(512)
+	global EG1#(512)
+	global NG2#(512)
+	global EG2#(512)
+	global WKLM#(512)
+	global DSTFL#(512)
+	#/IONMOD/
+	global ESPLIT#(512,20)
+	global IONMODEL#(512) 
+	def get_globals():
+		NGAS=conf.NGAS
+		NSTEP=conf.NSTEP
+		NANISO=conf.NANISO
+		EFINAL=conf.EFINAL
+		ESTEP=conf.ESTEP
+		AKT=conf.AKT
+		ARY=conf.ARY
+		TEMPC=conf.TEMPC
+		TORR=conf.TORR
+		IPEN=conf.IPEN
+		TMAX=conf.TMAX
+		SMALL=conf.SMALL
+		API=conf.API
+		ESTART=conf.ESTART
+		THETA=conf.THETA
+		PHI=conf.PHI
+		TCFMAX=conf.TCFMAX
+		TCFMAX1=conf.TCFMAX1
+		RSTART=conf.RSTART
+		EFIELD=conf.EFIELD
+		ETHRM=conf.ETHRM
+		ECUT=conf.ECUT
+		NEVENT=conf.NEVENT
+		IMIP=conf.IMIP
+		IWRITE  =conf.IWRITE  
+		DRXINIT=conf.DRXINIT
+		DRYINIT=conf.DRYINIT
+		DRZINIT=conf.DRZINIT
+		CF=conf.CF
+		EIN=conf.EIN
+		TCF=conf.TCF
+		IARRY=conf.IARRY
+		RGAS=conf.RGAS
+		IPN=conf.IPN
+		WPL=conf.WPL
+		IZBR=conf.IZBR
+		IPLAST=conf.IPLAST
+		PENFRA=conf.PENFRA
+		PSCT=conf.PSCT
+		ANGCT=conf.ANGCT
+		INDEX=conf.INDEX
+		NISO=conf.NISO
+		BET=conf.BET
+		GAM=conf.GAM
+		VC=conf.VC
+		EMS=conf.EMS
+		ANPRELA=conf.ANPRELA
+		ANPRATT=conf.ANPRATT
+		ANPREXC=conf.ANPREXC
+		ANPRION=conf.ANPRION
+		ANPREXCI=conf.ANPREXCI
+		ANPRBRM=conf.ANPRBRM
+		ELOSS=conf.ELOSS
+		ELOSEX=conf.ELOSEX
+		ELOSION=conf.ELOSION
+		ESUM=conf.ESUM
+		BETAGAM=conf.BETAGAM
+		TCFHIGH=conf.TCFHIGH
+		VELC=conf.VELC
+		EMAXDEL=conf.EMAXDEL
+		ELOSIONC=conf.ELOSIONC
+		CUTIONFRC=conf.CUTIONFRC
+		ELOSEXI=conf.ELOSEXI
+		ELOSBREM=conf.ELOSBREM
+		NREJECT=conf.NREJECT
+		LCMP=conf.LCMP
+		LCFLG=conf.LCFLG
+		LRAY=conf.LRAY
+		LRFLG=conf.LRFLG
+		LPAP=conf.LPAP
+		LPFLG=conf.LPFLG
+		LBRM=conf.LBRM
+		LBFLG=conf.LBFLG
+		LPEFLG=conf.LPEFLG
+		ENM=conf.ENM
+		XS=conf.XS
+		YS=conf.YS
+		ZS=conf.ZS
+		DIRX=conf.DIRX
+		DIRY=conf.DIRY
+		DIRZ=conf.DIRZ
+		TS=conf.TS
+		IEVENT=conf.IEVENT
+		NC0=conf.NC0
+		EC0=conf.EC0
+		NG1=conf.NG1
+		EG1=conf.EG1
+		NG2=conf.NG2
+		EG2=conf.EG2
+		WKLM=conf.WKLM
+		DSTFL=conf.DSTFL
+		ESPLIT=conf.ESPLIT
+		IONMODEL=conf.IONMODEL
+	get_globals()
+	def update_globals():
+		conf.NGAS=NGAS
+		conf.NSTEP=NSTEP
+		conf.NANISO=NANISO
+		conf.EFINAL=EFINAL
+		conf.ESTEP=ESTEP
+		conf.AKT=AKT
+		conf.ARY=ARY
+		conf.TEMPC=TEMPC
+		conf.TORR=TORR
+		conf.IPEN=IPEN
+		conf.TMAX=TMAX
+		conf.SMALL=SMALL
+		conf.API=API
+		conf.ESTART=ESTART
+		conf.THETA=THETA
+		conf.PHI=PHI
+		conf.TCFMAX=TCFMAX
+		conf.TCFMAX1=TCFMAX1
+		conf.RSTART=RSTART
+		conf.EFIELD=EFIELD
+		conf.ETHRM=ETHRM
+		conf.ECUT=ECUT
+		conf.NEVENT=NEVENT
+		conf.IMIP=IMIP
+		conf.IWRITE  =IWRITE  
+		conf.DRXINIT=DRXINIT
+		conf.DRYINIT=DRYINIT
+		conf.DRZINIT=DRZINIT
+		conf.CF=CF
+		conf.EIN=EIN
+		conf.TCF=TCF
+		conf.IARRY=IARRY
+		conf.RGAS=RGAS
+		conf.IPN=IPN
+		conf.WPL=WPL
+		conf.IZBR=IZBR
+		conf.IPLAST=IPLAST
+		conf.PENFRA=PENFRA
+		conf.PSCT=PSCT
+		conf.ANGCT=ANGCT
+		conf.INDEX=INDEX
+		conf.NISO=NISO
+		conf.BET=BET
+		conf.GAM=GAM
+		conf.VC=VC
+		conf.EMS=EMS
+		conf.ANPRELA=ANPRELA
+		conf.ANPRATT=ANPRATT
+		conf.ANPREXC=ANPREXC
+		conf.ANPRION=ANPRION
+		conf.ANPREXCI=ANPREXCI
+		conf.ANPRBRM=ANPRBRM
+		conf.ELOSS=ELOSS
+		conf.ELOSEX=ELOSEX
+		conf.ELOSION=ELOSION
+		conf.ESUM=ESUM
+		conf.BETAGAM=BETAGAM
+		conf.TCFHIGH=TCFHIGH
+		conf.VELC=VELC
+		conf.EMAXDEL=EMAXDEL
+		conf.ELOSIONC=ELOSIONC
+		conf.CUTIONFRC=CUTIONFRC
+		conf.ELOSEXI=ELOSEXI
+		conf.ELOSBREM=ELOSBREM
+		conf.NREJECT=NREJECT
+		conf.LCMP=LCMP
+		conf.LCFLG=LCFLG
+		conf.LRAY=LRAY
+		conf.LRFLG=LRFLG
+		conf.LPAP=LPAP
+		conf.LPFLG=LPFLG
+		conf.LBRM=LBRM
+		conf.LBFLG=LBFLG
+		conf.LPEFLG=LPEFLG
+		conf.ENM=ENM
+		conf.XS=XS
+		conf.YS=YS
+		conf.ZS=ZS
+		conf.DIRX=DIRX
+		conf.DIRY=DIRY
+		conf.DIRZ=DIRZ
+		conf.TS=TS
+		conf.IEVENT=IEVENT
+		conf.NC0=NC0
+		conf.EC0=EC0
+		conf.NG1=NG1
+		conf.EG1=EG1
+		conf.NG2=NG2
+		conf.EG2=EG2
+		conf.WKLM=WKLM
+		conf.DSTFL=DSTFL
+		conf.ESPLIT=ESPLIT
+		conf.IONMODEL=IONMODEL
+	CFTEMP=numpy.zeros(512+1)#[0 for x in range(512)]
+	PSTEMP=numpy.zeros(512+1)#[0 for x in range(512)]
+	ANTEMP=numpy.zeros(512+1)#[0 for x in range(512)]
+	# CALCULATE DE/DX AND DISTANCE BETWEEN PRIMARY CLUSTERS AND ALSO
+	# PRIMARY ELECTRON ENERGY AND VACANCY FOR INPUT TO THERMALISATION
+	# ALSO ADDS EXCITATION CLUSTERS WHICH HAVE PENNING FRACTIONS GT 0.0
+	#
+	# USE VELOCITY IN METRES/PICOSECOND
+	VV=2.99792458*(10**-4 )
+	# MAXIMUM DELTA ELECTRON ENERGY ALLOWED IN EVENT OUTPUT SECTION= EMAXDEL
+	# NOTE NO LIMIT ON GLOBAL DE/DX CALCULATION
+	#
+	EMAXDEL=ECUT      
+	NREJECT=0
+	NCUT=0
+	NCUTT=0
+	#
+	IEVMAX=100000  	
+	NPMAX=0    
+	API=numpy.arccos(-1.00)
+	TWOPI=2.00*API
+	ANPRELA=0.00
+	ANPRATT=0.00
+	ANPREXC=0.00
+	ANPREXCI=0.00
+	ANPRION=0.00
+	ANPRBRM=0.00
+	ELOSS=0.00
+	ELOSEX=0.00
+	ELOSEXI=0.00
+	ELOSION=0.00
+	ELOSIONC=0.00
+	ELOSBREM=0.00
+	for I in range(1,IPLAST+1):
+		CFTEMP[I]=CF[20000][I]
+		PSTEMP[I]=PSCT[20000][I]
+		ANTEMP[I]=ANGCT[20000][I]
+		TCFF=TCF[20000]
+		BETA=BET[2000]
+		GAMM=GAM[20000]
+	VEL=BETA*VC
+	for J in range(1,IPLAST+1):
+		IA=IARRY[J]
+		if(IA == 4 or IA == 5 or IA == 9 or IA == 10 or IA == 14 or IA == 15 or IA == 19 or IA == 20 or IA == 24 or IA == 25 or IA == 29 or IA == 30):
+			# BREMSSTRAHLUNG EXCITATION OR SUPERELASTIC
+			if(J != 1):
+				CFT=TCFF*(CFTEMP[J]-CFTEMP[J-1])
+			if(J == 1):
+				CFT=TCFF*CFTEMP[J]
+			# CHECK IF BREMSSTRAHLUNG
+			if(LBRM == 1 and IZBR[J]!= 0) :
+				# BREMSSTRAHLUNG
+				# FIND AVERAGE BREMSSTRAHLUNG ENERGY LOSS OVER 10000 EVENTS
+				IATOMNO=IZBR[J]
+				E=ESTART
+				ESUMBR=0.0
+				print(' ENERGY=','%.4f' % E)
+				for K in range(1,10000+1):
+					BREMS(IATOMNO,E,DCX2,DCY2,DCZ2,EOUT,EDCX,EDCY,EDCZ,EGAMMA,GDCX,GDCY,GDCZ)
+					ESUMBR=ESUMBR+EGAMMA
+				ELBRM=ESUMBR/10000.0
+				print(' ELBRM=','%.4f' % ELBRM)
+				ANPRBRM=ANPRBRM+CFT/VEL
+				ELOSBREM=ELOSBREM+CFT*ELBRM/VEL
+			# endif
+			if(LBRM == 1 and IZBR[J]!= 0):
+				pass
+			else:
+				# EXCITATION OR SUPERELASTIC
+				ANPREXC=ANPREXC+CFT/VEL
+				ELOSEX=ELOSEX+CFT*EIN[J]*RGAS[J]/VEL
+				if(IPEN == 1 and PENFRA[1,J] > 0.0):
+					# PENNING TRANSFER OF EXCITATION TO IONISATION
+					 ANPREXCI=ANPREXCI+PENFRA[1,J]*CFT/VEL
+					 ELOSEXI=ELOSEXI+PENFRA[1,J]*CFT*EIN[J]*RGAS[J]/VEL
+			# endif
+		elif(IA == 1 or IA == 6 or IA == 11 or IA == 16 or IA == 21 or IA == 26) :
+			# ELASTIC ENERGY LOSS
+			if(J != 1):
+				CFT=TCFF*(CFTEMP[J]-CFTEMP[J-1])
+			if(J == 1):
+				CFT=TCFF*CFTEMP[J]
+			ANPRELA=ANPRELA+CFT/VEL
+			# CALCULATE ELASTIC ENERGY LOSS AVERAGED OVER NE EVENTS
+			# USE ANISOTROPIC SCATTERING
+			NE=10000
+			ELAS=0.00
+			RFAC=1.00+GAMM*(RGAS[J]-1.00)
+			RFAC=(RFAC-1.00)/(RFAC*RFAC)
+			for K in range(1,NE+1):
+				R3=DRAND48(RDUM)
+				if(INDEX[J]== 1):
+					R31=DRAND48(RDUM)
+					F3=1.00-R3*ANTEMP[J]
+					if(R31 > PSTEMP[J]):
+						F3=-F3
+				elif(INDEX[J] == 2):
+					EPSI=PSTEMP[J]
+					F3=1.00-(2.00*R3*(1.00-EPSI)/(1.00+EPSI*(1.00-2.00*R3)))
+				else:
+					# ISOTROPIC SCATTERING
+					F3=1.00-2.00*R3
+				# endif
+				ELAS=ELAS+(1.00-F3)
+			ELOSS=CFT*2.00*RFAC*EFINAL*ELAS/VEL
+			ELOSS=ELOSS/float(NE)
+		elif(IA == 3 or IA == 8 or IA == 13 or IA == 18 or IA == 23 or IA == 28):
+			# ATTACHMENT
+			ANPRATT=ANPRATT+TCFF*(CFTEMP[J]-CFTEMP[J-1])/VEL
+		elif(IA == 2 or IA == 7 or IA == 12 or IA == 17 or IA == 22 or IA == 27):
+			# IONISATION
+			ANPRION=ANPRION+TCFF*(CFTEMP[J]-CFTEMP[J-1])/VEL
+		else: 
+			print(' WARNING NO COLLISION TYPE IN FUNCTION MIPCALC')    
+		# endif
+	# CALCULATE ENERGY LOSS TO IONISATION AVERAGED OVER NEV EVENTS
+	NEV=10000000
+	ETEMP=0.0
+	ETEMPC=0.0
+	for J in range(1,IPLAST+1):
+		IA=IARRY[J]
+		if(IA == 2 or IA == 7 or IA == 12 or IA == 17 or IA == 22 or IA==27) :
+			if(EFINAL < EIN[J]):
+				pass 
+			else:
+				#  NEV = NO OF IONISATION EVENTS TO AVERAGE
+				for K in range(1,NEV+1):
+					if(IONMODEL[J]> 0) :
+						# CALCULATE SECONDARY ENERGY ,ESEC, IN IONISATION COLLISION USING
+						# FIVE DIFFERENT POSSIBLE MODELS
+						IONSPLIT(J,ESTART,EIN[J],ETEMP1)
+						pass
+					# endif # doing to pass and hence the next else
+					else:
+						R9=DRAND48(RDUM)
+						ETEMP1=WPL[J]*numpy.tan(R9*numpy.arctan((ESTART-EIN[J])/(2.00*WPL[J]))) 
+						ETEMP1=WPL[J]*(ETEMP1/WPL[J])**0.9524
+					ETEMP=ETEMP+ETEMP1+EIN[J]*RGAS[J]
+					NCUTT=NCUTT+1
+					if((ETEMP1+EIN[J]*RGAS[J]) < EMAXDEL) :
+						ETEMPC=ETEMPC+ETEMP1+EIN[J]*RGAS[J]
+						NCUT=NCUT+1
+					# endif
+				if(J != 1):
+					CFT=TCFF*(CFTEMP[J]-CFTEMP[J-1])
+				if(J == 1):
+					CFT=TCFF*CFTEMP[J]
+				ETEMP=CFT*ETEMP/VEL
+				ETEMPC=CFT*ETEMPC/VEL
+				ETEMP=ETEMP/float(NEV)
+				ETEMPC=ETEMPC/float(NEV)
+				ELOSION=ELOSION+ETEMP
+				ELOSIONC=ELOSIONC+ETEMPC
+		else:
+			pass
+	BETAGAM=BETA*GAMM
+	# CONVERT TO EV/CM
+	ELOSS=ELOSS*1*(10**10)
+	ELOSEX=ELOSEX*1*(10**10)
+	ELOSEXI=ELOSEXI*1*(10**10)
+	ELOSION=ELOSION*1*(10**10)
+	ELOSIONC=ELOSIONC*1*(10**10)
+	ELOSBREM=ELOSBREM*1*(10**10)
+	# CONVERT COLLISIONS/CM
+	ANPRELA=ANPRELA*1*(10**10)
+	ANPRATT=ANPRATT*1*(10**10)
+	ANPREXC=ANPREXC*1*(10**10)
+	ANPREXCI=ANPREXCI*1*(10**10)
+	ANPRION=ANPRION*1*(10**10)
+	ANPRBRM=ANPRBRM*1*(10**10)
+	ESUM=ELOSS+ELOSEX+ELOSION+ELOSBREM
+	VELC=VEL*100.
+	TCFHIGH=TCF(20000)*1*(10**12)
+	CUTIONFRC=float(NCUT)/float(NCUTT)
+	# 
+	#  LOAD EVENT ARRAYS WITH ELECTRON ENERGY AND DIRECTION COSINES
+	#  ADDS ELECTRONS FROM PENNING EXCITATION IF ALLOWED
+	for K in range(1,NEVENT +1):
+		if(K > IEVMAX):
+			print(' WARNING MAXIMUM NUMBER OF EVENTS=',IEVMAX,' def STOPPED:')
+		# endif
+		NP=0
+		#
+		# DETERMINE COLLISION TYPE   
+		#
+		#10
+		def GOTO10():
+			R1=DRAND48(RDUM)
+			I=0
+			counter11=1
+			while(counter11):
+				counter11=0
+				I=I+1 
+				if(CFTEMP[I]< R1):
+					counter11=1
+			# FIND TYPE OF INTERACTION
+			IA=IARRY[I]
+			if(IA == 2 or IA == 7 or IA == 12 or IA == 17 or IA == 22 or IA==27) :
+				#  IONISATION
+				#-----------------------------------------------------------------
+				counter12=1 # self added for looping
+				while(counter12):
+					counter12=0
+					R9=DRAND48(RDUM)
+					ESEC=WPL[I]*TAN(R9*ATAN((ESTART-EIN[I])/(2.00*WPL[I]))) 
+					ESEC=WPL[I]*(ESEC/WPL[I])**0.9524
+					if(ESEC > EMAXDEL):
+						NREJECT=NREJECT+1
+						counter12=1
+					# endif
+				# CALCULATE PRIMARY SCATTERING ANGLE 
+				# ANISOTROPIC SCATTERING
+				R3=DRAND48(RDUM)
+				if(INDEX[I]== 1):
+					R31=DRAND48(RDUM)
+				F3=1.00-R3*ANTEMP[I]
+				if(R31 > PSTEMP[I]):
+					F3=-F3
+				elif(INDEX[I] == 2) :
+					EPSI=PSTEMP[I] 
+					F3=1.00-(2.00*R3*(1.00-EPSI)/(1.00+EPSI*(1.00-2.00*R3)))
+				else: 
+					# ISOTROPIC SCATTERING
+					F3=1.00-2.00*R3
+				# endif
+				THETAP=numpy.arccos(F3)
+				F5P=numpy.sin(THETAP)
+				GAMSEC=(EMS+ESEC)/EMS
+				# CALCULATE SECONDARY RECOIL ANGLE FROM FREE KINEMATICS
+				F5S=F5P*math.sqrt(ESTART/ESEC)*GAMM/GAMSEC
+				if(F5S > 1.0):
+					F5S=1.0
+				THETAS=numpy.arcsin(F5S)
+				R1=DRAND48(RDUM)
+				PHIS=TWOPI*R1
+				# CALCULATE NEW DIRECTION COSINES FROM INITIAL VALUES AND SCAT. ANGLES
+				DRCOS(DRXINIT,DRYINIT,DRZINIT,THETAS,PHIS,DRXX,DRYY,DRZZ)
+				# LOAD SECONDARY ELECTRON DATA  
+				NP=NP+1
+				if(NP > NPMAX):
+					NPMAX=NP
+				if(NP > 20):
+					print(' EVENT WITH N0 OF PRIMARIES GT 20 IN MIPCALC STOPPED PROGRAM')
+				if(NP > 20):
+					sys.exit()
+				ENM[K][NP]=ESEC
+				DIRX[K][NP]=DRXX 
+				DIRY[K][NP]=DRYY 
+				DIRZ[K][NP]=DRZZ
+				XS[K][NP]=0.0
+				YS[K][NP]=0.0
+				ZS[K][NP]=0.0
+				TS[K][NP]=0.0
+				IEVENT[K]=NP
+				# CALCULATE POSSIBLE SHELL EMISSIONS: AUGER OR FLUORESCENCE
+				IFLTST=0
+				if(WKLM[I]> 0.0) :
+					R9=DRAND48(RDUM)
+					if(R9 < WKLM[I]):
+						IFLTST=1
+				# endif
+				if(IFLTST == 0):
+					# AUGER EMISSION WITHOUT FLUORESCENCE
+					NAUG=NC0[I]
+					EAVAUG=EC0[I]/float(NAUG)
+					for JFL in range(1,NC0[I]+1):
+						NP=NP+1
+						if(NP > NPMAX):
+							NPMAX=NP
+						if(NP > 20):
+							print(' EVENT WITH N0 OF PRIMARIES > 20 IN MIPCALC STOPPED PROGRAM')
+						if(NP > 20):
+							sys.exit()
+						ENM[K][NP]=EAVAUG
+						# RANDOM EMISSION ANGLE
+						R3=DRAND48(RDUM)
+						F3=1.00-2.00*R3
+						THETAS=numpy.arccos(F3)
+						F6=numpy.cos(THETAS)
+						F5=numpy.sin(THETAS)
+						R4=DRAND48(RDUM)
+						PHIS=TWOPI*R4
+						F8=numpy.sin(PHIS)
+						F9=numpy.cos(PHIS)
+						DIRX[K][NP]=F9*F5
+						DIRY[K][NP]=F8*F5
+						DIRZ[K][NP]=F6
+						XS[K][NP]=0.0
+						YS[K][NP]=0.0
+						ZS[K][NP]=0.0
+						TS[K][NP]=0.0
+					IEVENT[K]=NP
+				else: 
+					# AUGER EMISSION AND FLUORESCENCE
+					if(NG2[I]== 0):
+						pass
+					else:
+						NAUG=NG2[I]
+						EAVAUG=EG2[I]/float(NAUG)
+						for JFL in range(1,NG2[I]+1):
+							NP=NP+1
+							if(NP > NPMAX):
+								NPMAX=NP
+							if(NP > 20):
+								print(' EVENT WITH N0 OF PRIMARIES > 20 IN MIPCALC STOPPED PROGRAM')
+							if(NP > 20):
+								sys.exit()
+							ENM[K][NP]=EAVAUG
+							# RANDOM EMISSION ANGLE
+							R3=DRAND48(RDUM)
+							THETAS=numpy.arccos(1.0-2.0*R3)
+							F6=numpy.cos(THETAS)
+							F5=numpy.sin(THETAS)
+							R4=DRAND48(RDUM)
+							PHIS=TWOPI*R4
+							F8=numpy.sin(PHIS)
+							F9=numpy.cos(PHIS)
+							DIRX[K][NP]=F9*F5
+							DIRY[K][NP]=F8*F5
+							DIRZ[K][NP]=F6
+							XS[K][NP]=0.0
+							YS[K][NP]=0.0
+							ZS[K][NP]=0.0
+							TS[K][NP]=0.0
+						IEVENT[K]=NP
+					if(NG1[I] == 0):
+						pass
+					else:
+						NAUG=NG1[I]
+						EAVAUG=EG1[I]/float(NAUG)
+						R9=DRAND48(RDUM)
+						# FLUORESCENCE ABSORPTION DISTANCE
+						DFL=-math.log(R9)*DSTFL[I]
+						for JFL in range(1,NG1[I]+1):
+							NP=NP+1
+							if(NP > NPMAX):
+								NPMAX=NP
+							if(NP > 20):
+								print(' EVENT WITH N0 OF PRIMARIES > 20 IN MIPCALC STOPPED PROGRAM')
+							if(NP > 20):
+								sys.exit()
+							ENM[K][NP]=EAVAUG
+							# RANDOM EMISSION ANGLE
+							R3=DRAND48(RDUM)
+							THETAS=numpy.arccos(1.0-2.0*R3)
+							F6=numpy.cos(THETAS)
+							F5=numpy.sin(THETAS)
+							R4=DRAND48(RDUM)
+							PHIS=TWOPI*R4
+							F8=numpy.sin(PHIS)
+							F9=numpy.cos(PHIS)
+							DIRX[K][NP]=F9*F5
+							DIRY[K][NP]=F8*F5
+							DIRZ[K][NP]=F6
+							R3=DRAND48(RDUM)
+							THEFL=numpy.arccos(1.0-2.0*R3) 
+							R4=DRAND48(RDUM)
+							PHifL=TWOPI*R4
+							XS[K][NP]=DFL*numpy.sin(THEFL)*numpy.cos(PHifL)
+							YS[K][NP]=DFL*numpy.sin(THEFL)*numpy.sin(PHifL)
+							ZS[K][NP]=DFL*numpy.cos(THEFL)  
+							TS[K][NP]=DFL/VV
+						IEVENT[K]=NP  
+				# endif
+			elif(IA == 4 or IA == 9 or IA == 14 or IA == 14 or IA == 19 or IA == 24 or IA == 29) :
+				# EXCITATION
+				#----------------------------------------------------------------
+				if(PENFRA[1][I] == 0.0 or IPEN == 0):
+					GOTO10()
+				# POSSIBLE PENNING TRANSFER
+				R9=DRAND48(RDUM)
+				if(R9 < PENFRA[1][I]):
+					# PENNING TRANSFER
+					NP=NP+1
+					if(NP > NPMAX):
+						NPMAX=NP
+					if(NP > 20):
+						print(' EVENT WITH N0 OF PRIMARIES > 20 IN MIPCALC STOPPED PROGRAM')
+					if(NP > 20):
+						sys.exit()
+					# FINITE PENNING FIXED ELECTRON ENERGY TO 4.0EV
+					ENM[K][NP]=4.0
+					# RANDOM EMISSION ANGLE
+					R3=DRAND48(RDUM)
+					THETAS=numpy.arccos(1.0-2.0*R3)
+					F6=numpy.cos(THETAS)
+					F5=numpy.sin(THETAS)
+					R4=DRAND48(RDUM)
+					PHIS=TWOPI*R4
+					F8=numpy.sin(PHIS)
+					F9=numpy.cos(PHIS)
+					DIRX[K][NP]=F9*F5
+					DIRY[K][NP]=F8*F5
+					DIRZ[K][NP]=F6
+					# PENNING TRANSFER DISTANCE
+					ASIGN=1.00
+					R1=DRAND48(RDUM)
+					if(R1 < 0.5):
+						ASIGN=-ASIGN
+					R9=DRAND48(RDUM)
+					XS[K][NP]=-math.log(R9)*PENFRA[2,I]*1*10**-6*ASIGN
+					R1=DRAND48(RDUM)
+					if(R1 < 0.5):
+						ASIGN=-ASIGN
+					R9=DRAND48(RDUM)
+					YS[K][NP]=-math.log(R9)*PENFRA[2,I]*1*10**-6*ASIGN
+					R1=DRAND48(RDUM)
+					if(R1 < 0.5):
+						ASIGN=-ASIGN
+					R9=DRAND48(RDUM)
+					ZS[K][NP]=-math.log(R9)*PENFRA[2,I]*1*10**-6*ASIGN
+					R9=DRAND48(RDUM)
+					TS[K][NP]=-math.log(R9)*PENFRA[3,I]
+					IEVENT[K]=NP
+				else:
+					GOTO10()
+				# endif  
+			else:
+				# ELASTIC
+				#-----------------------------------------------------------------
+				GOTO10()
+			# endif
+	print(' NPMAX=',NPMAX)
+	update_globals()
+	return
+	# end
+```
+

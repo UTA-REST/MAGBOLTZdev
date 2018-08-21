@@ -1,238 +1,238 @@
-global NGAS,NSTEP,NANISO,EFINAL,ESTEP,AKT,ARY,TEMPC,TORR,IPEN
-#COMMON/INPT1/
-global NDVEC
-#COMMON/CNSTS1/
-global CONST1,CONST2,CONST3,CONST4,CONST5                  
-#COMMON/SETP/
-global TMAX,SMALL,API,ESTART,THETA,PHI,TCFMAX#(10)
-global TCFMAX1,RSTART,EFIELD,ETHRM,ECUT,NDELTA,IMIP,IWRITE                    
-#COMMON/LARGE/
-global CF
-CF=[[0 for x in range(20000)] for y in range(512)]
-global EIN#(512)
-EIN=[0 for x in range(512)]
-global TCF#(20000)
-TCF=[0 for x in range(20000)]
-global IARRY#(512)
-IARRY=[0 for x in range(512)]
-global RGAS#(512)
-RGAS=[0 for x in range(512)]
-global IPN#(512)
-IPN=[0 for x in range(512)]
-global WPL#(512)
-WPL=[0 for x in range(512)]
-global IZBR#(512)
-IZBR=[0 for x in range(512)]
-global IPLAST
-IPLAST=1
-global PENFRA#(3,512)
-IARRY=[[0 for y in range(3)] for x in range(512)]
-#COMMON/LARGEN/
-global CFN#(20000,60)
-CFN=[[0 for x in range(20000)] for y in range(60)]
-global TCFN#(20000)
-TCFN=[0 for x in range(20000)]
-global SCLENUL#(60)
-SCLENUL=[0 for x in range(60)]
-global NPLAST
-#COMMON/OUTPT/
-global ICOLL#(30)
-ICOLL==[0 for x in range(30)]
-global NETOT,NPRIME,TMAX1,TIME#(300)
-TIME=[0 for x in range(300)]
-global NNULL,NITOT,ICOLN#(512)
-ICOLN=[0 for x in range(512)]
-global ICOLNN#(60)
-ICOLNN=[0 for x in range(60)]
-global NREAL,NEXCTOT 
-#COMMON/RLTVY/
-global BET#(2000)
-BET=[0 for x in range(2000)]
-global GAM#(20000)
-GAM=[0 for x in range(20000)]
-global VC,EMS
-#COMMON/STTS/
-global XST#(150000)
-XST=[0 for x in range(150000)]
-global YST#(150000)
-YST=[0 for x in range(150000)]
-global ZST#(150000)
-ZST=[0 for x in range(150000)]
-global TST#(150000)
-TST=[0 for x in range(150000)]
-global TTIME#(150000)
-TTIME=[0 for x in range(150000)]
-global NFGF#(150000)
-NFGF=[0 for x in range(150000)]
-global NFGPP#(150000)
-NFGPP=[0 for x in range(150000)]
-global NFGBR#(150000)
-NFGBR=[0 for x in range(150000)]
-global NELEC,NEGION,EST1,EST2
-#COMMON/STEXC/
-global XSTEXC#(150000)
-XSTEXC=[0 for x in range(150000)]
-global YSTEXC#(150000)
-YSTEXC=[0 for x in range(150000)]
-global ZSTEXC#(150000)
-ZSTEXC=[0 for x in range(150000)]
-global TSTEXC#(150000)
-TSTEXC=[0 for x in range(150000)]
-global NSTEXC
-#COMMON/STEXCNUL/
-global XSTN#(150000)
-XSTN=[0 for x in range(150000)]
-global YSTN#(150000)
-YSTN=[0 for x in range(150000)]
-global ZSTN#(150000)
-ZSTN=[0 for x in range(150000)]
-global TSTN#(150000)
-TSTN=[0 for x in range(150000)]
-global IDNUL#(150000)
-IDNUL=[0 for x in range(150000)]
-global NEXCNUL
-#COMMON/IONC/
-global DOUBLE#(6,20000)
-DOUBLE=[[0 for x in range(6)] for y in range(20000)]
-global CMINIXSC#(6)
-CMINIXSC=[0 for x in range(6)]
-global CMINEXSC#(6)
-CMINEXSC=[0 for x in range(6)]
-global ECLOSS#(6)
-ECLOSS=[0 for x in range(6)]
-global WPLN#(6)
-WPLN=[0 for x in range(6)]
-global ICOUNT,AVPFRAC#(3,6) 
-AVOFRAC=[[0 for x in range(3)] for y in range(6)]
-#COMMON/IONFL/
-global NC0#(512)
-NC0=[0 for x in range(512)]
-global EC0#(512)
-EC0=[0 for x in range(512)]
-global NG1#(512)
-NG1=[0 for x in range(512)]
-global EG1#(512)
-EG1=[0 for x in range(512)]
-global NG2#(512)
-NG2=[0 for x in range(512)]
-global EG2#(512)
-EG2=[0 for x in range(512)]
-global WKLM#(512)
-WKLM=[0 for x in range(512)]
-global DSTFL#(512)
-DSTFL=[0 for x in range(512)]
-#COMMON/IONMOD/
-global ESPLIT#(512,20)
-ESPLIT=[[0 for x in range(512)] for y in range(20)]
-global IONMODEL#(512)
-IONMODEL=[0 for x in range(512)]
-#COMMON/ANIS/
-global PSCT#(20000,512)
-PSCT=[[0 for y in range(20000)] for x in range(512)]
-global ANGCT#(20000,512)
-ANGCT=[[0 for y in range(20000)] for x in range(512)]
-global INDEX#(512)
-INDEX=[0 for x in range(512)]
-global NISO
-#COMMON/CASRS/
-global ECAS#(400)
-ECAS=[0 for x in range(400)]
-global XCAS#(400)
-XCAS=[0 for x in range(400)]
-global YCAS#(400)
-YCAS=[0 for x in range(400)]
-global ZCAS#(400)
-ZCAS=[0 for x in range(400)]
-global DRXS#(400)
-DRXS=[0 for x in range(400)]
-global DRYS#(400)
-DRYS=[0 for x in range(400)]
-global DRZS#(400)
-DRZS=[0 for x in range(400)]
-global TT1#(400)
+# global NGAS,NSTEP,NANISO,EFINAL,ESTEP,AKT,ARY,TEMPC,TORR,IPEN
+# #COMMON/INPT1/
+# global NDVEC
+# #COMMON/CNSTS1/
+# global CONST1,CONST2,CONST3,CONST4,CONST5                  
+# #COMMON/SETP/
+# global TMAX,SMALL,API,ESTART,THETA,PHI,TCFMAX#(10)
+# global TCFMAX1,RSTART,EFIELD,ETHRM,ECUT,NDELTA,IMIP,IWRITE                    
+# #COMMON/LARGE/
+# global CF
+# CF=[[0 for x in range(20000)] for y in range(512)]
+# global EIN#(512)
+# EIN=[0 for x in range(512)]
+# global TCF#(20000)
+# TCF=[0 for x in range(20000)]
+# global IARRY#(512)
+# IARRY=[0 for x in range(512)]
+# global RGAS#(512)
+# RGAS=[0 for x in range(512)]
+# global IPN#(512)
+# IPN=[0 for x in range(512)]
+# global WPL#(512)
+# WPL=[0 for x in range(512)]
+# global IZBR#(512)
+# IZBR=[0 for x in range(512)]
+# global IPLAST
+# IPLAST=1
+# global PENFRA#(3,512)
+# IARRY=[[0 for y in range(3)] for x in range(512)]
+# #COMMON/LARGEN/
+# global CFN#(20000,60)
+# CFN=[[0 for x in range(20000)] for y in range(60)]
+# global TCFN#(20000)
+# TCFN=[0 for x in range(20000)]
+# global SCLENUL#(60)
+# SCLENUL=[0 for x in range(60)]
+# global NPLAST
+# #COMMON/OUTPT/
+# global ICOLL#(30)
+# ICOLL==[0 for x in range(30)]
+# global NETOT,NPRIME,TMAX1,TIME#(300)
+# TIME=[0 for x in range(300)]
+# global NNULL,NITOT,ICOLN#(512)
+# ICOLN=[0 for x in range(512)]
+# global ICOLNN#(60)
+# ICOLNN=[0 for x in range(60)]
+# global NREAL,NEXCTOT 
+# #COMMON/RLTVY/
+# global BET#(2000)
+# BET=[0 for x in range(2000)]
+# global GAM#(20000)
+# GAM=[0 for x in range(20000)]
+# global VC,EMS
+# #COMMON/STTS/
+# global XST#(150000)
+# XST=[0 for x in range(150000)]
+# global YST#(150000)
+# YST=[0 for x in range(150000)]
+# global ZST#(150000)
+# ZST=[0 for x in range(150000)]
+# global TST#(150000)
+# TST=[0 for x in range(150000)]
+# global TTIME#(150000)
+# TTIME=[0 for x in range(150000)]
+# global NFGF#(150000)
+# NFGF=[0 for x in range(150000)]
+# global NFGPP#(150000)
+# NFGPP=[0 for x in range(150000)]
+# global NFGBR#(150000)
+# NFGBR=[0 for x in range(150000)]
+# global NELEC,NEGION,EST1,EST2
+# #COMMON/STEXC/
+# global XSTEXC#(150000)
+# XSTEXC=[0 for x in range(150000)]
+# global YSTEXC#(150000)
+# YSTEXC=[0 for x in range(150000)]
+# global ZSTEXC#(150000)
+# ZSTEXC=[0 for x in range(150000)]
+# global TSTEXC#(150000)
+# TSTEXC=[0 for x in range(150000)]
+# global NSTEXC
+# #COMMON/STEXCNUL/
+# global XSTN#(150000)
+# XSTN=[0 for x in range(150000)]
+# global YSTN#(150000)
+# YSTN=[0 for x in range(150000)]
+# global ZSTN#(150000)
+# ZSTN=[0 for x in range(150000)]
+# global TSTN#(150000)
+# TSTN=[0 for x in range(150000)]
+# global IDNUL#(150000)
+# IDNUL=[0 for x in range(150000)]
+# global NEXCNUL
+# #COMMON/IONC/
+# global DOUBLE#(6,20000)
+# DOUBLE=[[0 for x in range(6)] for y in range(20000)]
+# global CMINIXSC#(6)
+# CMINIXSC=[0 for x in range(6)]
+# global CMINEXSC#(6)
+# CMINEXSC=[0 for x in range(6)]
+# global ECLOSS#(6)
+# ECLOSS=[0 for x in range(6)]
+# global WPLN#(6)
+# WPLN=[0 for x in range(6)]
+# global ICOUNT,AVPFRAC#(3,6) 
+# AVOFRAC=[[0 for x in range(3)] for y in range(6)]
+# #COMMON/IONFL/
+# global NC0#(512)
+# NC0=[0 for x in range(512)]
+# global EC0#(512)
+# EC0=[0 for x in range(512)]
+# global NG1#(512)
+# NG1=[0 for x in range(512)]
+# global EG1#(512)
+# EG1=[0 for x in range(512)]
+# global NG2#(512)
+# NG2=[0 for x in range(512)]
+# global EG2#(512)
+# EG2=[0 for x in range(512)]
+# global WKLM#(512)
+# WKLM=[0 for x in range(512)]
+# global DSTFL#(512)
+# DSTFL=[0 for x in range(512)]
+# #COMMON/IONMOD/
+# global ESPLIT#(512,20)
+# ESPLIT=[[0 for x in range(512)] for y in range(20)]
+# global IONMODEL#(512)
+# IONMODEL=[0 for x in range(512)]
+# #COMMON/ANIS/
+# global PSCT#(20000,512)
+# PSCT=[[0 for y in range(20000)] for x in range(512)]
+# global ANGCT#(20000,512)
+# ANGCT=[[0 for y in range(20000)] for x in range(512)]
+# global INDEX#(512)
+# INDEX=[0 for x in range(512)]
+# global NISO
+# #COMMON/CASRS/
+# global ECAS#(400)
+# ECAS=[0 for x in range(400)]
+# global XCAS#(400)
+# XCAS=[0 for x in range(400)]
+# global YCAS#(400)
+# YCAS=[0 for x in range(400)]
+# global ZCAS#(400)
+# ZCAS=[0 for x in range(400)]
+# global DRXS#(400)
+# DRXS=[0 for x in range(400)]
+# global DRYS#(400)
+# DRYS=[0 for x in range(400)]
+# global DRZS#(400)
+# DRZS=[0 for x in range(400)]
+# global TT1#(400)
 
-global NFLGF#(400)
-NFLGF=[0 for x in range(400)]
-global NFLGPP#(400)
-NFLGPP=[0 for x in range(400)]
-global IEVNTL
-#COMMON/COMP/
-global LCMP,LCFLG,LRAY,LRFLG,LPAP,LPFLG,LBRM,LBFLG,LPEFLG
-#COMMON/BREMG/
-global EBRGAM#(10)
-EBRGAM=[0 for x in range(10)]
-global BRDCOSX#(10)
-BRDCOSX=[0 for x in range(10)]
-global BRDCOSY#(10)
-BRDCOSY=[0 for x in range(10)]
-global BRDCOSZ#(10)
-BRDCOSZ=[0 for x in range(10)]
-global BRX#(10)
-BRX=[0 for x in range(10)]
-global BRY#(10)
-BRY==[0 for x in range(10)]
-global BRZ#(10)
-BRZ=[0 for x in range(10)]
-global BRT#(10)
-BRT=[0 for x in range(10)]
-global EBRTOT#(6)
-EBRTOT=[0 for x in range(6)]
-global NBREM#(6)
-NBREM=[0 for x in range(6)]
-#COMMON/CASRSB/
-global ECASB#(400)
-ECASB=[0 for x in range(400)]
-global XCASB#(400)
-XCASB=[0 for x in range(400)]
-global YCASB#(400)
-YCASB=[0 for x in range(400)]
-global ZCASB#(400)
-ZCASB=[0 for x in range(400)]
-global DRXB#(400)
-DRXB=[0 for x in range(400)]
-global DRYB#(400)
-DRYB=[0 for x in range(400)]
-global DRZB#(400)
-DRZB=[0 for x in range(400)]
-global TTB1#(400)
-TTB1=[0 for x in range(400)]
-global NFLGFB#(400)
-NFLGFB=[0 for x in range(400)]
-global NFLGPPB#(400)
-NFLGPPB=[0 for x in range(400)]
-global IEVNTLB
-#COMMON/CASRSE/
-global ECASE#(400)
-ECASE=[0 for x in range(400)]
-global XCASE#(400)
-XCASE=[0 for x in range(400)]
-global YCASE#(400)
-YCASE=[0 for x in range(400)]
-global ZCASE#(400)
-ZCASE=[0 for x in range(400)]
-global DRXCE#(400)
-DRXCE=[0 for x in range(400)]
-global DRYCE#(400)
-DRYCE=[0 for x in range(400)]
-global DRZCE#(400)
-DRZCE=[0 for x in range(400)]
-global TCASE#(400)
-TCASE=[0 for x in range(400)]
-global NFLGFE#(400)
-NFLGFE=[0 for x in range(400)]
-global NFLGPPE#(400)
-NFLGPPE=[0 for x in range(400)]
-global IEVENTE
-#COMMON/ECASC/
-global NEGAS#(512)
-NEGAS=[0 for x in range(512)]
-global LEGAS#(512)
-LEGAS=[0 for x in range(512)]
-global IESHELL#(512)
-IESHELL=[0 for x in range(512)]
-global IECASC
-#COMMON/IDEXC/
-global NGEXC1,NGEXC2,NGEXC3,NGEXC4,NGEXC5,NGEXC6,IDG1,IDG2,IDG3,IDG4,IDG5,IDG6
+# global NFLGF#(400)
+# NFLGF=[0 for x in range(400)]
+# global NFLGPP#(400)
+# NFLGPP=[0 for x in range(400)]
+# global IEVNTL
+# #COMMON/COMP/
+# global LCMP,LCFLG,LRAY,LRFLG,LPAP,LPFLG,LBRM,LBFLG,LPEFLG
+# #COMMON/BREMG/
+# global EBRGAM#(10)
+# EBRGAM=[0 for x in range(10)]
+# global BRDCOSX#(10)
+# BRDCOSX=[0 for x in range(10)]
+# global BRDCOSY#(10)
+# BRDCOSY=[0 for x in range(10)]
+# global BRDCOSZ#(10)
+# BRDCOSZ=[0 for x in range(10)]
+# global BRX#(10)
+# BRX=[0 for x in range(10)]
+# global BRY#(10)
+# BRY==[0 for x in range(10)]
+# global BRZ#(10)
+# BRZ=[0 for x in range(10)]
+# global BRT#(10)
+# BRT=[0 for x in range(10)]
+# global EBRTOT#(6)
+# EBRTOT=[0 for x in range(6)]
+# global NBREM#(6)
+# NBREM=[0 for x in range(6)]
+# #COMMON/CASRSB/
+# global ECASB#(400)
+# ECASB=[0 for x in range(400)]
+# global XCASB#(400)
+# XCASB=[0 for x in range(400)]
+# global YCASB#(400)
+# YCASB=[0 for x in range(400)]
+# global ZCASB#(400)
+# ZCASB=[0 for x in range(400)]
+# global DRXB#(400)
+# DRXB=[0 for x in range(400)]
+# global DRYB#(400)
+# DRYB=[0 for x in range(400)]
+# global DRZB#(400)
+# DRZB=[0 for x in range(400)]
+# global TTB1#(400)
+# TTB1=[0 for x in range(400)]
+# global NFLGFB#(400)
+# NFLGFB=[0 for x in range(400)]
+# global NFLGPPB#(400)
+# NFLGPPB=[0 for x in range(400)]
+# global IEVNTLB
+# #COMMON/CASRSE/
+# global ECASE#(400)
+# ECASE=[0 for x in range(400)]
+# global XCASE#(400)
+# XCASE=[0 for x in range(400)]
+# global YCASE#(400)
+# YCASE=[0 for x in range(400)]
+# global ZCASE#(400)
+# ZCASE=[0 for x in range(400)]
+# global DRXCE#(400)
+# DRXCE=[0 for x in range(400)]
+# global DRYCE#(400)
+# DRYCE=[0 for x in range(400)]
+# global DRZCE#(400)
+# DRZCE=[0 for x in range(400)]
+# global TCASE#(400)
+# TCASE=[0 for x in range(400)]
+# global NFLGFE#(400)
+# NFLGFE=[0 for x in range(400)]
+# global NFLGPPE#(400)
+# NFLGPPE=[0 for x in range(400)]
+# global IEVENTE
+# #COMMON/ECASC/
+# global NEGAS#(512)
+# NEGAS=[0 for x in range(512)]
+# global LEGAS#(512)
+# LEGAS=[0 for x in range(512)]
+# global IESHELL#(512)
+# IESHELL=[0 for x in range(512)]
+# global IECASC
+# #COMMON/IDEXC/
+# global NGEXC1,NGEXC2,NGEXC3,NGEXC4,NGEXC5,NGEXC6,IDG1,IDG2,IDG3,IDG4,IDG5,IDG6
 def MONTEFE():
     # IMPLICIT #real*8 (A-H,O-Z)
     # IMPLICIT #integer*8 (I-N)                                         
@@ -3239,27 +3239,25 @@ def MONTEFC():
 	if(IPN[I]:
 	== 0) GO TO 666
 	# ATTACHMENT       
-	if(IPN[I]:
-	== -1) :
-	NETOT=NETOT+1
-	NITOT=NITOT+1
-	NELEC=NELEC+1
-	NEGION=NEGION+1
-	IPT=IARRY[I]
-	ICOLL[IPT]=ICOLL[IPT]+1
-	ICOLN[I]=ICOLN[I]+1 
-	IT=int(T+1.00)
-	IT=DMIN0[IT][J300]
-	TIME[IT]=TIME[IT]+1.00
-	GO TO 335
+	if(IPN[I]== -1) :
+    	NETOT=NETOT+1
+    	NITOT=NITOT+1
+    	NELEC=NELEC+1
+    	NEGION=NEGION+1
+    	IPT=IARRY[I]
+    	ICOLL[IPT]=ICOLL[IPT]+1
+    	ICOLN[I]=ICOLN[I]+1 
+    	IT=int(T+1.00)
+    	IT=DMIN0[IT][J300]
+    	TIME[IT]=TIME[IT]+1.00
+    	GO TO 335
 	# endif    
 	EISTR=EI                                   
-	if(IONMODEL[I]:
-	> 0) :
-	# CALCULATE SECONDARY ENERGY,ESEC,IN IONISATION COLLISION USING
-	# FIVE DIFFERENT MODELS
-	CALL IONSPLIT(I,E,EI,ESEC) 
-	GO TO 544
+	if(IONMODEL[I]> 0):
+    	# CALCULATE SECONDARY ENERGY,ESEC,IN IONISATION COLLISION USING
+    	# FIVE DIFFERENT MODELS
+    	CALL IONSPLIT(I,E,EI,ESEC) 
+    	GO TO 544
 	# endif               
 	R9=DRAND48(RDUM)
 	#    USE OPAL PETERSON AND BEATY SPLITTING FACTOR.

@@ -1,3 +1,6 @@
+import numpy
+import conf
+import sys
 def MIPCALC():
 	# IMPLICIT #real*8 (A-H,O-Z)
 	# IMPLICIT #integer*8 (I-N)                                         
@@ -57,9 +60,198 @@ def MIPCALC():
 	#/IONMOD/
 	global ESPLIT#(512,20)
 	global IONMODEL#(512) 
-	CFTEMP=[0 for x in range(512)]
-	PSTEMP=[0 for x in range(512)]
-	ANTEMP=[0 for x in range(512)]
+	def get_globals():
+		NGAS=conf.NGAS
+		NSTEP=conf.NSTEP
+		NANISO=conf.NANISO
+		EFINAL=conf.EFINAL
+		ESTEP=conf.ESTEP
+		AKT=conf.AKT
+		ARY=conf.ARY
+		TEMPC=conf.TEMPC
+		TORR=conf.TORR
+		IPEN=conf.IPEN
+		TMAX=conf.TMAX
+		SMALL=conf.SMALL
+		API=conf.API
+		ESTART=conf.ESTART
+		THETA=conf.THETA
+		PHI=conf.PHI
+		TCFMAX=conf.TCFMAX
+		TCFMAX1=conf.TCFMAX1
+		RSTART=conf.RSTART
+		EFIELD=conf.EFIELD
+		ETHRM=conf.ETHRM
+		ECUT=conf.ECUT
+		NEVENT=conf.NEVENT
+		IMIP=conf.IMIP
+		IWRITE  =conf.IWRITE  
+		DRXINIT=conf.DRXINIT
+		DRYINIT=conf.DRYINIT
+		DRZINIT=conf.DRZINIT
+		CF=conf.CF
+		EIN=conf.EIN
+		TCF=conf.TCF
+		IARRY=conf.IARRY
+		RGAS=conf.RGAS
+		IPN=conf.IPN
+		WPL=conf.WPL
+		IZBR=conf.IZBR
+		IPLAST=conf.IPLAST
+		PENFRA=conf.PENFRA
+		PSCT=conf.PSCT
+		ANGCT=conf.ANGCT
+		INDEX=conf.INDEX
+		NISO=conf.NISO
+		BET=conf.BET
+		GAM=conf.GAM
+		VC=conf.VC
+		EMS=conf.EMS
+		ANPRELA=conf.ANPRELA
+		ANPRATT=conf.ANPRATT
+		ANPREXC=conf.ANPREXC
+		ANPRION=conf.ANPRION
+		ANPREXCI=conf.ANPREXCI
+		ANPRBRM=conf.ANPRBRM
+		ELOSS=conf.ELOSS
+		ELOSEX=conf.ELOSEX
+		ELOSION=conf.ELOSION
+		ESUM=conf.ESUM
+		BETAGAM=conf.BETAGAM
+		TCFHIGH=conf.TCFHIGH
+		VELC=conf.VELC
+		EMAXDEL=conf.EMAXDEL
+		ELOSIONC=conf.ELOSIONC
+		CUTIONFRC=conf.CUTIONFRC
+		ELOSEXI=conf.ELOSEXI
+		ELOSBREM=conf.ELOSBREM
+		NREJECT=conf.NREJECT
+		LCMP=conf.LCMP
+		LCFLG=conf.LCFLG
+		LRAY=conf.LRAY
+		LRFLG=conf.LRFLG
+		LPAP=conf.LPAP
+		LPFLG=conf.LPFLG
+		LBRM=conf.LBRM
+		LBFLG=conf.LBFLG
+		LPEFLG=conf.LPEFLG
+		ENM=conf.ENM
+		XS=conf.XS
+		YS=conf.YS
+		ZS=conf.ZS
+		DIRX=conf.DIRX
+		DIRY=conf.DIRY
+		DIRZ=conf.DIRZ
+		TS=conf.TS
+		IEVENT=conf.IEVENT
+		NC0=conf.NC0
+		EC0=conf.EC0
+		NG1=conf.NG1
+		EG1=conf.EG1
+		NG2=conf.NG2
+		EG2=conf.EG2
+		WKLM=conf.WKLM
+		DSTFL=conf.DSTFL
+		ESPLIT=conf.ESPLIT
+		IONMODEL=conf.IONMODEL
+	get_globals()
+	def update_globals():
+		conf.NGAS=NGAS
+		conf.NSTEP=NSTEP
+		conf.NANISO=NANISO
+		conf.EFINAL=EFINAL
+		conf.ESTEP=ESTEP
+		conf.AKT=AKT
+		conf.ARY=ARY
+		conf.TEMPC=TEMPC
+		conf.TORR=TORR
+		conf.IPEN=IPEN
+		conf.TMAX=TMAX
+		conf.SMALL=SMALL
+		conf.API=API
+		conf.ESTART=ESTART
+		conf.THETA=THETA
+		conf.PHI=PHI
+		conf.TCFMAX=TCFMAX
+		conf.TCFMAX1=TCFMAX1
+		conf.RSTART=RSTART
+		conf.EFIELD=EFIELD
+		conf.ETHRM=ETHRM
+		conf.ECUT=ECUT
+		conf.NEVENT=NEVENT
+		conf.IMIP=IMIP
+		conf.IWRITE  =IWRITE  
+		conf.DRXINIT=DRXINIT
+		conf.DRYINIT=DRYINIT
+		conf.DRZINIT=DRZINIT
+		conf.CF=CF
+		conf.EIN=EIN
+		conf.TCF=TCF
+		conf.IARRY=IARRY
+		conf.RGAS=RGAS
+		conf.IPN=IPN
+		conf.WPL=WPL
+		conf.IZBR=IZBR
+		conf.IPLAST=IPLAST
+		conf.PENFRA=PENFRA
+		conf.PSCT=PSCT
+		conf.ANGCT=ANGCT
+		conf.INDEX=INDEX
+		conf.NISO=NISO
+		conf.BET=BET
+		conf.GAM=GAM
+		conf.VC=VC
+		conf.EMS=EMS
+		conf.ANPRELA=ANPRELA
+		conf.ANPRATT=ANPRATT
+		conf.ANPREXC=ANPREXC
+		conf.ANPRION=ANPRION
+		conf.ANPREXCI=ANPREXCI
+		conf.ANPRBRM=ANPRBRM
+		conf.ELOSS=ELOSS
+		conf.ELOSEX=ELOSEX
+		conf.ELOSION=ELOSION
+		conf.ESUM=ESUM
+		conf.BETAGAM=BETAGAM
+		conf.TCFHIGH=TCFHIGH
+		conf.VELC=VELC
+		conf.EMAXDEL=EMAXDEL
+		conf.ELOSIONC=ELOSIONC
+		conf.CUTIONFRC=CUTIONFRC
+		conf.ELOSEXI=ELOSEXI
+		conf.ELOSBREM=ELOSBREM
+		conf.NREJECT=NREJECT
+		conf.LCMP=LCMP
+		conf.LCFLG=LCFLG
+		conf.LRAY=LRAY
+		conf.LRFLG=LRFLG
+		conf.LPAP=LPAP
+		conf.LPFLG=LPFLG
+		conf.LBRM=LBRM
+		conf.LBFLG=LBFLG
+		conf.LPEFLG=LPEFLG
+		conf.ENM=ENM
+		conf.XS=XS
+		conf.YS=YS
+		conf.ZS=ZS
+		conf.DIRX=DIRX
+		conf.DIRY=DIRY
+		conf.DIRZ=DIRZ
+		conf.TS=TS
+		conf.IEVENT=IEVENT
+		conf.NC0=NC0
+		conf.EC0=EC0
+		conf.NG1=NG1
+		conf.EG1=EG1
+		conf.NG2=NG2
+		conf.EG2=EG2
+		conf.WKLM=WKLM
+		conf.DSTFL=DSTFL
+		conf.ESPLIT=ESPLIT
+		conf.IONMODEL=IONMODEL
+	CFTEMP=numpy.zeros(512+1)#[0 for x in range(512)]
+	PSTEMP=numpy.zeros(512+1)#[0 for x in range(512)]
+	ANTEMP=numpy.zeros(512+1)#[0 for x in range(512)]
 	# CALCULATE DE/DX AND DISTANCE BETWEEN PRIMARY CLUSTERS AND ALSO
 	# PRIMARY ELECTRON ENERGY AND VACANCY FOR INPUT TO THERMALISATION
 	# ALSO ADDS EXCITATION CLUSTERS WHICH HAVE PENNING FRACTIONS GT 0.0
@@ -90,7 +282,7 @@ def MIPCALC():
 	ELOSION=0.00
 	ELOSIONC=0.00
 	ELOSBREM=0.00
-	for I in range(1,IPLAST):
+	for I in range(1,IPLAST+1):
 		CFTEMP[I]=CF[20000][I]
 		PSTEMP[I]=PSCT[20000][I]
 		ANTEMP[I]=ANGCT[20000][I]
@@ -98,7 +290,7 @@ def MIPCALC():
 		BETA=BET[2000]
 		GAMM=GAM[20000]
 	VEL=BETA*VC
-	for J in range(1,IPLAST):
+	for J in range(1,IPLAST+1):
 		IA=IARRY[J]
 		if(IA == 4 or IA == 5 or IA == 9 or IA == 10 or IA == 14 or IA == 15 or IA == 19 or IA == 20 or IA == 24 or IA == 25 or IA == 29 or IA == 30):
 			# BREMSSTRAHLUNG EXCITATION OR SUPERELASTIC
@@ -114,7 +306,7 @@ def MIPCALC():
 				E=ESTART
 				ESUMBR=0.0
 				print(' ENERGY=','%.4f' % E)
-				for K in range(1,10000):
+				for K in range(1,10000+1):
 					BREMS(IATOMNO,E,DCX2,DCY2,DCZ2,EOUT,EDCX,EDCY,EDCZ,EGAMMA,GDCX,GDCY,GDCZ)
 					ESUMBR=ESUMBR+EGAMMA
 				ELBRM=ESUMBR/10000.0
@@ -146,7 +338,7 @@ def MIPCALC():
 			ELAS=0.00
 			RFAC=1.00+GAMM*(RGAS[J]-1.00)
 			RFAC=(RFAC-1.00)/(RFAC*RFAC)
-			for K in range(1,NE):
+			for K in range(1,NE+1):
 				R3=DRAND48(RDUM)
 				if(INDEX[J]== 1):
 					R31=DRAND48(RDUM)
@@ -176,14 +368,14 @@ def MIPCALC():
 	NEV=10000000
 	ETEMP=0.0
 	ETEMPC=0.0
-	for J in range(1,IPLAST):
+	for J in range(1,IPLAST+1):
 		IA=IARRY[J]
 		if(IA == 2 or IA == 7 or IA == 12 or IA == 17 or IA == 22 or IA==27) :
 			if(EFINAL < EIN[J]):
 				pass 
 			else:
 				#  NEV = NO OF IONISATION EVENTS TO AVERAGE
-				for K in range(1,NEV):
+				for K in range(1,NEV+1):
 					if(IONMODEL[J]> 0) :
 						# CALCULATE SECONDARY ENERGY ,ESEC, IN IONISATION COLLISION USING
 						# FIVE DIFFERENT POSSIBLE MODELS
@@ -234,7 +426,7 @@ def MIPCALC():
 	# 
 	#  LOAD EVENT ARRAYS WITH ELECTRON ENERGY AND DIRECTION COSINES
 	#  ADDS ELECTRONS FROM PENNING EXCITATION IF ALLOWED
-	for K in range(1,NEVENT ):
+	for K in range(1,NEVENT +1):
 		if(K > IEVMAX):
 			print(' WARNING MAXIMUM NUMBER OF EVENTS=',IEVMAX,' def STOPPED:')
 		# endif
@@ -305,7 +497,7 @@ def MIPCALC():
 				ENM[K][NP]=ESEC
 				DIRX[K][NP]=DRXX 
 				DIRY[K][NP]=DRYY 
-				DIRZ[K,NP]=DRZZ
+				DIRZ[K][NP]=DRZZ
 				XS[K][NP]=0.0
 				YS[K][NP]=0.0
 				ZS[K][NP]=0.0
@@ -322,7 +514,7 @@ def MIPCALC():
 					# AUGER EMISSION WITHOUT FLUORESCENCE
 					NAUG=NC0[I]
 					EAVAUG=EC0[I]/float(NAUG)
-					for JFL in range(1,NC0[I]):
+					for JFL in range(1,NC0[I]+1):
 						NP=NP+1
 						if(NP > NPMAX):
 							NPMAX=NP
@@ -343,7 +535,7 @@ def MIPCALC():
 						F9=numpy.cos(PHIS)
 						DIRX[K][NP]=F9*F5
 						DIRY[K][NP]=F8*F5
-						DIRZ[K,NP]=F6
+						DIRZ[K][NP]=F6
 						XS[K][NP]=0.0
 						YS[K][NP]=0.0
 						ZS[K][NP]=0.0
@@ -356,7 +548,7 @@ def MIPCALC():
 					else:
 						NAUG=NG2[I]
 						EAVAUG=EG2[I]/float(NAUG)
-						for JFL in range(1,NG2[I]):
+						for JFL in range(1,NG2[I]+1):
 							NP=NP+1
 							if(NP > NPMAX):
 								NPMAX=NP
@@ -376,7 +568,7 @@ def MIPCALC():
 							F9=numpy.cos(PHIS)
 							DIRX[K][NP]=F9*F5
 							DIRY[K][NP]=F8*F5
-							DIRZ[K,NP]=F6
+							DIRZ[K][NP]=F6
 							XS[K][NP]=0.0
 							YS[K][NP]=0.0
 							ZS[K][NP]=0.0
@@ -390,7 +582,7 @@ def MIPCALC():
 						R9=DRAND48(RDUM)
 						# FLUORESCENCE ABSORPTION DISTANCE
 						DFL=-math.log(R9)*DSTFL[I]
-						for JFL in range(1,NG1[I]):
+						for JFL in range(1,NG1[I]+1):
 							NP=NP+1
 							if(NP > NPMAX):
 								NPMAX=NP
@@ -410,7 +602,7 @@ def MIPCALC():
 							F9=numpy.cos(PHIS)
 							DIRX[K][NP]=F9*F5
 							DIRY[K][NP]=F8*F5
-							DIRZ[K,NP]=F6
+							DIRZ[K][NP]=F6
 							R3=DRAND48(RDUM)
 							THEFL=numpy.arccos(1.0-2.0*R3) 
 							R4=DRAND48(RDUM)
@@ -424,11 +616,11 @@ def MIPCALC():
 			elif(IA == 4 or IA == 9 or IA == 14 or IA == 14 or IA == 19 or IA == 24 or IA == 29) :
 				# EXCITATION
 				#----------------------------------------------------------------
-				if(PENFRA[1,I] == 0.0 or IPEN == 0):
+				if(PENFRA[1][I] == 0.0 or IPEN == 0):
 					GOTO10()
 				# POSSIBLE PENNING TRANSFER
 				R9=DRAND48(RDUM)
-				if(R9 < PENFRA[1,I]):
+				if(R9 < PENFRA[1][I]):
 					# PENNING TRANSFER
 					NP=NP+1
 					if(NP > NPMAX):
@@ -450,7 +642,7 @@ def MIPCALC():
 					F9=numpy.cos(PHIS)
 					DIRX[K][NP]=F9*F5
 					DIRY[K][NP]=F8*F5
-					DIRZ[K,NP]=F6
+					DIRZ[K][NP]=F6
 					# PENNING TRANSFER DISTANCE
 					ASIGN=1.00
 					R1=DRAND48(RDUM)
@@ -480,5 +672,6 @@ def MIPCALC():
 				GOTO10()
 			# endif
 	print(' NPMAX=',NPMAX)
+	update_globals()
 	return
 	# end

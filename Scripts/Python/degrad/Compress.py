@@ -94,7 +94,7 @@ def COMPRESS(IDBG,ENSUM):
 	#DIMENSION 
 	ESTOT=[0 for x in range(10)]
 	NPTPE=MVAC1
-	for I in range(1,10):
+	for I in range(1,10+1):
 		ESTOT[I]=0.0
 	#     IF(IDBG == 1) :
 	#     WRITE(6,66) MVAC1
@@ -111,7 +111,7 @@ def COMPRESS(IDBG,ENSUM):
 	#     # endIF
 	#      
 	#  STORE CASCADE DATA INTO COMMON/INTHRMB1/
-	for K in range(1,MVAC1):
+	for K in range(1,MVAC1+1):
 		ITOT=IONSM[K]+IONF1[K]+IONF2[K]+IONF3[K]+IONF4[K]+IONF5[K]
 		IEVENTL[K]=ITOT
 		if(ITOT > 50):
@@ -119,7 +119,7 @@ def COMPRESS(IDBG,ENSUM):
 			sys.exit()       
 		# endif
 		# STORE EVENT FOR INPUT TO THERMALISATION
-		for M in range(1,IONSM[K]):
+		for M in range(1,IONSM[K]+1):
 			ET[K][M]=ESTOR[K][M]
 			XT[K][M]=X[K][M]
 			YT[K][M]=Y[K][M]
@@ -132,7 +132,7 @@ def COMPRESS(IDBG,ENSUM):
 		if(IONF1[K]== 0):
 			pass
 		else:
-			for M in range(1,IONF1[K]):
+			for M in range(1,IONF1[K]+1):
 				M1=M+IONSM[K]
 				ET[K][M1]=ESTF1[K][M]   
 				XT[K][M1]=X1[K][M]
@@ -146,7 +146,7 @@ def COMPRESS(IDBG,ENSUM):
 		if(IONF2[K] == 0):
 			pass
 		else:
-			for M in range(1,IONF2[K]):
+			for M in range(1,IONF2[K]+1):
 				M2=M+IONSM[K]+IONF1[K]
 				ET[K][M2]=ESTF2[K][M]
 				XT[K][M2]=X2[K][M]
@@ -160,7 +160,7 @@ def COMPRESS(IDBG,ENSUM):
 		if(IONF3[K] == 0):
 			pass
 		else:
-			for M in range(1,IONF3[K]):
+			for M in range(1,IONF3[K]+1):
 				M3=M+IONSM[K]+IONF1[K]+IONF2[K]
 				ET[K][M3]=ESTF3[K][M]
 				XT[K][M3]=X3[K][M]
@@ -174,7 +174,7 @@ def COMPRESS(IDBG,ENSUM):
 		if(IONF4[K] == 0):
 			pass
 		else:
-			for M in range(1,IONF4[K]):
+			for M in range(1,IONF4[K]+1):
 				M4=M+IONSM[K]+IONF1[K]+IONF2[K]+IONF3[K]
 				ET[K][M4]=ESTF4[K][M]
 				XT[K][M4]=X4[K][M]
@@ -188,7 +188,7 @@ def COMPRESS(IDBG,ENSUM):
 		if(IONF5[K] == 0):
 			pass
 		else:
-			for M in range(1,IONF5[K]):
+			for M in range(1,IONF5[K]+1):
 				M5=M+IONSM[K]+IONF1[K]+IONF2[K]+IONF3[K]+IONF4[K]
 				ET[K][M5]=ESTF5[K][M]
 				XT[K][M5]=X5[K][M]
@@ -215,7 +215,7 @@ def COMPRESS(IDBG,ENSUM):
 		# 234 CONTINUE
 		#     # endIF
 		EDUM=0.0
-	for K in range(1,MVAC1):
+	for K in range(1,MVAC1+1):
 		EDUM=EDUM+ESTOT[K]
 	EDUM=EDUM+EPPST[1]+EPPST[2]
 	ENSUM=EDUM
